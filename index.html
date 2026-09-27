@@ -3,8 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>PayStamp — Monthly Planner</title>
-<meta name="description" content="PayStamp — plan where every pound of your monthly pay goes, and stamp each month into your record.">
+<title>PayStamp — Plan your monthly pay</title>
+<meta name="description" content="PayStamp helps you split your pay into categories, so your money moves to the right places every month. Free, and no bank login needed.">
+<meta property="og:title" content="PayStamp — Give every pound of your pay a job">
+<meta property="og:description" content="Split your pay into categories, check it each payday, and stamp the month into your record. Free, and no bank login needed.">
+<meta property="og:url" content="https://paystamp.co.uk">
+<meta property="og:type" content="website">
 <meta name="theme-color" content="#7E2A55">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Ccircle cx='24' cy='24' r='23' fill='%237E2A55'/%3E%3Ccircle cx='24' cy='24' r='17.5' fill='none' stroke='%23FBF9F4' stroke-width='1.6' stroke-dasharray='2.6 2.4'/%3E%3Ctext x='24' y='32' text-anchor='middle' font-family='Georgia,serif' font-size='23' fill='%23FBF9F4'%3EP%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -276,6 +280,150 @@ body.dragging,body.dragging *{cursor:grabbing!important;user-select:none!importa
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
+/* ---------- landing page (signed-out visitors) ---------- */
+#landing{
+  --plum:#7E2A55; --plum-deep:#5E1D3F; --plum-soft:#F3E6ED; --plum-ink:#4A1631;
+  --ink:#211C2E; --ink2:#4A4356; --muted:#6B6478; --faint:#8A8478;
+  --paper:#FBF9F4; --card:#FFFFFF; --sand:#F3EEE3; --sand2:#EFE9DA; --line:#E4DFD3;
+  --green:#00602A; --green-bg:#E3F1E8; --red:#8A2C24; --blue:#00568D; --gold:#FFD400; --gold-ink:#3A2E00;
+  --serif:'DM Serif Display',Georgia,'Times New Roman',serif;
+  --sans:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --shadow:0 1px 2px rgba(33,28,46,.06),0 18px 50px rgba(33,28,46,.12);
+  color-scheme:light;
+}
+#landing *{box-sizing:border-box}
+#landing main{overflow-x:clip}
+#landing{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+#landing a{color:inherit}
+#landing :focus-visible{outline:2px solid var(--plum);outline-offset:3px;border-radius:6px}
+#landing .wrap{max-width:1120px;margin:0 auto;padding-inline:20px}
+#landing .num{font-variant-numeric:tabular-nums}
+#landing h1,#landing h2,#landing h3{font-family:var(--serif);font-weight:400;margin:0;text-wrap:balance;letter-spacing:-.01em}
+#landing .eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--plum)}
+#landing .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;padding:14px 26px;font-weight:700;font-size:15px;text-decoration:none;transition:transform .15s,box-shadow .15s,background .15s;white-space:nowrap}
+#landing .btn-primary{background:var(--plum);color:var(--paper);box-shadow:0 8px 22px rgba(126,42,85,.32)}
+#landing .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(126,42,85,.38)}
+#landing .btn-ghost{color:var(--plum);border:1.5px solid rgba(126,42,85,.35)}
+#landing .btn-ghost:hover{background:var(--plum-soft)}
+#landing .nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(251,249,244,.9);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:border-color .2s}
+#landing .nav.scrolled{border-bottom-color:var(--line)}
+#landing .nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:68px}
+#landing .brand{display:inline-flex;align-items:center;gap:9px;font-family:var(--serif);font-size:23px;color:var(--plum);text-decoration:none}
+#landing .brand svg{width:32px;height:32px;display:block}
+#landing .nav-links{display:flex;align-items:center;gap:26px;font-size:14.5px;font-weight:500;color:var(--ink2)}
+#landing .nav-links a{text-decoration:none}
+#landing .nav-links a:hover{color:var(--plum)}
+#landing .nav .btn{padding:10px 18px;font-size:14px}
+#landing .nav-actions{display:flex;align-items:center;gap:14px}
+#landing .nav-actions .signin{font-weight:600;font-size:14.5px;color:var(--ink2);text-decoration:none}
+#landing .hero{padding-block:64px 88px}
+#landing .hero .wrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:56px;align-items:center}
+#landing .hero h1{font-size:clamp(44px,6.4vw,76px);line-height:1.02;margin-top:18px}
+#landing .hero h1 em{font-style:italic;color:var(--plum)}
+#landing .hero .lede{font-size:18.5px;color:var(--ink2);max-width:33em;margin:22px 0 30px}
+#landing .cta-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+#landing .reassure{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:22px;font-size:13.5px;color:var(--muted);font-weight:500}
+#landing .reassure span{display:inline-flex;align-items:center;gap:7px}
+#landing .reassure svg{width:15px;height:15px;color:var(--green)}
+#landing .mock-wrap{position:relative;padding:40px 24px 0 0}
+#landing .mock{background:var(--card);border-radius:18px;box-shadow:var(--shadow);overflow:hidden;transform:rotate(1.2deg)}
+#landing .mock-top{display:flex;justify-content:flex-start;gap:12px;align-items:center;padding:16px 20px;border-bottom:1px solid var(--line)}
+#landing .mock-top .m{font-family:var(--serif);font-size:21px}
+#landing .mock-top .pill{font-size:11.5px;font-weight:700;background:var(--sand);border-radius:999px;padding:4px 10px;color:var(--ink2)}
+#landing .mg{padding:0}
+#landing .mg-head{display:flex;justify-content:space-between;align-items:center;padding:9px 20px;color:#fff;font-size:13px;font-weight:700}
+#landing .mg-row{display:grid;grid-template-columns:minmax(0,1fr) auto 26px 64px;gap:10px;align-items:center;padding:8px 20px;font-size:14px;border-top:1px solid rgba(0,0,0,.05)}
+#landing .mg-row .loc{font-size:11.5px;font-weight:600;color:var(--ink2);background:rgba(255,255,255,.8);border:1px solid rgba(0,0,0,.08);border-radius:999px;padding:2px 9px}
+#landing .mg-row .tick{width:20px;height:20px;border-radius:6px;display:flex;align-items:center;justify-content:center}
+#landing .mg-row .tick svg{width:12px;height:12px}
+#landing .mg-row .amt{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+#landing .mock-foot{display:flex;justify-content:space-between;align-items:center;margin:14px 16px 16px;padding:12px 14px;border-radius:12px;background:var(--green-bg);color:var(--green)}
+#landing .mock-foot b{display:block;font-size:14px}
+#landing .mock-foot small{font-size:12px;opacity:.85}
+#landing .mock-foot .z{font-family:var(--serif);font-size:28px}
+#landing .impression{position:absolute;right:-34px;top:-54px;width:132px;height:132px;pointer-events:none;color:var(--plum);opacity:.88;transform:rotate(-14deg);animation:stampIn .7s cubic-bezier(.2,1.4,.4,1) .5s both;mix-blend-mode:multiply}
+@keyframes stampIn{0%{opacity:0;transform:rotate(-14deg) scale(1.6)}60%{opacity:.95;transform:rotate(-14deg) scale(.94)}100%{opacity:.88;transform:rotate(-14deg) scale(1)}}
+#landing section{scroll-margin-top:80px}
+#landing .band{padding-block:92px}
+#landing .sec-head{max-width:640px;margin-bottom:48px}
+#landing .sec-head h2{font-size:clamp(34px,4.4vw,50px);line-height:1.08;margin-top:12px}
+#landing .sec-head p{font-size:17.5px;color:var(--ink2);margin:16px 0 0}
+#landing .steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;counter-reset:step}
+#landing .step{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px;display:flex;flex-direction:column;gap:14px}
+#landing .step .n{font-family:var(--serif);font-size:44px;line-height:1;color:var(--plum)}
+#landing .step h3{font-size:25px}
+#landing .step p{margin:0;color:var(--ink2);font-size:15.5px}
+#landing .step .vis{margin-top:auto;padding-top:8px}
+#landing .pay-lines{display:flex;flex-direction:column;gap:8px;font-size:14px}
+#landing .pay-lines div{display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding-bottom:6px}
+#landing .pay-lines div:last-child{border:none;font-weight:700}
+#landing .split{display:flex;height:34px;border-radius:9px;overflow:hidden;gap:2px}
+#landing .split i{display:block}
+#landing .legend{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;margin-top:12px;font-size:12.5px;color:var(--ink2)}
+#landing .legend span{display:flex;align-items:center;gap:7px}
+#landing .legend b{width:9px;height:9px;border-radius:50%;display:inline-block;flex-shrink:0}
+#landing .check-line{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px;padding:10px 12px;border-radius:10px;background:var(--green-bg);color:var(--green);font-size:13.5px;font-weight:600}
+#landing .check-line b{display:inline-flex;align-items:center;gap:6px;font-family:var(--serif);font-weight:400;font-size:22px}
+#landing .check-line svg{width:16px;height:16px}
+#landing .mini-rec{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+#landing .mini-rec th{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--paper);background:var(--ink);padding:7px 8px;text-align:right;font-weight:700}
+#landing .mini-rec th:first-child,#landing .mini-rec td:first-child{text-align:left}
+#landing .mini-rec td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:right}
+#landing .mini-rec tr.stamped td:last-child{color:var(--plum);font-weight:700}
+#landing .features{background:var(--sand)}
+#landing .feat-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden}
+#landing .feat{background:var(--paper);padding:28px 26px;display:flex;flex-direction:column;gap:10px}
+#landing .feat .ic{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center}
+#landing .feat .ic svg{width:21px;height:21px}
+#landing .feat h3{font-family:var(--sans);font-size:17px;font-weight:700;letter-spacing:0}
+#landing .feat p{margin:0;font-size:15px;color:var(--ink2)}
+#landing .diff{background:var(--plum);color:var(--paper)}
+#landing .diff .wrap{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:center}
+#landing .diff .eyebrow{color:#F2C6DB}
+#landing .diff h2{font-size:clamp(36px,4.8vw,56px);line-height:1.05;margin-top:12px}
+#landing .diff p.big{font-size:17.5px;opacity:.9;margin:18px 0 0;max-width:30em}
+#landing .diff ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:14px}
+#landing .diff li{display:flex;gap:14px;align-items:flex-start;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:16px 18px}
+#landing .diff li svg{width:22px;height:22px;flex-shrink:0;margin-top:2px;color:#F2C6DB}
+#landing .diff li b{display:block;font-size:16px}
+#landing .diff li span{font-size:14.5px;opacity:.85}
+#landing .faq .wrap{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:56px}
+#landing .faq-list{border-top:1px solid var(--line)}
+#landing details{border-bottom:1px solid var(--line)}
+#landing summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 2px;font-weight:700;font-size:17px}
+#landing summary::-webkit-details-marker{display:none}
+#landing summary .pm{width:28px;height:28px;border-radius:50%;background:var(--sand);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:transform .2s,background .2s;font-size:18px;color:var(--plum);font-weight:600}
+#landing details[open] summary .pm{transform:rotate(45deg);background:var(--plum-soft)}
+#landing details p{margin:0 0 20px;color:var(--ink2);font-size:15.5px;max-width:38em}
+#landing .closing{padding-block:40px 96px}
+#landing .closing-card{background:var(--ink);color:var(--paper);border-radius:26px;padding:60px 48px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:32px;align-items:center;position:relative;overflow:hidden}
+#landing .closing-card h2{font-size:clamp(34px,4.6vw,52px);line-height:1.05}
+#landing .closing-card p{margin:14px 0 0;opacity:.8;font-size:17px}
+#landing .closing-card .ghost-stamp{position:absolute;right:-40px;bottom:-60px;width:260px;height:260px;color:rgba(255,255,255,.06);transform:rotate(-14deg);pointer-events:none}
+#landing .closing-card .btn-primary{background:var(--paper);color:var(--plum);box-shadow:none;position:relative}
+#landing footer{border-top:1px solid var(--line);padding-block:30px 40px;font-size:14px;color:var(--muted)}
+#landing footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px}
+#landing footer .brand{font-size:19px}
+#landing footer .brand svg{width:26px;height:26px}
+@media (max-width:900px){#landing .hero .wrap,#landing .diff .wrap,#landing .faq .wrap{grid-template-columns:1fr;gap:44px}
+#landing .steps,#landing .feat-grid{grid-template-columns:1fr 1fr}
+#landing .nav-links{display:none}}
+@media (max-width:640px){#landing .hero{padding-block:36px 64px}
+#landing .hero .lede{font-size:17px}
+#landing .band{padding-block:68px}
+#landing .steps,#landing .feat-grid{grid-template-columns:1fr}
+#landing .mock{transform:none}
+#landing .mock-wrap{padding:36px 0 0}
+#landing .impression{width:104px;height:104px;right:-6px;top:-34px}
+#landing .mg-row{padding:8px 14px;font-size:13.5px;gap:8px}
+#landing .mg-head{padding:9px 14px}
+#landing .nav .signin{display:none}
+#landing .closing-card{grid-template-columns:1fr;padding:40px 24px}}
+@media (prefers-reduced-motion:reduce){#landing *{animation:none!important;transition:none!important}}
+#landing[hidden]{display:none}
+#landing button.linkish{font-family:inherit;border:none;cursor:pointer}
+#landing button.signin{background:none;padding:0}
+
 /* ---------- account / login screen ---------- */
 #auth{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:32px 16px;box-sizing:border-box;}
 #auth[hidden], #app[hidden]{display:none;}
@@ -298,7 +446,7 @@ body.dragging,body.dragging *{cursor:grabbing!important;user-select:none!importa
 .auth-submit:hover{transform:translateY(-1px);}
 .auth-submit:disabled{opacity:.6;cursor:default;transform:none;}
 .auth-link{border:none;background:none;color:#7E2A55;font-size:13px;font-weight:600;cursor:pointer;padding:4px;}
-.auth-foot{display:flex;justify-content:center;margin-top:14px;}
+.auth-foot{display:flex;flex-direction:column;align-items:center;gap:4px;margin-top:14px;}
 .auth-msg{font-size:13.5px;line-height:1.45;border-radius:10px;padding:10px 13px;margin-bottom:16px;}
 .auth-msg.error{background:#F8E7E5;color:#8A2C24;}
 .auth-msg.ok{background:#E3F1E8;color:#00602A;}
@@ -319,10 +467,256 @@ body.dragging,body.dragging *{cursor:grabbing!important;user-select:none!importa
 </head>
 <body>
 
+<div id="landing" hidden>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="logo" viewBox="0 0 48 48"><g transform="rotate(-10 24 24)"><circle cx="24" cy="24" r="21.5" fill="none" stroke="#7E2A55" stroke-width="3"/><circle cx="24" cy="24" r="16.5" fill="none" stroke="#7E2A55" stroke-width="1.4" stroke-dasharray="2.4 2.2"/><text x="24" y="31.5" text-anchor="middle" font-family="DM Serif Display, Georgia, serif" font-size="22" fill="#7E2A55">P</text></g></symbol>
+    <symbol id="check" viewBox="0 0 16 16"><path d="M3 8.5l3.2 3.2L13 4.8" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="tick-w" viewBox="0 0 14 14"><path d="M2.5 7.5l3 3 6-7" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </defs>
+</svg>
+
+<header class="nav" id="lp-nav">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="PayStamp home"><svg aria-hidden="true"><use href="#logo"/></svg>PayStamp</a>
+    <nav class="nav-links" aria-label="Page sections">
+      <a href="#how">How it works</a>
+      <a href="#features">Features</a>
+      <a href="#faq">Questions</a>
+    </nav>
+    <div class="nav-actions">
+      <button type="button" class="signin linkish" data-auth="signin">Sign in</button>
+      <button type="button" class="btn btn-primary linkish" data-auth="signup">Start free</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <div class="eyebrow">Your monthly pay planner</div>
+        <h1>Give every pound of your pay <em>a job.</em></h1>
+        <p class="lede">PayStamp helps you split your pay into categories, so your money moves to the right places every month. Set your plan up once, check it each payday, and stamp the month into your record.</p>
+        <div class="cta-row">
+          <button type="button" class="btn btn-primary linkish" data-auth="signup">Start planning for free</button>
+          <a class="btn btn-ghost" href="#how">See how it works</a>
+        </div>
+        <div class="reassure">
+          <span><svg><use href="#check"/></svg>Free to use</span>
+          <span><svg><use href="#check"/></svg>No bank login needed</span>
+          <span><svg><use href="#check"/></svg>Works on phone and laptop</span>
+        </div>
+      </div>
+
+      <div class="mock-wrap" aria-label="Example of the PayStamp planner">
+        <div class="mock">
+          <div class="mock-top"><span class="m">September 2026</span><span class="pill">Example plan</span><span></span></div>
+          <div class="mg" style="background:#F5ECF1">
+            <div class="mg-head" style="background:#7E2A55"><span>Income</span><span class="num">£1,900</span></div>
+            <div class="mg-row"><span>Salary</span><span></span><span></span><span class="amt">1,750</span></div>
+            <div class="mg-row"><span>Extras</span><span></span><span></span><span class="amt">150</span></div>
+          </div>
+          <div class="mg" style="background:#EDF4F0">
+            <div class="mg-head" style="background:#00602A"><span>Investments &amp; Savings</span><span class="num">12% of pay</span></div>
+            <div class="mg-row"><span>Stocks &amp; Shares ISA</span><span class="loc">Bills</span><span class="tick" style="background:#00602A"><svg><use href="#tick-w"/></svg></span><span class="amt">173</span></div>
+            <div class="mg-row"><span>Emergency fund</span><span class="loc">Everyday</span><span class="tick" style="background:#00602A"><svg><use href="#tick-w"/></svg></span><span class="amt">40</span></div>
+          </div>
+          <div class="mg" style="background:#F6EDEC">
+            <div class="mg-head" style="background:#8A2C24"><span>Costs</span><span class="num">59% of pay</span></div>
+            <div class="mg-row"><span>Rent</span><span class="loc">Bills</span><span class="tick" style="background:#8A2C24"><svg><use href="#tick-w"/></svg></span><span class="amt">650</span></div>
+            <div class="mg-row"><span>Groceries</span><span class="loc">Everyday</span><span class="tick" style="background:#fff;border:1.5px solid rgba(46,40,56,.28)"></span><span class="amt">220</span></div>
+          </div>
+          <div class="mg" style="background:#ECF2F7">
+            <div class="mg-head" style="background:#00568D"><span>Guilt-free spending</span><span class="num">24% of pay</span></div>
+            <div class="mg-row"><span>Eating out</span><span class="loc">Everyday</span><span class="tick" style="background:#00568D"><svg><use href="#tick-w"/></svg></span><span class="amt">300</span></div>
+          </div>
+          <div class="mock-foot"><span><b>Zero-based balance</b><small>Every pound has a job.</small></span><span class="z num">£0</span></div>
+        </div>
+        <svg class="impression" viewBox="0 0 160 160" aria-hidden="true">
+          <circle cx="80" cy="80" r="74" fill="none" stroke="currentColor" stroke-width="5"/>
+          <circle cx="80" cy="80" r="62" fill="none" stroke="currentColor" stroke-width="1.6" stroke-dasharray="3 3"/>
+          <path id="arcTop" d="M 30 80 A 50 50 0 0 1 130 80" fill="none"/>
+          <path id="arcBot" d="M 26 80 A 54 54 0 0 0 134 80" fill="none"/>
+          <text font-family="DM Sans, sans-serif" font-size="13" font-weight="700" letter-spacing="3" fill="currentColor"><textPath href="#arcTop" startOffset="50%" text-anchor="middle">STAMPED</textPath></text>
+          <text font-family="DM Sans, sans-serif" font-size="11" font-weight="700" letter-spacing="2.5" fill="currentColor"><textPath href="#arcBot" startOffset="50%" text-anchor="middle">SEPT 2026</textPath></text>
+          <text x="80" y="95" text-anchor="middle" font-family="DM Serif Display, Georgia, serif" font-size="44" fill="currentColor">P</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="how">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">How it works</div>
+        <h2>Three steps, once a month.</h2>
+        <p>PayStamp follows zero-based budgeting: your pay minus everything you’ve planned should come to exactly £0, so nothing is left without a purpose.</p>
+      </div>
+      <div class="steps">
+        <article class="step">
+          <div class="n">1</div>
+          <h3>Add your pay</h3>
+          <p>Put in what you expect to be paid and what actually lands, including any extras that month.</p>
+          <div class="vis pay-lines num">
+            <div><span>Salary</span><span>£1,750</span></div>
+            <div><span>Overtime</span><span>£150</span></div>
+            <div><span>Take-home pay</span><span>£1,900</span></div>
+          </div>
+        </article>
+        <article class="step">
+          <div class="n">2</div>
+          <h3>Check the plan</h3>
+          <p>Your plan carries over from last month, so every pound already has a job. Check nothing has changed and that your zero-based balance is £0.</p>
+          <div class="vis">
+            <div class="split" role="img" aria-label="£1,900 split: savings £228, costs £1,116, guilt-free spending £456, debt £100">
+              <i style="flex:228;background:#00602A"></i><i style="flex:1116;background:#8A2C24"></i><i style="flex:456;background:#00568D"></i><i style="flex:100;background:#7E2A55"></i>
+            </div>
+            <div class="check-line num"><span>Left without a job</span><b><svg><use href="#check"/></svg>£0</b></div>
+          </div>
+        </article>
+        <article class="step">
+          <div class="n">3</div>
+          <h3>Stamp the month</h3>
+          <p>Happy with the plan? Press STAMP to save the month into your records and compare as the year goes on.</p>
+          <div class="vis">
+            <table class="mini-rec">
+              <thead><tr><th>Item</th><th>Jul</th><th>Aug</th><th>Sep</th></tr></thead>
+              <tbody>
+                <tr><td>Groceries</td><td>222</td><td>228</td><td>220</td></tr>
+                <tr><td>Eating out</td><td>300</td><td>295</td><td>300</td></tr>
+                <tr class="stamped"><td>Balance</td><td>0</td><td>0</td><td>0</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="band features" id="features">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">What you get</div>
+        <h2>Everything your payday needs, on one page.</h2>
+      </div>
+      <div class="feat-grid">
+        <div class="feat">
+          <div class="ic" style="background:#F3E6ED;color:#7E2A55"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="6" r="1.2" fill="currentColor"/><circle cx="15" cy="6" r="1.2" fill="currentColor"/><circle cx="9" cy="12" r="1.2" fill="currentColor"/><circle cx="15" cy="12" r="1.2" fill="currentColor"/><circle cx="9" cy="18" r="1.2" fill="currentColor"/><circle cx="15" cy="18" r="1.2" fill="currentColor"/></svg></div>
+          <h3>Categories that fit your life</h3>
+          <p>Add, rename and drag items into the order you want, or move them to a different category entirely.</p>
+        </div>
+        <div class="feat">
+          <div class="ic" style="background:#E3F1E8;color:#00602A"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 10l9-6 9 6"/><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8"/><path d="M3 20h18"/></svg></div>
+          <h3>Know where it’s paid from</h3>
+          <p>Set the account for each payment and see the total that needs to be in each one.</p>
+        </div>
+        <div class="feat">
+          <div class="ic" style="background:#E6F0F7;color:#00568D"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3"/><path d="M18 3v4h-4M6 21v-4h4"/></svg></div>
+          <h3>Track what’s automated</h3>
+          <p>Tick off payments once they’re set up as standing orders or direct debits, so you know what still needs doing.</p>
+        </div>
+        <div class="feat">
+          <div class="ic" style="background:#FFF6CC;color:#7A5E00"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 5L5 19"/><circle cx="7" cy="7" r="2.5"/><circle cx="17" cy="17" r="2.5"/></svg></div>
+          <h3>Recommended percentages</h3>
+          <p>Set your aim for savings, costs and spending, and see how this month’s plan compares in pounds and percent.</p>
+        </div>
+        <div class="feat">
+          <div class="ic" style="background:#F6EDEC;color:#8A2C24"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/><path d="M5 7h14" opacity=".5"/><path d="M5 17h8"/></svg></div>
+          <h3>A clear month summary</h3>
+          <p>Take-home pay, budgeted total, targets and your zero-based balance, all in one place.</p>
+        </div>
+        <div class="feat">
+          <div class="ic" style="background:#F3E6ED;color:#7E2A55"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M4 9h16M10 9v12"/></svg></div>
+          <h3>Records you can keep</h3>
+          <p>Every stamped month builds your record. Save each year to its own Excel file whenever you like.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band diff">
+    <div class="wrap">
+      <div>
+        <div class="eyebrow">Why PayStamp</div>
+        <h2>No bank login. You stay in charge.</h2>
+        <p class="big">Many money apps want to connect to your bank and sort your spending for you. PayStamp works the other way round: you decide where your pay goes before you spend it.</p>
+      </div>
+      <ul>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="5" y="10" width="14" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><div><b>Nothing to connect</b><span>You never share bank details or logins. You type in the numbers yourself.</span></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg><div><b>Private to your account</b><span>Your plan is saved to your account, and only you can see it.</span></div></li>
+        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><div><b>Ten minutes on payday</b><span>Your plan carries over each month. Update what changed, check the balance, and stamp it.</span></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band faq" id="faq">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="eyebrow">Questions</div>
+        <h2>Good to know.</h2>
+        <p>Can’t find your answer? Email <span style="font-weight:700;color:var(--plum)">hello@paystamp.co.uk</span>.</p>
+      </div>
+      <div class="faq-list">
+        <details open><summary>Is PayStamp free?<span class="pm" aria-hidden="true">+</span></summary><p>Yes. Create an account and start planning for free.</p></details>
+        <details><summary>Do I need to link my bank account?<span class="pm" aria-hidden="true">+</span></summary><p>No. PayStamp never asks for bank details or logins. You enter your pay and payments yourself, which keeps you in control of every decision.</p></details>
+        <details><summary>What is zero-based budgeting?<span class="pm" aria-hidden="true">+</span></summary><p>It means planning until your pay minus everything you’ve assigned equals £0. Savings, bills and fun money all count as jobs, so every pound is accounted for before the month starts.</p></details>
+        <details><summary>Where is my plan saved?<span class="pm" aria-hidden="true">+</span></summary><p>Your plan is saved to your PayStamp account as you go, so it’s there whenever you sign in. Only you can see it.</p></details>
+        <details><summary>Can I use it on my phone?<span class="pm" aria-hidden="true">+</span></summary><p>Yes. PayStamp works in the web browser on your phone, tablet or computer. There’s nothing to install.</p></details>
+        <details><summary>Can I keep a copy of my records?<span class="pm" aria-hidden="true">+</span></summary><p>Yes. From Records you can save each year to its own Excel file, which opens in Excel, Numbers or Google Sheets.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="closing">
+    <div class="wrap">
+      <div class="closing-card">
+        <svg class="ghost-stamp" viewBox="0 0 48 48" aria-hidden="true"><circle cx="24" cy="24" r="21.5" fill="none" stroke="currentColor" stroke-width="3"/><circle cx="24" cy="24" r="16.5" fill="none" stroke="currentColor" stroke-width="1.4" stroke-dasharray="2.4 2.2"/><text x="24" y="31.5" text-anchor="middle" font-family="DM Serif Display, Georgia, serif" font-size="22" fill="currentColor">P</text></svg>
+        <div>
+          <h2>Ready to plan this month’s pay?</h2>
+          <p>Set it up once, then stamp each payday.</p>
+        </div>
+        <button type="button" class="btn btn-primary linkish" data-auth="signup">Start free</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="brand" href="#top"><svg aria-hidden="true"><use href="#logo"/></svg>PayStamp</a>
+    <span>hello@paystamp.co.uk</span>
+    <span>© 2026 PayStamp</span>
+  </div>
+</footer>
+
+</div>
 <div id="auth"><div class="auth-card"><div class="auth-loading">Loading…</div></div></div>
+<script>
+/* Show the landing page straight away unless this browser already has a PayStamp sign-in
+   (or is coming back from an email link), so signed-in people never see it flash. */
+(function () {
+  var signedIn = false;
+  try { for (var i = 0; i < localStorage.length; i++) { if (/^sb-.*-auth-token$/.test(localStorage.key(i))) signedIn = true; } } catch (e) {}
+  if (/access_token|type=recovery|error_description/.test(window.location.hash)) signedIn = true;
+  if (!signedIn) { document.getElementById('landing').hidden = false; document.getElementById('auth').hidden = true; }
+})();
+</script>
 <div id="app" hidden></div>
 <div id="save-status" hidden><span class="dot"></span><span class="label">Saved</span></div>
 
+<script>
+/* Landing page: nav border on scroll, and buttons that open sign-in / sign-up. */
+(function () {
+  var nav = document.getElementById('lp-nav');
+  window.addEventListener('scroll', function () { if (nav) nav.classList.toggle('scrolled', window.scrollY > 8); }, { passive: true });
+  document.getElementById('landing').addEventListener('click', function (e) {
+    var b = e.target.closest('[data-auth]'); if (!b) return;
+    e.preventDefault();
+    if (window.PayStampAuth) window.PayStampAuth.open(b.getAttribute('data-auth'));
+  });
+})();
+</script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
@@ -372,6 +766,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
   var authEl = document.getElementById('auth');
   var appEl = document.getElementById('app');
   var statusEl = document.getElementById('save-status');
+  var landingEl = document.getElementById('landing');
 
   var user = null;
   var demoMode = false;
@@ -436,7 +831,14 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
   });
 
   /* ---------- loading a user's planner ---------- */
+  function showLanding() {
+    authEl.hidden = true;
+    appEl.hidden = true;
+    landingEl.hidden = false;
+  }
+
   function openPlanner(initialData) {
+    landingEl.hidden = true;
     authEl.hidden = true;
     appEl.hidden = false;
     if (!plannerStarted) {
@@ -494,6 +896,8 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
 
   function renderAuth(mode, opts) {
     opts = opts || {};
+    if (!landingEl.hidden) window.scrollTo(0, 0);
+    landingEl.hidden = true;
     authEl.hidden = false;
     appEl.hidden = true;
     var card = el('div', { class: 'auth-card' });
@@ -555,6 +959,11 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
       back.addEventListener('click', function () { renderAuth('signin'); });
       foot.appendChild(back);
     }
+    if (mode === 'signin' || mode === 'signup') {
+      var home = el('button', { type: 'button', class: 'auth-link', text: '← Back to the PayStamp home page' });
+      home.addEventListener('click', showLanding);
+      foot.appendChild(home);
+    }
     if (foot.childNodes.length) card.appendChild(foot);
 
     if (!configured) {
@@ -609,6 +1018,9 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
   }
 
   /* ---------- what the planner can ask of us ---------- */
+  var authOpenedByVisitor = false;
+  window.PayStampAuth = { open: function (mode) { authOpenedByVisitor = true; renderAuth(mode === 'signup' ? 'signup' : 'signin'); } };
+
   window.PayStamp = {
     onChange: queueSave,
     getEmail: function () { return user ? user.email : (demoMode ? 'Demo mode' : ''); },
@@ -622,7 +1034,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
   };
 
   /* ---------- boot ---------- */
-  if (!sb) { renderAuth('signin'); return; }
+  if (!sb) { showLanding(); return; }
 
   var recovering = /type=recovery/.test(window.location.hash);
   sb.auth.onAuthStateChange(function (event, session) {
@@ -634,7 +1046,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
         if (!user || user.id !== session.user.id) loadForUser(session.user);
       } else if (event === 'SIGNED_OUT' || event === 'INITIAL_SESSION') {
         user = null;
-        if (!plannerStarted) renderAuth('signin');
+        if (!plannerStarted && !authOpenedByVisitor) showLanding();
       }
     }, 0);
   });
