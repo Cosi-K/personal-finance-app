@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <style>
-/* ---------- planner (v2) ---------- */
+/* ---------- planner (v3) ---------- */
 :root{
   --plum:#7E2A55; --plum-soft:#F3E6ED;
   --ink:#211C2E; --ink2:#4A4356; --muted:#6B6478; --faint:#8A8478;
@@ -34,12 +34,13 @@ button{cursor:pointer}
 .num,.tab{font-variant-numeric:tabular-nums}
 
 /* ---------- page ---------- */
-.page{padding:40px 16px 90px}
+.page{padding:40px 16px 90px;overflow-x:clip}
+.sheet{overflow-x:clip}
 .content{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:30px}
 .head{display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;padding-inline:56px}
-.brand{display:inline-flex;align-items:center;gap:9px;font-family:var(--serif);color:var(--plum);font-size:24px}
+.brand{display:inline-flex;align-items:center;gap:10px;font-family:var(--serif);color:var(--plum);font-size:34px;line-height:1}
 .brand svg{width:34px;height:34px;display:block}
-.title{font-family:var(--serif);font-size:clamp(40px,8vw,60px);line-height:1.05;letter-spacing:-.01em;margin:0;font-weight:400;text-wrap:balance}
+.title{font-family:var(--serif);font-size:clamp(28px,5vw,40px);line-height:1.05;letter-spacing:-.01em;margin:0;font-weight:400;text-wrap:balance}
 .rule{width:72px;height:4px;border-radius:2px;background:var(--plum)}
 .month-pick{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;border-radius:24px}
 .pill-select{appearance:none;-webkit-appearance:none;background:var(--card) url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235A6273' stroke-width='1.5' fill='none'/%3E%3C/svg%3E") no-repeat right 14px center;border:1px solid var(--line);border-radius:20px;padding:9px 38px 9px 20px;font-size:13.5px;font-weight:500;color:#3A332E}
@@ -51,7 +52,8 @@ button{cursor:pointer}
 .corner.left{left:16px}.corner.right{right:16px}
 .corner .bars{display:flex;flex-direction:column;gap:4px}
 .corner .bars i{display:block;width:16px;height:2px;background:var(--paper);border-radius:2px}
-.menu{position:fixed;top:calc(74px + env(safe-area-inset-top,0px));width:230px;background:var(--plum);border-radius:14px;box-shadow:0 12px 28px rgba(26,31,44,.24);padding:8px;z-index:29;display:flex;flex-direction:column;gap:2px;transform-origin:top;animation:dropOpen .22s cubic-bezier(.16,1,.3,1)}
+.menu{position:fixed;top:calc(74px + env(safe-area-inset-top,0px));width:230px;background:var(--plum);border-radius:14px;box-shadow:0 12px 28px rgba(26,31,44,.24);padding:8px;z-index:29;display:flex;flex-direction:column;gap:2px;transform-origin:top}
+.menu.enter{animation:dropOpen .22s cubic-bezier(.16,1,.3,1)}
 .menu.left{left:16px}.menu.right{right:16px}
 .menu button{display:flex;align-items:center;justify-content:space-between;width:100%;text-align:left;border:none;background:transparent;padding:11px 14px;border-radius:9px;color:var(--paper);font-size:14px;font-weight:500}
 .menu button:hover{background:rgba(255,255,255,.14)}
@@ -64,17 +66,21 @@ button{cursor:pointer}
 .group{border-radius:14px;overflow:hidden;box-shadow:var(--shadow);background:var(--gb)}
 .group-head{height:64px;display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--g);color:#fff;padding:0 22px}
 .group-head h2{margin:0;font-family:var(--serif);font-weight:400;font-size:26px;letter-spacing:.01em}
+.cat-share{flex-shrink:0;font-size:12px;font-weight:700;color:#fff;background:rgba(255,255,255,.2);border-radius:999px;padding:3px 10px}
 .group-head .share{font-size:12.5px;font-weight:700;background:rgba(255,255,255,.18);border-radius:999px;padding:4px 11px}
 .cat-head{height:44px;display:flex;align-items:center;gap:10px;background:var(--gm);padding:0 12px 0 14px}
 .cat-name{flex:1;min-width:0;border:none;background:transparent;font-size:15px;font-weight:600;color:#fff;padding:5px 6px;border-radius:6px}
 .cat-name::placeholder{color:rgba(255,255,255,.7)}
 .cat-name:focus{background:rgba(255,255,255,.22);outline:none}
 
-.row{display:grid;grid-template-columns:20px minmax(0,1.1fr) minmax(0,1fr) 92px 88px 88px 24px;column-gap:8px;align-items:center;padding:0 12px 0 8px}
-.c-h{grid-column:1}.c-name,.c-label{grid-column:2}.c-loc{grid-column:3;justify-self:center;width:100%;max-width:160px;text-align:center}.c-auto{grid-column:4;justify-self:center;text-align:center}.c-tgt{grid-column:5}.c-bud{grid-column:6}.c-rm{grid-column:7;justify-self:center}
+.row{display:grid;grid-template-columns:20px minmax(0,1.1fr) minmax(0,1fr) 76px 84px 88px 88px 24px;column-gap:8px;align-items:center;padding:0 12px 0 8px}
+.c-h{grid-column:1}.c-name,.c-label{grid-column:2}.c-loc{grid-column:3;justify-self:center;width:100%;max-width:160px;text-align:center}.c-date{grid-column:4;justify-self:center;text-align:center;width:100%}.c-auto{grid-column:5;justify-self:center;text-align:center}.c-tgt{grid-column:6}.c-bud{grid-column:7}.c-rm{grid-column:8;justify-self:center}
 .colhead{height:32px;background:var(--gl)}
 .colhead span{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#5A5266}
-.group.no-la .c-loc,.group.no-la .c-auto{display:none}
+.group.no-la .c-loc,.group.no-la .c-auto,.group.no-la .c-date{display:none}
+.day-select{appearance:none;-webkit-appearance:none;width:100%;min-width:0;border:1px solid rgba(0,0,0,.08);background:rgba(255,255,255,.6);border-radius:999px;padding:5px 6px;font-size:12.5px;font-weight:600;color:#3A3346;text-align:center;text-align-last:center}
+.day-select.is-empty{color:var(--faint);font-weight:500}
+.day-select:hover{background-color:#fff}
 .colhead .c-tgt,.colhead .c-bud{text-align:right;padding-right:6px}
 .item-row{min-height:44px;border-top:1px solid rgba(255,255,255,.7);background:var(--gb)}
 .item-list{min-height:10px;position:relative}
@@ -132,6 +138,7 @@ body.dragging,body.dragging *{cursor:grabbing!important;user-select:none!importa
 .rec .cell:hover{background:var(--gold-soft)}
 .rec .cell:focus{background:#fff;border-color:var(--gold-ink)}
 .aim-wrap{display:flex;align-items:center;justify-content:flex-end;gap:2px;font-weight:700;font-size:13px}
+.val-wrap .cell{width:70px}
 .aim-wrap .cell{width:46px;background:var(--gold-soft);text-align:right;font-weight:700}
 .val{text-align:right;font-weight:700;font-size:13px;font-variant-numeric:tabular-nums}
 .cur{display:flex;flex-direction:column;align-items:flex-end;line-height:1.2}
@@ -189,9 +196,11 @@ body.dragging,body.dragging *{cursor:grabbing!important;user-select:none!importa
 @keyframes cornerPulse{0%,100%{box-shadow:0 4px 12px rgba(126,42,85,.28)}50%{box-shadow:0 4px 26px rgba(126,42,85,.7),0 0 0 7px rgba(126,42,85,.16)}}
 
 /* ---------- overlays ---------- */
-.overlay{position:fixed;inset:0;background:rgba(33,28,46,.55);z-index:60;display:flex;align-items:flex-start;justify-content:center;padding:60px 16px;overflow-y:auto;animation:fadeIn .18s ease}
+.overlay{position:fixed;inset:0;background:rgba(33,28,46,.55);z-index:60;display:flex;align-items:flex-start;justify-content:center;padding:60px 16px;overflow-y:auto}
+.overlay.enter{animation:fadeIn .18s ease}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.sheet{background:var(--paper);border-radius:18px;box-shadow:0 20px 60px rgba(33,28,46,.35);width:100%;max-width:580px;padding:32px 34px 28px;position:relative;animation:sheetIn .25s cubic-bezier(.16,1,.3,1)}
+.sheet{background:var(--paper);border-radius:18px;box-shadow:0 20px 60px rgba(33,28,46,.35);width:100%;max-width:580px;padding:32px 34px 28px;position:relative}
+.overlay.enter .sheet{animation:sheetIn .25s cubic-bezier(.16,1,.3,1)}
 .sheet.wide{max-width:1200px}
 @keyframes sheetIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 .sheet-close{position:absolute;top:18px;right:18px;width:34px;height:34px;border:none;border-radius:50%;background:var(--sand2);color:var(--ink);font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0}
@@ -235,6 +244,7 @@ body.dragging,body.dragging *{cursor:grabbing!important;user-select:none!importa
 .empty{padding:40px 0;text-align:center;font-size:14px;color:var(--faint)}
 
 /* ---------- tour ---------- */
+.tour.raised{bottom:90px}
 .tour{position:fixed;bottom:24px;right:24px;width:330px;max-width:calc(100vw - 32px);background:var(--paper);border-radius:16px;box-shadow:0 16px 40px rgba(33,28,46,.35);padding:22px 24px 18px;z-index:70}
 .tour .accent{width:32px;height:5px;border-radius:3px;margin-bottom:14px}
 .tour h4{font-family:var(--serif);font-weight:400;font-size:19px;margin:0 0 8px;padding-right:22px}
@@ -256,18 +266,21 @@ body.dragging,body.dragging *{cursor:grabbing!important;user-select:none!importa
   .page{padding-top:28px}
   .head{padding-inline:50px}
   .group-head{padding:0 16px}.group-head h2{font-size:22px}
-  .row{grid-template-columns:16px minmax(0,1fr) 62px 60px 60px 20px;column-gap:5px;padding:0 6px 0 4px}
-  .c-loc{grid-column:2}.c-auto{grid-column:3}.c-tgt{grid-column:4}.c-bud{grid-column:5}.c-rm{grid-column:6}
+  .row{grid-template-columns:16px minmax(0,1fr) 46px 32px 56px 56px 20px;column-gap:5px;padding:0 6px 0 4px}
+  .c-loc{grid-column:2}.c-date{grid-column:3}.c-auto{grid-column:4}.c-tgt{grid-column:5}.c-bud{grid-column:6}.c-rm{grid-column:7}
   .item-row{padding-block:4px 6px;row-gap:2px}
   .item-row .c-h{grid-row:1 / span 2}
-  .item-row .c-name{grid-column:2 / 6;grid-row:1}
+  .item-row .c-name{grid-column:2 / 7;grid-row:1}
   .item-row .c-rm{grid-row:1}
-  .item-row .c-loc,.item-row .c-auto,.item-row .c-tgt,.item-row .c-bud{grid-row:2}
+  .item-row .c-loc,.item-row .c-date,.item-row .c-auto,.item-row .c-tgt,.item-row .c-bud{grid-row:2}
+  .day-select{padding:5px 2px;font-size:12px}
   .colhead .c-name{display:none}
   .group.no-la .item-row .c-h{grid-row:1}
-  .group.no-la .item-row .c-name{grid-column:2 / 4}
+  .group.no-la .item-row .c-name{grid-column:2 / 5}
   .group.no-la .item-row .c-tgt,.group.no-la .item-row .c-bud{grid-row:1}
-  .colhead span{font-size:9px;letter-spacing:.03em}
+  .colhead span{font-size:9px;letter-spacing:.03em;line-height:1.1;white-space:normal;text-align:center}
+  .colhead .c-auto{font-size:0}
+  .colhead .c-auto::after{content:'Auto';font-size:9px}
   .c-loc{max-width:none}
   .cell{font-size:14px;padding:5px}
   .handle{width:16px}
@@ -280,6 +293,371 @@ body.dragging,body.dragging *{cursor:grabbing!important;user-select:none!importa
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
+/* ---------- left menu: sections ---------- */
+.menu button[disabled]{opacity:.55;cursor:default}
+.menu button[disabled]:hover{background:transparent}
+
+/* ---------- debt list (same look as a planner category) ---------- */
+.sheet.mid{max-width:980px}
+.debt-group .drow{display:grid;grid-template-columns:20px minmax(0,1fr) 100px 76px 92px 112px 24px;column-gap:8px;align-items:center;padding:0 12px 0 8px}
+.d-h{grid-column:1}.d-name{grid-column:2}.d-bal{grid-column:3}.d-apr{grid-column:4}.d-min{grid-column:5}.d-pay{grid-column:6}.d-sw{display:none}.d-rm{grid-column:7;justify-self:center}
+.debt-group .colhead .d-bal,.debt-group .colhead .d-apr,.debt-group .colhead .d-min,.debt-group .colhead .d-pay{text-align:right;padding-right:7px}
+.debt-group .foot .d-bal,.debt-group .foot .d-min,.debt-group .foot .d-pay{text-align:right;padding-right:8px;font-variant-numeric:tabular-nums}
+.pct-wrap{display:flex;align-items:center;gap:2px;font-size:13px;font-weight:600;color:#5A5266}
+.pct-wrap .cell{flex:1}
+.d-prog{display:flex;align-items:center;gap:12px;padding:0 7px;font-size:12px;color:#5A5266;font-weight:600}
+.pbar{flex:1;min-width:60px;height:8px;border-radius:4px;background:#fff;box-shadow:inset 0 0 0 1px var(--gl2);overflow:hidden}
+.pbar i{display:block;height:100%;border-radius:inherit;background:var(--gm);transition:width .4s cubic-bezier(.16,1,.3,1)}
+.d-prog .pnum{font-variant-numeric:tabular-nums;white-space:nowrap}
+.d-prog .ppct{font-weight:700;color:var(--ink);min-width:38px;text-align:right;font-variant-numeric:tabular-nums}
+.d-prog .pdone{background:var(--good-bg);color:var(--good);border-radius:999px;padding:1px 8px;font-weight:700}
+.sw{width:40px;height:23px;border:none;border-radius:12px;background:rgba(46,40,56,.22);position:relative;padding:0;transition:background .18s}
+.sw i{position:absolute;top:3px;left:3px;width:17px;height:17px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .18s cubic-bezier(.16,1,.3,1)}
+.sw[aria-checked="true"]{background:var(--gm)}
+.sw[aria-checked="true"] i{transform:translateX(17px)}
+.debt-overall{display:flex;align-items:center;gap:12px;padding:12px 20px;background:var(--gl);font-size:13px;font-weight:600;color:var(--ink)}
+.debt-overall .pbar{height:10px;border-radius:5px}
+.order-pick{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin-bottom:16px}
+.order-pick .lbl{font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.seg-o{display:inline-flex;flex-wrap:wrap;background:var(--sand);border-radius:999px;padding:4px;gap:2px}
+.seg-o button{border:none;background:transparent;border-radius:999px;padding:8px 16px;font-size:13px;font-weight:700;color:var(--ink2);transition:background .15s,color .15s}
+.seg-o button:hover{background:rgba(255,255,255,.7)}
+.seg-o button[aria-pressed="true"]{background:var(--plum);color:var(--paper)}
+.order-notes{display:grid;flex-basis:100%;font-size:12.5px;color:var(--muted)}
+.order-notes span{grid-area:1 / 1;visibility:hidden}
+.order-notes span.on{visibility:visible}
+.dsec{margin-top:30px;display:flex;flex-direction:column;gap:12px}
+.dsec-head h4{font-family:var(--serif);font-weight:400;font-size:24px;margin:0;line-height:1.15}
+.dsec-head p{margin:3px 0 0;font-size:13px;color:var(--muted);max-width:44em}
+.xbar{display:grid;grid-template-columns:minmax(0,1fr) 140px auto;gap:10px;align-items:center}
+.xsel{appearance:none;-webkit-appearance:none;width:100%;min-width:0;border:1.5px solid var(--line);border-radius:999px;background:var(--card) url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235A6273' stroke-width='1.5' fill='none'/%3E%3C/svg%3E") no-repeat right 14px center;padding:10px 36px 10px 16px;font-size:14px;font-weight:600;color:var(--ink)}
+.xamt{display:flex;align-items:center;gap:4px;background:var(--card);border:1.5px solid var(--line);border-radius:999px;padding:0 6px 0 14px}
+.xamt > span{font-weight:700;color:var(--plum)}
+.xamt input{width:100%;min-width:0;border:none;background:transparent;font-size:14.5px;font-weight:600;padding:9px 6px;text-align:right;font-variant-numeric:tabular-nums;outline:none}
+.xamt:focus-within,.xsel:focus{border-color:var(--plum);outline:none}
+.xadd{border:none;border-radius:999px;background:var(--plum);color:var(--paper);font-size:13.5px;font-weight:700;padding:11px 18px;white-space:nowrap;box-shadow:0 4px 12px rgba(126,42,85,.25)}
+.xadd:hover{opacity:.92}
+.xlist{display:flex;flex-direction:column}
+.xrow{display:grid;grid-template-columns:minmax(0,1fr) auto 26px;gap:12px;align-items:center;padding:9px 2px;border-top:1px solid var(--line);font-size:14px}
+.xrow .xn{min-width:0;font-weight:600}
+.xrow .xn small{display:block;font-weight:500;font-size:12px;color:var(--muted)}
+.xrow .xv{font-weight:700;font-variant-numeric:tabular-nums}
+
+.dfree{position:relative;overflow:hidden;background:var(--plum);color:var(--paper);border-radius:18px;padding:26px 28px;display:flex;flex-direction:column;gap:6px}
+.dfree .k{font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#F2C6DB}
+.dfree .big{font-family:var(--serif);font-size:clamp(38px,7vw,54px);line-height:1;letter-spacing:-.01em;position:relative}
+.dfree .dsub{font-size:15px;font-weight:600;color:var(--paper);position:relative}
+.dfree .ring{position:absolute;right:-26px;top:50%;width:170px;height:170px;margin-top:-85px;color:rgba(255,255,255,.12);transform:rotate(-14deg);pointer-events:none}
+
+.wif{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 24px;display:flex;flex-direction:column;gap:16px}
+.wif-ask{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;font-size:15px;color:var(--ink2)}
+.wif-in{display:flex;align-items:center;gap:4px;border:1.5px solid var(--line);border-radius:12px;background:var(--paper);padding:2px 10px 2px 14px}
+.wif-in:focus-within{border-color:var(--plum)}
+.wif-in span{font-family:var(--serif);font-size:22px;color:var(--plum)}
+.wif-in input{width:96px;border:none;background:transparent;font-family:var(--serif);font-size:24px;color:var(--ink);padding:6px 0;outline:none;font-variant-numeric:tabular-nums}
+.wif-now{font-size:12.5px;font-weight:700;color:var(--muted);background:var(--sand);border-radius:999px;padding:5px 11px;white-space:nowrap}
+.wif-out{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;border-top:1px solid var(--line);padding-top:16px}
+.wif-out .k{font-size:14px;color:var(--ink2)}
+.wif-out .date{font-family:var(--serif);font-size:30px;color:var(--plum);line-height:1.1}
+.wif-cmp{font-size:13px;font-weight:700;border-radius:999px;padding:5px 12px;background:var(--sand);color:var(--ink2)}
+.wif-cmp.better{background:var(--good-bg);color:var(--good)}
+.wif-cmp.worse{background:var(--warn-bg);color:var(--warn)}
+@media (max-width:640px){
+  .xbar{grid-template-columns:minmax(0,1fr) auto}
+  .xbar .xsel{grid-column:1 / -1}
+  .dfree{padding:22px 20px}
+  .dfree .ring{width:120px;height:120px;margin-top:-60px;right:-30px}
+}
+.debt-hint{font-size:12.5px;color:var(--faint);margin-top:14px;line-height:1.5}
+.debt-hint b{color:var(--muted)}
+@media (max-width:640px){
+  .sheet.mid{padding-inline:12px}
+  .debt-group .drow{grid-template-columns:16px repeat(4,minmax(0,1fr)) 20px;column-gap:5px;padding:0 6px 0 4px}
+  .d-bal{grid-column:2}.d-apr{grid-column:3}.d-min{grid-column:4}.d-pay{grid-column:5}.d-rm{grid-column:6}
+  .debt-group .item-row,.debt-group .foot{padding-block:4px 6px;row-gap:2px}
+  .debt-group .item-row .d-h{grid-row:1 / span 2}
+  .debt-group .item-row .d-name,.debt-group .foot .d-name{grid-column:2 / 5;grid-row:1}
+  .debt-group .item-row .d-sw{grid-column:5;grid-row:1;justify-self:end}
+  .debt-group .item-row .d-rm{grid-row:1}
+  .debt-group .item-row .d-bal,.debt-group .item-row .d-apr,.debt-group .item-row .d-min,.debt-group .item-row .d-pay,
+  .debt-group .foot .d-bal,.debt-group .foot .d-min,.debt-group .foot .d-pay{grid-row:2}
+  .debt-group .foot{height:auto;min-height:52px}
+  .debt-group .colhead .d-name{display:none}
+  .debt-group .colhead .d-sw{grid-column:5;grid-row:1;display:none}
+  .debt-group .colhead span{font-size:9px;letter-spacing:.03em}
+  .debt-overall{padding:10px 14px;flex-wrap:wrap}
+}
+
+/* ---------- savings (reuses the debt list layout) ---------- */
+.save-group .drow{grid-template-columns:20px minmax(0,1fr) 100px 100px 76px 112px 24px}
+.save-group .colhead .d-apr,.save-group .foot .d-apr{text-align:right;padding-right:8px}
+.save-group .foot .d-apr{font-variant-numeric:tabular-nums}
+@media (max-width:640px){ .save-group .drow{grid-template-columns:16px repeat(4,minmax(0,1fr)) 20px} }
+
+.ro-num{text-align:right;padding-right:8px;font-size:14.5px;font-weight:600;color:#2E2838;font-variant-numeric:tabular-nums;cursor:default}
+.dsec.prev{gap:0;border:1px solid var(--line);border-radius:14px;background:var(--card);overflow:hidden}
+.prev-toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;border:none;background:transparent;padding:14px 18px;text-align:left}
+.prev-toggle:hover{background:var(--sand)}
+.pt-text h4{font-family:var(--serif);font-weight:400;font-size:21px;margin:0;line-height:1.2}
+.pt-text small{display:block;font-size:12.5px;color:var(--muted);margin-top:2px}
+.pt-arrow{font-size:16px;color:var(--plum)}
+.prev-body{padding:0 18px 14px;display:flex;flex-direction:column;gap:6px}
+.prev-note{margin:0 0 4px;font-size:12.5px;color:var(--muted)}
+.prev-row{grid-template-columns:minmax(0,1fr) 150px}
+.prev-row .xamt{border-radius:10px}
+.prev-in{width:100%;min-width:0;border:none;background:transparent;font-size:14.5px;font-weight:600;padding:8px 6px;text-align:right;font-variant-numeric:tabular-nums;outline:none}
+
+.used-bar{grid-template-columns:minmax(0,1fr) 130px minmax(0,1fr) auto;margin-bottom:4px}
+.used-note{width:100%;min-width:0;border:1.5px solid var(--line);border-radius:999px;background:var(--card);padding:10px 16px;font-size:14px;color:var(--ink)}
+.used-note:focus{outline:none;border-color:var(--plum)}
+.used-v{color:var(--warn)}
+@media (max-width:640px){ .used-bar{grid-template-columns:minmax(0,1fr) auto} .used-bar .xsel,.used-bar .used-note{grid-column:1 / -1} }
+
+/* ---------- investments ---------- */
+.inv-group .drow{grid-template-columns:20px minmax(0,1fr) 100px 108px 96px 112px 24px}
+.inv-group .colhead .d-apr,.inv-group .colhead .d-min,.inv-group .foot .d-apr,.inv-group .foot .d-min{text-align:right;padding-right:8px}
+.inv-group .foot .d-apr,.inv-group .foot .d-min{font-variant-numeric:tabular-nums}
+.gain{text-align:right;padding-right:8px;font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;display:flex;flex-direction:column;line-height:1.15}
+.gain small{font-size:11px;font-weight:600;opacity:.8}
+.gain.up{color:var(--good)}.gain.down{color:var(--warn)}
+.inv-sum{display:flex;flex-wrap:wrap;gap:6px 22px;padding:12px 20px;background:var(--gl);font-size:13px;color:var(--ink2);font-weight:600}
+.inv-sum b{color:var(--ink);font-variant-numeric:tabular-nums}
+.inv-sum b.up{color:var(--good)}.inv-sum b.down{color:var(--warn)}
+@media (max-width:640px){ .inv-group .drow{grid-template-columns:16px repeat(4,minmax(0,1fr)) 20px} .gain{flex-direction:row;gap:4px;justify-content:flex-end;align-items:baseline} }
+
+.name-wrap{display:flex;align-items:center;gap:6px;min-width:0}
+.name-wrap .cell{flex:1}
+.link-tag{position:relative;flex-shrink:0;font-size:10.5px;font-weight:700;letter-spacing:.03em;color:var(--plum);background:rgba(255,255,255,.75);border:1px solid rgba(126,42,85,.25);border-radius:999px;padding:1px 8px;cursor:help;font-family:inherit;line-height:1.5}
+.link-tag::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 7px);transform:translateX(-50%) translateY(3px);width:max-content;max-width:220px;white-space:normal;text-align:center;background:var(--ink);color:var(--paper);font-size:12px;font-weight:600;letter-spacing:0;line-height:1.35;padding:7px 10px;border-radius:8px;box-shadow:0 6px 16px rgba(33,28,46,.25);opacity:0;pointer-events:none;transition:opacity .12s,transform .12s;z-index:20}
+.link-tag:hover::after,.link-tag:focus-visible::after,.link-tag.tip-on::after{opacity:1;transform:translateX(-50%) translateY(0)}
+.link-tag:hover,.link-tag:focus-visible,.link-tag.tip-on{z-index:20}
+.group:has(.link-tag){overflow:visible}
+.group:has(.link-tag) > .group-head{border-radius:14px 14px 0 0}
+.group:has(.link-tag) > .foot{border-radius:0 0 14px 14px}
+
+/* ---------- feedback ---------- */
+.fb-link{margin-top:22px;border:none;background:transparent;color:var(--muted);font-size:13px;font-weight:600;text-decoration:underline;text-underline-offset:3px;padding:4px}
+.fb-link:hover{color:var(--plum)}
+.fb-form{display:flex;flex-direction:column;gap:14px}
+.fb-kind{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.fb-kind button{display:flex;flex-direction:column;align-items:flex-start;gap:2px;border:1.5px solid var(--line);background:var(--card);border-radius:12px;padding:12px 14px;text-align:left;font-size:14px;font-weight:700;color:var(--ink)}
+.fb-kind button small{font-size:12px;font-weight:500;color:var(--muted)}
+.fb-kind button[aria-pressed="true"]{border-color:var(--plum);background:var(--plum-soft);color:var(--plum)}
+.fb-text{width:100%;min-height:130px;resize:vertical;border:1.5px solid var(--line);border-radius:12px;background:var(--card);padding:12px 14px;font-size:14.5px;line-height:1.5;color:var(--ink)}
+.fb-text:focus{outline:none;border-color:var(--plum)}
+.fb-reply{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:var(--ink2);cursor:pointer}
+.fb-reply input{width:18px;height:18px;margin-top:1px;accent-color:var(--plum)}
+.fb-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}
+.fb-note{font-size:12px;color:var(--faint);max-width:30em}
+.fb-send{border:none;border-radius:999px;background:var(--plum);color:var(--paper);font-size:14px;font-weight:700;padding:11px 22px;box-shadow:0 4px 12px rgba(126,42,85,.25)}
+.fb-send[disabled]{opacity:.45;box-shadow:none;cursor:default}
+.fb-err{margin:0;font-size:13px;font-weight:600;color:var(--warn)}
+.fb-done{display:flex;flex-direction:column;align-items:flex-start;gap:14px;font-size:15px;color:var(--ink2);line-height:1.5}
+.fb-done .pv{font-size:12.5px;background:#FFF6CC;color:var(--gold-ink);border-radius:10px;padding:9px 12px}
+
+.fb-float{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:28;display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--gold-line);border-radius:999px;background:var(--gold);color:var(--gold-ink);font-size:14px;font-weight:700;padding:11px 18px 11px 15px;box-shadow:0 8px 22px rgba(186,150,0,.35);transition:transform .15s,box-shadow .15s}
+.fb-float:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(186,150,0,.45)}
+.fb-float svg{width:19px;height:19px}
+.fb-card{display:flex;align-items:center;gap:14px;margin-top:28px;padding:14px 16px;border-radius:14px;background:#FFF6CC;border:1px dashed var(--gold-line)}
+.fb-card-ic{flex-shrink:0;width:36px;height:36px;border-radius:50%;background:var(--gold);color:var(--gold-ink);display:flex;align-items:center;justify-content:center}
+.fb-card-ic svg{width:19px;height:19px}
+.fb-card-t{flex:1;min-width:0;font-size:13.5px;color:var(--ink2);line-height:1.45}
+.fb-card-t b{color:var(--gold-ink)}
+.fb-card-btn{flex-shrink:0;border:1.5px solid var(--gold-line);border-radius:999px;background:var(--gold);color:var(--gold-ink);font-size:13px;font-weight:700;padding:9px 15px}
+.fb-area{display:flex;flex-direction:column;gap:7px}
+.fb-lbl{font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.fb-chips{display:flex;flex-wrap:wrap;gap:6px}
+.fb-chips button{border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:6px 13px;font-size:13px;font-weight:600;color:var(--ink2)}
+.fb-chips button[aria-pressed="true"]{border-color:var(--plum);background:var(--plum);color:var(--paper)}
+@media (max-width:640px){
+  .fb-float{right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));padding:11px 15px 11px 13px;font-size:13px}
+  .fb-card{flex-wrap:wrap}
+  .fb-card-btn{margin-left:50px}
+}
+
+/* ---------- what's new ---------- */
+.wn-banner{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--plum-soft);border:1px solid rgba(126,42,85,.25);border-radius:14px;padding:12px 12px 12px 16px}
+.wn-tag{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:var(--plum);color:var(--paper);border-radius:999px;padding:3px 9px}
+.wn-text{flex:1;min-width:200px;font-size:14px;color:var(--ink2)}
+.wn-text b{color:var(--plum)}
+.wn-open{border:none;border-radius:999px;background:var(--plum);color:var(--paper);font-size:13px;font-weight:700;padding:8px 15px}
+.wn-x{border:none;background:transparent;color:var(--plum);font-size:13px;padding:6px 8px;border-radius:6px;opacity:.7}
+.wn-x:hover{opacity:1;background:rgba(126,42,85,.08)}
+.menu .new-dot{background:var(--gold);color:var(--gold-ink)}
+.wn-list{display:flex;flex-direction:column;gap:14px}
+.wn-entry{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.wn-entry.latest{border-color:rgba(126,42,85,.4);box-shadow:0 0 0 3px var(--plum-soft)}
+.wn-meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font-size:12.5px;color:var(--muted)}
+.wn-ver{font-weight:700;color:var(--plum)}
+.wn-entry h4{font-family:var(--serif);font-weight:400;font-size:21px;margin:6px 0 8px}
+.wn-entry ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:5px;font-size:14px;color:var(--ink2);line-height:1.45}
+
+.menu .mi{display:inline-flex;align-items:center;gap:8px}
+.menu .new-tag{font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:var(--gold);color:var(--gold-ink);border-radius:999px;padding:1px 7px}
+
+/* ---------- the Founding 100 ---------- */
+.brand-row{display:flex;flex-direction:column;align-items:center;gap:12px;border-radius:14px;padding:2px 6px}
+.stamp-row{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 8px;max-width:640px}
+.ms{position:relative;width:52px;height:52px;border:none;background:transparent;padding:0;cursor:help;border-radius:50%}
+.ms svg{width:100%;height:100%;display:block}
+.ms.faded svg{opacity:.32;filter:grayscale(.5)}
+.ms.anim svg{animation:fStampIn .6s cubic-bezier(.2,1.4,.4,1) both}
+.ms::after{content:attr(data-tip);position:absolute;left:50%;top:calc(100% + 8px);transform:translateX(-50%) translateY(-3px);width:max-content;max-width:220px;white-space:normal;text-align:center;background:var(--ink);color:var(--paper);font-size:12px;font-weight:600;line-height:1.35;padding:7px 10px;border-radius:8px;box-shadow:0 6px 16px rgba(33,28,46,.25);opacity:0;pointer-events:none;transition:opacity .12s,transform .12s;z-index:25}
+.ms:hover::after,.ms:focus-visible::after,.ms.tip-on::after{opacity:1;transform:translateX(-50%) translateY(0)}
+.f-line{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 14px}
+.f-gift{display:inline-flex;align-items:center;gap:7px;border:1.5px solid var(--gold-line);background:#FFF6CC;color:var(--gold-ink);border-radius:999px;padding:6px 14px;font-size:13px;font-weight:700}
+.f-gift:hover{background:var(--gold)}
+@media (max-width:640px){ .ms{width:48px;height:48px} }
+.f-wrap{display:flex;align-items:center;gap:8px;white-space:nowrap}
+.f-marks{display:flex;align-items:center;border:none;background:transparent;padding:0;cursor:pointer}
+.f-stamp{display:block;width:74px;height:74px;mix-blend-mode:multiply}
+.f-stamp.anim{animation:fStampIn .6s cubic-bezier(.2,1.4,.4,1) both}
+.f-stamp svg{width:100%;height:100%;display:block}
+.f-elite{margin-left:-16px}
+.f-elite.anim{animation-delay:.12s}
+.f-side{display:flex;flex-direction:column;align-items:flex-start;gap:5px}
+.f-left{border:none;background:transparent;padding:0;font-size:12.5px;color:var(--gold-ink);cursor:pointer}
+.f-left b{font-family:var(--serif);font-weight:400;font-size:17px;margin-right:2px}
+.f-left:hover{text-decoration:underline}
+.f-info{display:flex;flex-direction:column;gap:12px}
+.f-lead{margin:0;font-family:var(--serif);font-size:21px;color:var(--ink)}
+.f-hint{margin:0;font-size:13.5px;color:var(--muted)}
+.f-you{margin:0;font-size:14px;font-weight:700;color:var(--gold-ink)}
+.f-info .f-counter{margin-top:0;align-self:flex-start}
+.f-link-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+@keyframes fStampIn{0%{opacity:0;transform:scale(1.5) rotate(8deg)}60%{opacity:1;transform:scale(.94)}100%{transform:none}}
+.f-inv-pill{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--gold-line);background:#FFF6CC;color:var(--gold-ink);border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:700}
+.f-inv-ic{display:inline-flex;width:15px;height:15px}.f-inv-ic svg{width:100%;height:100%}
+.f-banner{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:#FFF6D6;border:1.5px solid #E0B800;border-radius:16px;padding:14px 16px}
+.f-banner.quiet{background:var(--sand);border:1px solid var(--line)}
+.f-banner-stamp{width:58px;height:58px;flex-shrink:0}.f-banner-stamp svg{width:100%;height:100%}
+.f-banner-t{flex:1;min-width:220px;display:flex;flex-direction:column;gap:2px;font-size:14px;color:var(--ink2);line-height:1.45}
+.f-banner-t b{color:#5E4300;font-size:15px}
+.f-banner.quiet .f-banner-t b{color:var(--ink)}
+.f-banner-btn{border:none;border-radius:999px;background:var(--plum);color:var(--paper);font-size:13px;font-weight:700;padding:9px 16px}
+.f-banner-btn.ghost{background:transparent;color:var(--plum);box-shadow:inset 0 0 0 1.5px rgba(126,42,85,.4)}
+.toast-inv{display:flex;align-items:center;gap:12px;padding:8px 8px 8px 18px}
+.toast-btn{border:none;border-radius:999px;background:var(--gold);color:var(--gold-ink);font-size:12.5px;font-weight:700;padding:7px 13px;white-space:nowrap}
+.menu-sel{margin:4px 8px 6px;border:none;border-radius:8px;background:rgba(255,255,255,.16);color:var(--paper);font-size:12.5px;padding:7px 8px}
+.menu-sel option{color:#211C2E}
+.f-list{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;font-size:14.5px;color:var(--ink2);line-height:1.5}
+.f-counter{margin-top:16px;display:inline-flex;align-items:baseline;gap:6px;background:#FFF6D6;border:1px solid #E0B800;border-radius:999px;padding:6px 14px;font-size:13.5px;color:var(--gold-ink)}
+.f-counter b{font-family:var(--serif);font-size:20px;font-weight:400}
+.f-checks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.f-checks li{display:flex;align-items:center;gap:10px;font-size:14.5px;padding:10px 12px;border-radius:10px;background:var(--card);border:1px solid var(--line)}
+.f-checks li.ok{color:var(--good)}
+.f-checks li.no{color:var(--warn);border-color:rgba(138,44,36,.3);background:var(--warn-bg)}
+.f-tick{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;flex-shrink:0;background:currentColor}
+.f-checks li .f-tick{color:inherit}
+.f-checks li.ok .f-tick{background:var(--good);color:#fff}.f-checks li.no .f-tick{background:var(--warn);color:#fff}
+.f-welcome{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px}
+.f-welcome h4{font-family:var(--serif);font-weight:400;font-size:28px;margin:0;color:#7A5800}
+.f-welcome p{margin:0;font-size:14.5px;color:var(--ink2);max-width:30em}
+.f-welcome .sheet-actions{justify-content:center}
+.f-big-stamp{display:block;width:150px;height:150px;animation:fStampIn .7s cubic-bezier(.2,1.4,.4,1) .15s both}
+.f-big-stamp svg{width:100%;height:100%;display:block}
+.f-big-stamp.sm{width:84px;height:84px}
+.f-name{display:flex;flex-direction:column;gap:6px;width:100%;max-width:320px;text-align:left}
+.f-name > span{font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.f-name .tf{width:100%;border:1.5px solid var(--line);border-radius:12px;background:var(--card);padding:10px 13px;font-size:14.5px}
+.f-name .tf:focus{outline:none;border-color:var(--plum)}
+.f-body{display:flex;flex-direction:column;gap:16px}
+.f-head{display:flex;align-items:center;gap:6px 14px;flex-wrap:wrap}
+.f-head .f-big-stamp.sm + .f-big-stamp.sm{margin-left:-22px}
+.f-head-t{display:flex;flex-direction:column;gap:2px;font-size:13px;color:var(--muted)}
+.f-head-t b{font-family:var(--serif);font-weight:400;font-size:22px;color:#7A5800}
+.f-elite-line{font-weight:700;color:#5E4300}
+.f-prog{display:flex;align-items:center;gap:12px;background:var(--sand);border-radius:12px;padding:12px 14px;font-size:13.5px;color:var(--ink2);line-height:1.45}
+.f-prog.done{background:#FFF6D6;color:#5E4300}
+.f-dots{display:flex;gap:5px;flex-shrink:0}
+.f-dots i{width:14px;height:14px;border-radius:50%;border:2px solid #B8860B;background:transparent}
+.f-dots i.on{background:#B8860B}
+.f-sub{font-family:var(--serif);font-weight:400;font-size:20px;margin:0 0 8px}
+.f-invites{display:flex;flex-direction:column;gap:8px}
+.f-inv{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:10px 12px}
+.f-inv.joined{background:var(--good-bg);border-color:#9CCBAE}
+.f-inv-top{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.f-inv-n{font-weight:700;font-size:14px}
+.f-chip{font-size:11px;font-weight:700;border-radius:999px;padding:2px 9px;background:var(--sand);color:var(--ink2)}
+.f-chip.joined{background:var(--good);color:#fff}.f-chip.opened{background:#FFF6CC;color:var(--gold-ink)}
+.f-inv-link{flex:1;min-width:150px;font-size:12.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.f-inv-acts{display:flex;flex-wrap:wrap;gap:6px}
+.mini{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:700;color:var(--ink2);text-decoration:none;display:inline-flex;align-items:center}
+.mini:hover{border-color:var(--plum);color:var(--plum)}
+.mini.wa{background:#25D366;border-color:#25D366;color:#073B1C}
+.f-qr{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.f-qr-box{width:160px;height:160px;padding:6px;background:#fff;border:1px solid var(--line);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--muted);text-align:center}
+.f-qr p{flex:1;min-width:180px;margin:0;font-size:13.5px;color:var(--ink2);line-height:1.5}
+.f-preview{background:var(--plum-soft);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:4px}
+.f-preview p{margin:0;font-size:14px;color:var(--ink);line-height:1.5}
+.fb-founder{margin:0;font-size:12.5px;font-weight:700;color:var(--gold-ink)}
+@media (max-width:640px){
+  .f-stamp{width:62px;height:62px}
+  .f-banner{padding:12px}
+  .f-banner-stamp{width:46px;height:46px}
+}
+
+.loc-day{display:flex;align-items:center;gap:6px;flex-shrink:0;font-size:12px;font-weight:600;color:var(--muted)}
+.loc-day .day-select{width:84px;background:var(--sand);border-color:var(--line)}
+.wif-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.wif-grid.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.prev-body.iw{gap:14px}
+.wif-grid > label{display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.wif-grid .wif-in{align-self:stretch}
+.wif-grid .wif-in input{width:100%}
+.wif-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--line);padding-top:14px}
+.wif-stats > div{display:flex;flex-direction:column;gap:2px;padding-right:12px}
+.wif-stats > div + div{padding-left:14px;border-left:1px solid var(--line)}
+.wif-stats .k{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.wif-stats .v{font-family:var(--serif);font-size:24px;font-variant-numeric:tabular-nums;color:var(--ink)}
+.wif-stats .v.hi{color:var(--plum)}
+.wif-note{margin:0;font-size:12px;color:var(--faint);line-height:1.5}
+@media (max-width:640px){
+  .wif-grid,.wif-grid.four{grid-template-columns:1fr 1fr}
+  .wif-stats{grid-template-columns:1fr;gap:10px}
+  .wif-stats > div + div{padding-left:0;border-left:none;border-top:1px solid var(--line);padding-top:10px}
+  .loc-day > span{display:none}
+}
+
+.sw-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;font-size:14.5px;color:var(--ink2)}
+.sw-box{display:inline-flex;align-items:center;gap:4px;border:1.5px solid var(--line);border-radius:10px;background:var(--card);padding:2px 10px;font-weight:700;color:var(--plum)}
+.sw-box:focus-within{border-color:var(--plum)}
+.sw-in{width:70px;border:none;background:transparent;font-size:15px;font-weight:600;color:var(--ink);padding:7px 2px;outline:none;font-variant-numeric:tabular-nums}
+#f-swy,#f-swmo{width:36px;text-align:center}
+.sw-out{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;border-top:1px solid var(--line);padding-top:12px;margin-top:4px}
+.sw-k{font-size:14px;color:var(--ink2)}
+.sw-total{font-family:var(--serif);font-size:30px;color:var(--plum);font-variant-numeric:tabular-nums}
+.sw-sub{font-size:12.5px;color:var(--muted)}
+
+.ns-row{display:flex;flex-wrap:wrap;justify-content:center;gap:16px}
+.ns-item{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:14px;color:var(--ink)}
+.f-big-stamp.ns{width:120px;height:120px}
+.ef-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ef-pick{display:flex;flex-direction:column;gap:6px;font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.ef-pick .xsel{text-transform:none;letter-spacing:0}
+.isa-mark{flex-shrink:0;border:1px dashed rgba(31,111,139,.45);background:transparent;border-radius:999px;padding:3px 9px;font-size:11.5px;font-weight:700;color:#1F6F8B;white-space:nowrap}
+.isa-mark[aria-pressed="true"]{border-style:solid;border-color:#1F6F8B;background:#1F6F8B;color:#fff}
+@media (max-width:640px){ .ef-grid{grid-template-columns:1fr} .f-big-stamp.ns{width:96px;height:96px} }
+
+.f-bar{position:fixed;top:0;left:0;right:0;z-index:31;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:4px 16px;padding:calc(6px + env(safe-area-inset-top,0px)) 16px 6px;min-height:42px;background:#FFF6D6;border-bottom:1px solid #EBD58A}
+.f-bar .f-gift{padding:4px 13px;font-size:12.5px}
+body.has-fbar .corner{top:calc(62px + env(safe-area-inset-top,0px))}
+body.has-fbar .menu{top:calc(116px + env(safe-area-inset-top,0px))}
+body.has-fbar .page{padding-top:84px}
+@media (max-width:640px){ .f-bar{flex-wrap:nowrap;gap:8px} .f-bar .fb-long{display:none} .f-bar .f-left{white-space:nowrap} .f-bar .f-gift{font-size:12px;padding:4px 10px;white-space:nowrap} body.has-fbar .page{padding-top:76px} }
+
+.stamp-row.stack{gap:0;flex-wrap:nowrap}
+.stamp-row.stack .ms{box-shadow:0 0 0 2.5px var(--paper);transition:transform .15s}
+.stamp-row.stack .ms + .ms{margin-left:calc(var(--ov) * -1)}
+.stamp-row.stack .ms:hover,.stamp-row.stack .ms:focus-visible,.stamp-row.stack .ms.tip-on{transform:translateY(-6px) scale(1.12);z-index:6}
+@media (max-width:640px){ .ms{width:46px;height:46px} .brand-row .stamp-row{margin-inline:-34px} }
+.inv-group{overflow:visible}
+.inv-group > .group-head{border-radius:14px 14px 0 0}
+.inv-group > .foot{border-radius:0 0 14px 14px}
+.worth-cell{position:relative}
+.worth-cell::after{content:attr(data-tip);position:absolute;right:0;bottom:calc(100% + 6px);width:max-content;max-width:220px;white-space:normal;text-align:left;background:var(--ink);color:var(--paper);font-size:12px;font-weight:600;line-height:1.35;padding:7px 10px;border-radius:8px;box-shadow:0 6px 16px rgba(33,28,46,.25);opacity:0;pointer-events:none;transform:translateY(3px);transition:opacity .12s,transform .12s;z-index:20}
+.worth-cell:hover::after,.worth-cell:focus-within::after{opacity:1;transform:none}
+.stale-dot{position:absolute;top:4px;right:2px;width:8px;height:8px;border-radius:50%;background:#E0A400;box-shadow:0 0 0 2px var(--gb)}
 /* ---------- landing page (signed-out visitors) ---------- */
 #landing{
   --plum:#7E2A55; --plum-deep:#5E1D3F; --plum-soft:#F3E6ED; --plum-ink:#4A1631;
@@ -758,7 +1136,20 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
   // Only these parts of the planner are saved. Things like "which menu is
   // open" are not. Month/year aren't saved either, so each visit opens on
   // the current month. 'v' records which version last updated the data.
-  var SAVED_KEYS = ['groups', 'locations', 'targets', 'aims', 'notes', 'records', 'recExpanded', 'v'];
+  // The planner lists what it saves (window.PlannerApp.savedKeys); 'v' is added here.
+  // Things like "which menu is open" are never saved.
+  function savedKeys() { return ((window.PlannerApp && window.PlannerApp.savedKeys) || []).concat(['v']); }
+
+  // Invite links look like paystamp.co.uk/?invite=CODE. Keep the code until the
+  // visitor has an account, then link them to whoever invited them.
+  var INVITE_KEY = 'paystamp-invite';
+  (function () {
+    var m = /[?&]invite=([A-Za-z0-9]{4,12})/.exec(window.location.search);
+    if (!m) return;
+    try { localStorage.setItem(INVITE_KEY, m[1].toUpperCase()); } catch (e) {}
+    try { history.replaceState(null, '', window.location.pathname + window.location.hash); } catch (e) {}
+  })();
+  function storedInvite() { try { return localStorage.getItem(INVITE_KEY) || ''; } catch (e) { return ''; } }
 
   var configured = /^https:\/\//.test(SUPABASE_URL) && SUPABASE_ANON_KEY.indexOf('PASTE_') !== 0;
   var sb = configured && window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
@@ -786,7 +1177,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
   /* ---------- saving ---------- */
   function snapshot(state) {
     var out = {};
-    SAVED_KEYS.forEach(function (k) { if (state[k] !== undefined) out[k] = state[k]; });
+    savedKeys().forEach(function (k) { if (state[k] !== undefined) out[k] = state[k]; });
     return out;
   }
 
@@ -847,10 +1238,42 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     }
   }
 
+  /* ---------- founder profile (the Founding 100) ----------
+     The numbers live in the 'profiles' table and are only ever changed by the
+     database functions in supabase-v3.sql, so nobody can give themselves a number. */
+  function founderFrom(p, old) {
+    old = old || {};
+    if (!p) return Object.assign({ number: null, name: '', elite: false, eliteNumber: null, joined: 0, code: '', placesLeft: 0, eliteTaken: 0 }, old);
+    return {
+      number: p.founder_number || null,
+      since: p.founder_since || old.since || '',
+      name: old.name || '',
+      elite: !!p.elite_number,
+      eliteNumber: p.elite_number || null,
+      joined: p.joined || 0,
+      code: p.invite_code || '',
+      placesLeft: Math.max(0, p.places_left || 0),
+      eliteTaken: p.elite_taken || 0,
+    };
+  }
+  function rpc(name, args) {
+    return sb.rpc(name, args || {}).then(function (res) { if (res.error) throw res.error; return res.data; });
+  }
+  function linkInvite(u) {
+    var code = storedInvite() || (u.user_metadata && u.user_metadata.invite) || '';
+    if (!code) return Promise.resolve();
+    return rpc('set_inviter', { code: code }).catch(function () {}).then(function () {
+      try { localStorage.removeItem(INVITE_KEY); } catch (e) {}
+    });
+  }
+
   function loadForUser(u) {
     user = u;
     renderAuth('loading');
-    sb.from('planners').select('data').eq('user_id', u.id).maybeSingle().then(function (res) {
+    var profile = linkInvite(u).then(function () { return rpc('get_my_profile'); }).catch(function () { return null; });
+    var planner = sb.from('planners').select('data').eq('user_id', u.id).maybeSingle();
+    Promise.all([planner, profile]).then(function (out) {
+      var res = out[0], prof = out[1];
       if (res.error) {
         renderAuth('signin', { error: "We couldn't load your planner (" + res.error.message + '). Check the database setup, then refresh.' });
         return;
@@ -858,12 +1281,13 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
       var saved = res.data && res.data.data;
       if (saved) {
         lastSaved = JSON.stringify(snapshot(saved));
+        saved.founder = founderFrom(prof, saved.founder);
         setStatus('', 'All changes saved');
         openPlanner(saved);
       } else {
         // Brand-new account: start from the example plan and show the tour.
         setStatus('', 'Welcome — your changes save automatically');
-        openPlanner({ introOpen: true, introStep: 0 });
+        openPlanner({ introOpen: true, introStep: 0, founder: founderFrom(prof) });
       }
     });
   }
@@ -993,7 +1417,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
           // success is handled by onAuthStateChange below
         });
       } else if (mode === 'signup') {
-        sb.auth.signUp({ email: email, password: password, options: { emailRedirectTo: here } }).then(function (res) {
+        sb.auth.signUp({ email: email, password: password, options: { emailRedirectTo: here, data: storedInvite() ? { invite: storedInvite() } : {} } }).then(function (res) {
           if (res.error) { renderAuth('signup', { error: friendlyError(res.error), email: email }); return; }
           if (!res.data.session) {
             renderAuth('signin', { ok: 'Nearly there! We’ve emailed a confirmation link to ' + email + '. Click it, then sign in here.', email: email });
@@ -1024,6 +1448,21 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
   window.PayStamp = {
     onChange: queueSave,
     getEmail: function () { return user ? user.email : (demoMode ? 'Demo mode' : ''); },
+    // The first real stamped month asks the database for the next founder number.
+    // Resolves with the updated founder details (number is null if all 100 are taken).
+    claimFounder: function (since) {
+      if (demoMode || !user) return Promise.resolve(null);
+      return rpc('claim_founder', { since: since }).then(function (p) { return founderFrom(p, {}); });
+    },
+    // Suggestions and bug reports go to the 'feedback' table (Table Editor → feedback).
+    sendFeedback: function (f) {
+      if (demoMode || !user) return Promise.resolve();
+      return sb.from('feedback').insert({
+        user_id: user.id, email: user.email, kind: f.kind, area: f.area, message: f.message,
+        contact_ok: !!f.contactOk, founder_number: f.founder || null, month: f.month,
+        user_agent: String(f.userAgent || '').slice(0, 300), screen: f.screen,
+      }).then(function (res) { if (res.error) throw res.error; });
+    },
     signOut: function () {
       if (demoMode || !sb) { window.location.reload(); return; }
       flushSave();
@@ -1055,7 +1494,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
 
 <script>
 /* =====================================================================
-   PAYSTAMP v2 — MONTHLY PLANNER
+   PAYSTAMP v3 — MONTHLY PLANNER
    Same hooks as v1: window.PlannerApp.start(data) and window.PayStamp.onChange(state),
    so this block can replace section 3 of the live index.html unchanged.
    ===================================================================== */
@@ -1064,7 +1503,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
 
   var state = {};
   var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  var SAVED_KEYS = ['groups','locations','targets','aims','notes','records','recExpanded','v'];
+  var SAVED_KEYS = ['groups','locations','targets','aims','notes','records','recExpanded','debts','debtOrder','debtCustomOrder','debtExtras','savings','savingOrder','savingCustomOrder','savingExtras','savingUsed','investments','investExtras','investUsed','seenWhatsNew','seenPages','founder','milestones','realStamped','efundStarter','efundMain'];
 
   function uid(p) { return p + '_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
 
@@ -1076,16 +1515,14 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
       { key: 'income', title: 'Income', color: '#7E2A55', categories: [
         { id: 'cat_income', name: 'Job', items: [I('i1', 'Salary', '1750', '1750'), I('i2', 'Extras', '150', '150')] } ] },
       { key: 'investSavings', title: 'Investments & Savings', color: '#00602A', categories: [
-        { id: 'cat_invest', name: 'Investments', items: [B('v1', 'Stocks & Shares ISA', '173', '173', 'Barclays')] },
-        { id: 'cat_savings', name: 'Savings', items: [B('s1', 'Emergency fund', '40', '40', 'Monzo'), B('s2', 'Christmas pot', '15', '15', 'Monzo')] } ] },
+        { id: 'cat_invest', name: 'Investments', items: [Object.assign(B('inv_iv1', 'Stocks & Shares ISA', '173', '173', 'Barclays'), { investmentId: 'iv1' })] },
+        { id: 'cat_savings', name: 'Savings', items: [Object.assign(B('sav_sv1', 'Emergency fund', '40', '40', 'Monzo'), { savingId: 'sv1' }), Object.assign(B('sav_sv2', 'Christmas pot', '15', '15', 'Monzo'), { savingId: 'sv2' })] } ] },
       { key: 'costs', title: 'Costs', color: '#8A2C24', categories: [
         { id: 'cat_fixed', name: 'Fixed costs', items: [B('f1', 'Rent', '650', '650', 'Barclays'), B('f2', 'Phone & utilities', '95', '95', 'Monzo'), B('a1', 'Groceries', '220', '220', 'Monzo'), B('a2', 'Transport', '65', '65', 'Monzo')] },
-        { id: 'cat_subscriptions', name: 'Subscriptions', items: [B('sub1', 'Gym', '25', '25', 'Monzo'), B('sub2', 'Spotify', '11', '11', 'Monzo')] },
-        { id: 'cat_variable', name: 'Variable costs', items: [B('a3', 'Credit Card', '50', '50', 'Monzo')] } ] },
+        { id: 'cat_subscriptions', name: 'Subscriptions', items: [B('sub1', 'Gym', '25', '25', 'Monzo'), B('sub2', 'Spotify', '11', '11', 'Monzo')] } ] },
       { key: 'guiltFree', title: 'Guilt-free spending', color: '#00568D', categories: [
         { id: 'cat_guilt', name: 'Guilt-free spending', items: [B('g1', 'Eating out', '300', '300', 'Monzo'), B('g2', 'Shopping', '156', '156', 'Monzo')] } ] },
-      { key: 'extras', title: 'Extras', color: '#7E2A55', categories: [
-        { id: 'cat_debt', name: 'Debt repayment', items: [B('d1', 'Debt repayment', '0', '150', 'Monzo')] } ] },
+      { key: 'extras', title: 'Extras', color: '#7E2A55', categories: [] },
     ];
   }
   function defaultAims() {
@@ -1099,8 +1536,12 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
 
   /* Bring v1 data up to v2 shape (safe to run on every start). */
   function migrate() {
+    // People who already have a plan (from v2) start with empty Debt, Savings and Investments lists,
+    // so no example items are added to their real planner. New people get the full example.
+    var existingPlan = !!state.groups;
+    if (existingPlan) ['debts', 'savings', 'investments'].forEach(function (k) { if (!state[k]) state[k] = []; });
     if (!state.groups) state.groups = defaultGroups();
-    if (!state.locations) state.locations = [{ id: 'loc1', name: 'Monzo' }, { id: 'loc2', name: 'Barclays' }];
+    if (!state.locations) state.locations = [{ id: 'loc1', name: 'Monzo', day: '2' }, { id: 'loc2', name: 'Barclays', day: '1' }];
     if (!state.targets) state.targets = [
       { id: 't1', label: 'Emergency fund at 1000', doing: false, done: false },
       { id: 't2', label: 'Pay off Debt', doing: true, done: false },
@@ -1108,11 +1549,37 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     if (!state.notes) state.notes = [{ id: 'n1', text: 'Focus on clearing debt!' }];
     if (!state.records) state.records = [];
     if (!state.aims) state.aims = defaultAims();
-    // v1 always showed Monzo items as automated, whatever was saved. Keep what people saw.
-    if (!state.v) {
-      state.groups.forEach(function (g) { g.categories.forEach(function (c) { c.items.forEach(function (it) { if (it.account === 'Monzo') it.automated = true; }); }); });
-      state.v = 2;
-    }
+    if (!state.founder || state.founder.view) state.founder = { number: null, name: '', elite: false, eliteNumber: null, joined: 0, code: 'P' + Math.random().toString(36).slice(2, 7).toUpperCase(), placesLeft: 63, eliteTaken: 4 };
+    // debts: [{ id, name, balance, apr, min, monthly }], kept in the order the user sets.
+    if (!state.debtExtras) state.debtExtras = [];
+    if (!state.investExtras) state.investExtras = [];
+    if (!state.investUsed) state.investUsed = [];
+    // investments: [{ id, name, before, value, valueBase, monthly }]
+    //   before = invested before PayStamp; value = what the provider showed when last typed in;
+    //   valueBase = amount invested at that moment, so later stamped contributions are added on top.
+    if (!state.investments) state.investments = [
+      { id: 'iv1', name: 'Stocks & Shares ISA', type: 'isa', before: '4200', value: '5150', valueBase: '4200', monthly: '173' },
+      { id: 'iv2', name: 'Lifetime ISA', type: 'lisa', before: '1800', value: '2010', valueBase: '1800', monthly: '' },
+      { id: 'iv3', name: 'Workplace pension', type: 'pension', before: '8600', value: '9840', valueBase: '8600', monthly: '' } ];
+    state.investments.forEach(function (iv) { if (iv.isa === undefined) iv.isa = iv.type ? iv.type === 'isa' : /stocks.*shares.*isa|s&s isa/i.test(iv.name || ''); });
+    if (!state.milestones) state.milestones = {};
+    if (state.efundStarter === undefined) state.efundStarter = existingPlan ? '' : 'sv1';
+    if (state.efundMain === undefined) state.efundMain = '';
+    if (!state.savingExtras) state.savingExtras = [];
+    if (!state.savingUsed) state.savingUsed = [];  // [{ id, savingId, amount, date, note }]
+    // savings: [{ id, name, goal, saved, aer, monthly }]; saved = what was in the pot when added.
+    if (!state.savings) state.savings = [
+      { id: 'sv1', name: 'Emergency fund', goal: '3000', saved: '1200', aer: '4.1', monthly: '40' },
+      { id: 'sv2', name: 'Christmas pot', goal: '300', saved: '90', aer: '3.0', monthly: '15' },
+      { id: 'sv3', name: 'Holiday', goal: '1500', saved: '250', aer: '3.5', monthly: '' },
+      { id: 'sv4', name: 'House deposit', goal: '15000', saved: '2400', aer: '4.5', monthly: '' } ];
+    var freshDebts = !state.debts;
+    if (!state.debts) state.debts = [
+      { id: 'debt1', name: 'Credit card', balance: '2400', apr: '29.9', min: '72', monthly: '150' },
+      { id: 'debt2', name: 'Car finance', balance: '4800', apr: '7.9', min: '180', monthly: '' },
+      { id: 'debt3', name: 'Overdraft', balance: '650', apr: '39.9', min: '20', monthly: '' },
+      { id: 'debt4', name: 'Store card', balance: '320', apr: '19.9', min: '15', monthly: '' },
+      { id: 'debt5', name: 'Personal loan', balance: '1100', apr: '12.9', min: '85', monthly: '' } ];
     state.aims = state.aims.map(function (a) {
       a = Object.assign({}, a);
       if (a.id === 'cat_fixed' && (!a.label || /fixed costs/i.test(a.label))) a.label = 'Costs';
@@ -1178,12 +1645,13 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
 
   /* ---------- saving + rendering ---------- */
   function save() { if (window.PayStamp && window.PayStamp.onChange) window.PayStamp.onChange(state); }
-  function commit() { save(); scheduleRender(); }
+  function commit() { syncLinkedItems(); syncDebtExtras(); syncSavingExtras(); syncInvestExtras(); save(); scheduleRender(); }
   function set(patch) { Object.assign(state, patch); commit(); }
 
   // A click that blurs an input used to rebuild the page mid-click, which is
   // why you needed to click twice. Now a rebuild waits until the pointer is
   // released, and focus (plus the caret) is put back where you clicked.
+  var shown = {};
   var pointerDown = false, renderPending = false, drag = null, dragEndedAt = 0;
   document.addEventListener('pointerdown', function () { pointerDown = true; }, true);
   function release() { pointerDown = false; if (renderPending) setTimeout(function () { if (renderPending) render(); }, 0); }
@@ -1199,9 +1667,30 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     var ae = document.activeElement, key = ae && ae.dataset ? ae.dataset.k : null, draft = null, s0 = null, s1 = null;
     if (key) { draft = ae.value; try { s0 = ae.selectionStart; s1 = ae.selectionEnd; } catch (e) {} }
     var ov = root.querySelector('.overlay'), ovTop = ov ? ov.scrollTop : 0, y = window.scrollY;
+    shown.overlayEnter = !!state.overlay && state.overlay !== shown.overlay;
+    shown.menuEnter = !!state.openMenu && state.openMenu !== shown.menu;
+    var before = {};
+    root.querySelectorAll('.flip-group [data-row-id]').forEach(function (el) { before[el.dataset.rowId] = el.getBoundingClientRect().top; });
     root.replaceChildren(buildApp());
+    shown.overlay = state.overlay; shown.menu = state.openMenu;
+    // The header stamp plays its stamping animation once: on the first render after the welcome closes.
+    if (state.stampAnim && state.overlay !== 'founderWelcome') state.stampAnim = false;
+    if (state.animStamps && state.overlay !== 'newStamps' && state.overlay !== 'founderWelcome') state.animStamps = null;
+    root.querySelectorAll('[data-qr]').forEach(function (el) { drawQR(el, el.dataset.qr); });
     window.scrollTo(0, y);
     var ov2 = root.querySelector('.overlay'); if (ov2) ov2.scrollTop = ovTop;
+    // Rows that changed place slide from where they were to where they are now.
+    if (!drag && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      root.querySelectorAll('.flip-group [data-row-id]').forEach(function (el) {
+        var b = before[el.dataset.rowId]; if (b == null) return;
+        var dy = b - el.getBoundingClientRect().top;
+        if (Math.abs(dy) > 1 && el.animate) {
+          el.style.position = 'relative'; el.style.zIndex = '1';
+          el.animate([{ transform: 'translateY(' + dy + 'px)' }, { transform: 'none' }], { duration: 380, easing: 'cubic-bezier(.2,.8,.2,1)' })
+            .onfinish = function () { el.style.zIndex = ''; };
+        }
+      });
+    }
     if (key) {
       var n = root.querySelector('[data-k="' + CSS.escape(key) + '"]');
       if (n) {
@@ -1308,6 +1797,9 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     var index = Array.prototype.filter.call(list.children, function (c) { return c.dataset.rowId; }).indexOf(d.row);
     if (d.kind === 'item') moveItem(d.id, list.dataset.listId, index);
     if (d.kind === 'target') moveInList(state.targets, d.id, index);
+    if (d.kind === 'debt') { moveInList(state.debts, d.id, index); debtMovedByHand(); }
+    if (d.kind === 'saving') { moveInList(state.savings, d.id, index); savingMovedByHand(); }
+    if (d.kind === 'investment') moveInList(state.investments, d.id, index);
     commit();
   }
   function moveItem(id, catId, index) {
@@ -1333,6 +1825,18 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     var n = document.querySelector('[data-grip="' + id + '"]'); if (n) n.focus();
   }
 
+  function ordinal(n) { n = Number(n); var t = n % 100; return n + (t > 10 && t < 14 ? 'th' : ['th', 'st', 'nd', 'rd'][n % 10] || 'th'); }
+  // A day-of-month picker ("2nd"), used for payment dates and location transfer dates.
+  function daySelect(key, value, onChange, cls, label) {
+    var opts = [h('option', { value: '', text: '–' })];
+    for (var d = 1; d <= 31; d++) opts.push(h('option', { value: String(d), text: ordinal(d) }));
+    opts.push(h('option', { value: 'last', text: 'Last day' }));
+    var sel = h('select', { class: 'day-select ' + (cls || '') + (value ? '' : ' is-empty'), 'data-k': key, id: key, 'aria-label': label, title: label, onchange: function (e) { onChange(e.target.value); } }, opts);
+    sel.value = value || '';
+    return sel;
+  }
+  function dayText(v) { return v === 'last' ? 'the last day' : 'the ' + ordinal(v); }
+
   /* ---------- actions ---------- */
   function setLocationName(loc, name) {
     var old = loc.name; loc.name = name;
@@ -1349,18 +1853,31 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     var items = [], income = 0, allocated = 0;
     state.groups.forEach(function (g) { g.categories.forEach(function (c) { c.items.forEach(function (it) {
       var v = amt(it.budgeted);
-      items.push({ id: it.id, name: it.label || 'Untitled', groupTitle: g.title, categoryName: c.name || 'Untitled', color: g.color, value: v });
+      items.push({ id: it.id, name: it.label || 'Untitled', groupTitle: g.title, categoryName: c.name || 'Untitled', color: g.color, value: v, debtId: it.debtId || undefined, savingId: it.savingId || undefined, investmentId: it.investmentId || undefined });
       if (g.key === 'income') income += v; else allocated += v;
     }); }); });
     state.records = state.records.filter(function (r) { return !(r.month === month && r.year === year); }).concat([{
       id: uid('rec'), month: month, year: year, stampedAt: new Date().toISOString(), items: items,
       incomeTotal: income, allocatedTotal: allocated, balance: Math.round((income - allocated) * 100) / 100 }]);
+    // The Founding 100: a first real month quietly claims the next number. Nothing is said unless it does.
+    var F = state.founder, real = realMonthCheck().ok;
+    if (real) state.realStamped = true;
+    var fresh = awardMilestones(month + ' ' + year);
+    if (!F.number && F.placesLeft > 0 && real) { claimFounder(month + ' ' + year); state.pendingStamps = fresh; set({}); return; }
+    if (fresh.length) { state.pendingStamps = fresh; set({ overlay: 'newStamps' }); return; }
     set({ stampFlash: true, stampFlashLabel: month + ' ' + year });
     clearTimeout(stampMonth.t);
     stampMonth.t = setTimeout(function () { state.stampFlash = false; scheduleRender(); }, 3200);
   }
   function openOverlay(name) { set({ overlay: name, openMenu: null }); }
+  // New pages carry a "New" tag in the menu until they've been opened once.
+  function isNewPage(key) { return !(state.seenPages || {})[key]; }
+  function openPage(key) { state.seenPages = Object.assign({}, state.seenPages); state.seenPages[key] = true; openOverlay(key); }
   function closeOverlay() { if (Date.now() - dragEndedAt < 300) return; set({ overlay: null, exportMsg: null }); }
+  // Clicking anywhere outside an open menu closes it.
+  document.addEventListener('click', function (e) {
+    if (state.openMenu && !e.target.closest('.menu, .corner')) set({ openMenu: null });
+  });
   document.addEventListener('keydown', function (e) {
     if (e.key !== 'Escape') return;
     if (state.overlay) set({ overlay: null, exportMsg: null }); else if (state.openMenu) set({ openMenu: null });
@@ -1368,13 +1885,13 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
 
   /* ---------- tour ---------- */
   var TOUR = [
-    { title: 'Welcome to PayStamp v2', body: 'Plan every pound of your pay, month by month. Press Next for a quick look at what’s where.', accent: '#7E2A55', id: null },
-    { title: 'Pick your month', body: 'Choose the month and year you’re planning. Everything below applies to it.', accent: '#211C2E', id: 'tour-month' },
-    { title: 'Your categories', body: 'Click any name or amount once to edit it. Set where each payment goes in Location and tick Auto once it pays itself. Drag the ⠿ grip to reorder items or move them to another category.', accent: '#00602A', id: 'tour-categories' },
-    { title: 'Recommended percentages', body: 'Type your aim %. Aim Value shows what that is in pounds and Current Value shows what you’ve actually budgeted.', accent: '#E0B800', id: 'tour-recommended' },
-    { title: 'Month summary', body: 'Your pay against what you’ve budgeted and targeted, plus how much goes to each bank. Aim for a zero balance.', accent: '#00602A', id: 'tour-balance' },
-    { title: 'Targets, notes and locations', body: 'These live in the menu at the top right now. Each one opens over the planner and closes when you’re done.', accent: '#7E2A55', id: 'tour-menu' },
-    { title: 'Stamp your month', body: 'Happy with the numbers? STAMP saves this month into your Records (top left).', accent: '#7E2A55', id: 'tour-stamp' },
+    { title: 'Welcome to PayStamp', body: 'Give every pound of your pay a job, month by month. Here’s a quick look around in 7 steps.', accent: '#7E2A55', id: null },
+    { title: 'Plan your month', body: 'Pick the month, then click any name or amount to edit it. Set where each payment goes, the day it’s paid and whether it’s automated. Drag the ⠿ grip to move things around.', accent: '#00602A', id: 'tour-categories' },
+    { title: 'Check your balance', body: 'Your pay against what you’ve budgeted, and how much goes to each bank. Aim for £0, so every pound has a job.', accent: '#00602A', id: 'tour-balance' },
+    { title: 'Debt, Savings and Investments', body: 'The menu at the top left. Give something a monthly amount and it appears in this planner with a small tag.', accent: '#7E2A55', id: 'tour-left' },
+    { title: 'Stamp your month', body: 'Happy with the numbers? STAMP saves the month to your Records, pays down your debts and adds to your savings.', accent: '#7E2A55', id: 'tour-stamp' },
+    { title: 'Collect stamps', body: 'Hit milestones like a full emergency fund or 3 months in a row and a stamp appears up here. The first 100 users also get a numbered founder stamp.', accent: '#B8860B', id: 'tour-founder' },
+    { title: 'More in the top-right menu', body: 'Targets, Notes, Locations, What’s new and Suggestions. Tell us what you think any time, with the yellow Suggestions button.', accent: '#7E2A55', id: 'tour-menu' },
   ];
   function tourGo(i) {
     set({ introStep: i });
@@ -1389,23 +1906,41 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
   /* ---------- views ---------- */
   function buildApp() {
     var frag = document.createDocumentFragment();
+    var bar = founderLine(); if (bar) frag.append(bar);
+    document.body.classList.toggle('has-fbar', !!bar);
     frag.append(buildCorners(), buildPage());
     if (state.overlay === 'records') frag.append(sheet('Monthly Record', 'Every month you stamp is saved here so you can look back and compare.', recordsBody(), true));
     if (state.overlay === 'targets') frag.append(sheet('Targets', targetsSub(), targetsBody()));
     if (state.overlay === 'notes') frag.append(sheet('Notes', 'Quick notes to yourself. They stay put from month to month.', notesBody()));
+    if (state.overlay === 'invites') frag.append(sheet(state.founder.placesLeft > 0 ? 'Invite friends' : 'Share PayStamp', 'Share your personal link as often as you like.', invitesBody()));
+    if (state.overlay === 'newStamps') frag.append(sheet((state.pendingStamps || []).length > 1 ? 'New stamps' : 'New stamp', '', newStampsBody()));
+    if (state.overlay === 'founderWelcome') frag.append(sheet('You’re a founder', '', founderWelcomeBody()));
+    if (state.overlay === 'founderInfo') frag.append(sheet('What’s a founder?', '', founderInfoBody()));
+    if (state.overlay === 'whatsnew') frag.append(sheet('What’s new', 'What’s changed in the latest PayStamp update.', whatsNewBody()));
+    if (state.overlay === 'feedback') frag.append(sheet(state.fbSent ? 'Thank you' : 'Suggestions', state.fbSent ? '' : 'PayStamp is brand new. Got an idea, or found something that isn’t working? Tell us here.', feedbackBody()));
     if (state.overlay === 'locations') frag.append(sheet('Locations', 'The banks and accounts your money goes to. Renaming one updates every item that uses it.', locationsBody()));
+    if (state.overlay === 'investments') frag.append(sheet('Investments', 'What you’ve put in, what it’s worth now, and how it’s growing.', investmentsBody(), 'mid'));
+    if (state.overlay === 'savings') frag.append(sheet('Savings', 'Everything you’re saving towards, and how much you’ve saved so far.', savingsBody(), 'mid'));
+    if (state.overlay === 'debt') frag.append(sheet('Debt', 'Every debt you’re paying off. Put them in the order you want to tackle them.', debtBody(), 'mid'));
     if (state.introOpen) frag.append(buildTour());
+    var onFbStep = state.introOpen && TOUR[state.introStep || 0].id === 'tour-feedback';
+    if (!state.overlay && (!state.introOpen || onFbStep)) frag.append(withHi(h('button', { type: 'button', class: 'fb-float', id: 'tour-feedback', 'aria-label': 'Suggestions', onclick: function () { openFeedback('planner'); }, html: FB_ICON + '<span>Suggestions</span>' }), 'tour-feedback'));
     return frag;
   }
 
   function buildCorners() {
     var f = document.createDocumentFragment();
     var bars = function () { return h('span', { class: 'bars' }, [h('i'), h('i'), h('i')]); };
-    f.append(btn('corner left' + (state.stampFlash ? ' pulse' : ''), 'Open records menu', function () { set({ openMenu: state.openMenu === 'left' ? null : 'left' }); }, [bars()]));
+    f.append(withHi(btn('corner left' + (state.stampFlash ? ' pulse' : ''), 'Open menu', function () { set({ openMenu: state.openMenu === 'left' ? null : 'left' }); }, [bars()], { id: 'tour-left' }), 'tour-left'));
     var right = btn('corner right', 'Open planner menu', function () { set({ openMenu: state.openMenu === 'right' ? null : 'right' }); }, [bars()], { id: 'tour-menu' });
     f.append(withHi(right, 'tour-menu'));
     if (state.openMenu === 'left') {
-      f.append(h('div', { class: 'menu left' }, [
+      var soon = function (label) { return h('button', { type: 'button', disabled: true, title: label + ' is coming soon' }, [label, h('span', { class: 'count', text: 'Soon' })]); };
+      f.append(h('div', { class: 'menu left' + (shown.menuEnter ? ' enter' : '') }, [
+        h('button', { type: 'button', onclick: function () { openPage('debt'); } }, [h('span', { class: 'mi' }, ['Debt', isNewPage('debt') ? h('span', { class: 'new-tag', text: 'New' }) : null]), h('span', { class: 'count', text: String(state.debts.length) })]),
+        h('button', { type: 'button', onclick: function () { openPage('savings'); } }, [h('span', { class: 'mi' }, ['Savings', isNewPage('savings') ? h('span', { class: 'new-tag', text: 'New' }) : null]), h('span', { class: 'count', text: String(state.savings.length) })]),
+        h('button', { type: 'button', onclick: function () { openPage('investments'); } }, [h('span', { class: 'mi' }, ['Investments', isNewPage('investments') ? h('span', { class: 'new-tag', text: 'New' }) : null]), h('span', { class: 'count', text: String(state.investments.length) })]),
+        h('div', { class: 'sep' }),
         h('button', { type: 'button', onclick: function () { openOverlay('records'); } }, ['Records', h('span', { class: 'count', text: String(state.records.length) })]) ]));
     }
     if (state.openMenu === 'right') {
@@ -1414,8 +1949,12 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
         h('button', { type: 'button', onclick: function () { openOverlay('targets'); } }, ['Targets', h('span', { class: 'count', text: doneCount + '/' + state.targets.length })]),
         h('button', { type: 'button', onclick: function () { openOverlay('notes'); } }, ['Notes', h('span', { class: 'count', text: String(state.notes.length) })]),
         h('button', { type: 'button', onclick: function () { openOverlay('locations'); } }, ['Locations', h('span', { class: 'count', text: String(state.locations.length) })]),
+        h('button', { type: 'button', onclick: function () { openWhatsNew(); } }, ['What’s new', state.seenWhatsNew !== WN[0].version ? h('span', { class: 'count new-dot', text: 'New' }) : null]),
+        h('button', { type: 'button', onclick: function () { openFeedback(); } }, ['Suggestions']),
         h('div', { class: 'sep' }),
         h('button', { type: 'button', onclick: function () { set({ introOpen: true, introStep: 0, openMenu: null }); } }, ['Intro tour']),
+        state.founder.placesLeft > 0 ? h('button', { type: 'button', onclick: function () { openOverlay('founderInfo'); } }, ['What’s a founder?']) : null,
+        h('button', { type: 'button', onclick: function () { openOverlay('invites'); } }, [state.founder.placesLeft > 0 ? 'Invite friends' : 'Share PayStamp']),
       ];
       var P = window.PayStamp || {};
       if (P.preview) {
@@ -1429,7 +1968,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
         if (email) kids.push(h('div', { class: 'who', text: email }));
         kids.push(h('button', { type: 'button', onclick: function () { P.signOut(); } }, ['Sign out']));
       }
-      f.append(h('div', { class: 'menu right' }, kids));
+      f.append(h('div', { class: 'menu right' + (shown.menuEnter ? ' enter' : '') }, kids));
     } else if (state.resetArmed) state.resetArmed = false;
     return f;
   }
@@ -1443,7 +1982,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
       s.value = value; return s;
     };
     var head = h('header', { class: 'head' }, [
-      h('div', { class: 'brand' }, [logo(34), h('span', { text: 'PayStamp' })]),
+      withHi(h('div', { class: 'brand-row', id: 'tour-founder' }, [h('div', { class: 'brand' }, [logo(46), h('span', { text: 'PayStamp' })]), stampRow()]), 'tour-founder'),
       h('h1', { class: 'title', text: 'Monthly Planner' }),
       h('div', { class: 'rule' }),
       withHi(h('div', { class: 'month-pick', id: 'tour-month' }, [
@@ -1454,13 +1993,14 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     var t = totals();
     var content = h('main', { class: 'content' });
     content.append(head);
+    var wb = whatsNewBanner(); if (wb) content.append(wb);
     state.groups.filter(function (g) { return g.key === 'income'; }).forEach(function (g) { content.append(groupCard(g, t)); });
     content.append(recBox(t));
     var rest = state.groups.filter(function (g) { return g.key !== 'income'; });
     var restWrap = withHi(h('div', { id: 'tour-categories', style: 'display:flex;flex-direction:column;gap:30px;border-radius:14px' }), 'tour-categories');
     rest.forEach(function (g) { restWrap.append(groupCard(g, t)); });
     content.append(restWrap, summaryCard(t), stampBlock());
-    if (window.PayStamp && window.PayStamp.preview) content.append(h('div', { class: 'status' }, [h('i'), 'v2 preview · changes stay in this browser']));
+    if (window.PayStamp && window.PayStamp.preview) content.append(h('div', { class: 'status' }, [h('i'), 'Preview · changes stay in this browser']));
     return h('div', { class: 'page' }, [content]);
   }
 
@@ -1484,9 +2024,10 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     var blk = h('div', { class: 'cat', 'data-drop-block': 'item' });
     blk.append(h('div', { class: 'cat-head' }, [
       field('cat-' + c.id, c.name, function (v) { c.name = v; commit(); }, { cls: 'cat-name', ph: 'Category name', label: 'Category name' }),
+      g.key !== 'income' ? h('span', { class: 'cat-share', title: 'Share of take-home pay', text: pct(catSum(c, 'budgeted'), totals().income) + ' of pay' }) : null,
       btn('rm', 'Remove category ' + (c.name || ''), function () { g.categories = g.categories.filter(function (x) { return x !== c; }); commit(); }, ['✕']) ]));
     blk.append(h('div', { class: 'row colhead' }, [
-      h('span', { class: 'c-name', text: 'Item' }), h('span', { class: 'c-loc', text: 'Location' }), h('span', { class: 'c-auto', text: 'Automated' }),
+      h('span', { class: 'c-name', text: 'Item' }), h('span', { class: 'c-loc', text: 'Location' }), h('span', { class: 'c-date', text: 'Paid on' }), h('span', { class: 'c-auto', text: 'Automated' }),
       h('span', { class: 'c-tgt', text: g.key === 'income' ? 'Expected' : 'Target' }), h('span', { class: 'c-bud', text: g.key === 'income' ? 'Actual pay' : 'Budgeted' }) ]));
     var list = h('div', { class: 'item-list', 'data-drop-kind': 'item', 'data-list-id': c.id }, [h('div', { class: 'empty-hint', text: 'No items yet. Drag one here or add a new one.' })]);
     c.items.forEach(function (it) { list.append(itemRow(it, g.key === 'income')); });
@@ -1518,11 +2059,14 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     var auto = h('button', { type: 'button', class: 'auto c-auto', 'aria-pressed': String(!!it.automated), 'aria-label': 'Automated: ' + (it.label || 'item'), title: it.automated ? 'Automated' : 'Not automated', html: CHECK,
       onclick: function () { it.automated = !it.automated; commit(); } });
     row.append(grip,
-      field('lbl-' + it.id, it.label, function (v) { it.label = v; commit(); }, { cls: 'cell c-name', ph: 'Item name', label: 'Item name' }),
-      loc, auto,
+      linkTag(it) ? h('div', { class: 'c-name name-wrap' }, [field('lbl-' + it.id, it.label, function (v) { it.label = v; commit(); }, { cls: 'cell', ph: 'Item name', label: 'Item name' }), linkTag(it)])
+        : field('lbl-' + it.id, it.label, function (v) { it.label = v; commit(); }, { cls: 'cell c-name', ph: 'Item name', label: 'Item name' }),
+      loc,
+      daySelect('day-' + it.id, it.payDay, function (v) { it.payDay = v; commit(); }, 'c-date', 'Payment date for ' + (it.label || 'item')),
+      auto,
       field('tgt-' + it.id, it.target, function (v) { it.target = v; commit(); }, { cls: 'cell num c-tgt', ph: '0', num: true, label: (isIncome ? 'Expected pay for ' : 'Target for ') + (it.label || 'item') }),
-      field('bud-' + it.id, it.budgeted, function (v) { it.budgeted = v; commit(); }, { cls: 'cell num c-bud', ph: '0', num: true, label: (isIncome ? 'Actual pay for ' : 'Budgeted for ') + (it.label || 'item') }),
-      btn('rm c-rm', 'Remove ' + (it.label || 'item'), function () { var f = findItem(it.id); f.c.items.splice(f.idx, 1); commit(); }, ['✕']));
+      field('bud-' + it.id, it.budgeted, function (v) { it.budgeted = v; if (it.investExtraId) { var ix = findInvestExtra(it.investExtraId); if (ix) ix.amount = v; } else if (it.investmentId) { var iv = findInvestment(it.investmentId); if (iv) iv.monthly = v; } else if (it.saveExtraId) { var sx = findSavingExtra(it.saveExtraId); if (sx) sx.amount = v; } else if (it.savingId) { var sv = findSaving(it.savingId); if (sv) sv.monthly = v; } else if (it.extraId) { var xx = findExtra(it.extraId); if (xx) xx.amount = v; } else if (it.debtId) { var dd = findDebt(it.debtId); if (dd) dd.monthly = v; } commit(); }, { cls: 'cell num c-bud', ph: '0', num: true, label: (isIncome ? 'Actual pay for ' : 'Budgeted for ') + (it.label || 'item') }),
+      btn('rm c-rm', 'Remove ' + (it.label || 'item'), function () { if (it.extraId) state.debtExtras = state.debtExtras.filter(function (y) { return y.id !== it.extraId; }); if (it.saveExtraId) state.savingExtras = state.savingExtras.filter(function (y) { return y.id !== it.saveExtraId; }); if (it.investExtraId) state.investExtras = state.investExtras.filter(function (y) { return y.id !== it.investExtraId; }); var ent = linkedEntity(it); if (ent) ent.monthly = ''; var f = findItem(it.id); f.c.items.splice(f.idx, 1); commit(); }, ['✕']));
     return row;
   }
 
@@ -1559,7 +2103,9 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
         field('aim-l-' + a.id, a.label, function (v) { a.label = v; commit(); }, { ph: 'Goal name', label: 'Goal name' }),
         field('aim-r-' + a.id, a.recommended, function (v) { a.recommended = v; commit(); }, { cls: 'cell', ph: 'e.g. 10%+', label: 'Recommended' }),
         h('div', { class: 'aim-wrap' }, [field('aim-p-' + a.id, a.aimPct, function (v) { a.aimPct = v; commit(); }, { num: true, label: 'My aim %' }), '%']),
-        h('div', { class: 'val', text: money(aimVal) }),
+        h('div', { class: 'aim-wrap val-wrap' }, ['£', field('aim-v-' + a.id, aimVal ? String(Math.round(aimVal)) : '', function (v) {
+          if (t.income > 0) { a.aimPct = String(Math.round(amt(v) / t.income * 1000) / 10); commit(); } else scheduleRender();
+        }, { num: true, label: 'Aim value in pounds for ' + (a.label || 'goal') })]),
         curCell, tick,
         btn('rm', 'Remove ' + (a.label || 'goal'), function () { state.aims = state.aims.filter(function (x) { return x !== a; }); commit(); }, ['✕']) ]));
     });
@@ -1584,14 +2130,14 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     ]);
     var side = h('div', { class: 'sum-side' }, [h('div', { class: 'eyebrow', text: 'Total per location' })]);
     var max = Math.max.apply(null, [1].concat(Object.values(t.byLoc), [t.unassigned]));
-    var line = function (name, value, count, none) {
+    var line = function (name, value, count, none, day) {
       return h('div', { class: 'loc-line' + (none ? ' none' : '') }, [
-        h('div', { class: 'top' }, [h('span', { class: 'name' }, [name, h('small', { text: count + (count === 1 ? ' item' : ' items') })]), h('span', { class: 'amt', text: money(value) })]),
+        h('div', { class: 'top' }, [h('span', { class: 'name' }, [name, h('small', { text: count + (count === 1 ? ' item' : ' items') + (day ? ' · moves on ' + dayText(day) : '') })]), h('span', { class: 'amt', text: money(value) })]),
         h('div', { class: 'bar' }, [h('i', { style: 'width:' + Math.round(value / max * 100) + '%' })]) ]);
     };
     var counts = {}, noneCount = 0;
     state.groups.forEach(function (g) { if (g.key === 'income') return; g.categories.forEach(function (c) { c.items.forEach(function (it) { if (it.account) counts[it.account] = (counts[it.account] || 0) + 1; else noneCount++; }); }); });
-    state.locations.forEach(function (l) { if (l.name) side.append(line(l.name, t.byLoc[l.name] || 0, counts[l.name] || 0)); });
+    state.locations.forEach(function (l) { if (l.name) side.append(line(l.name, t.byLoc[l.name] || 0, counts[l.name] || 0, false, l.day)); });
     Object.keys(t.byLoc).forEach(function (n) { if (!state.locations.some(function (l) { return l.name === n; })) side.append(line(n, t.byLoc[n], counts[n] || 0)); });
     if (noneCount) side.append(line('No location', t.unassigned, noneCount, true));
     side.append(btn('side-link', 'Edit locations', function () { openOverlay('locations'); }, ['Edit locations →']));
@@ -1601,7 +2147,8 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
   function stampBlock() {
     var w = withHi(h('div', { class: 'stamp-wrap', id: 'tour-stamp' }, [
       btn('stamp-btn' + (state.stampFlash ? ' flash' : ''), 'Stamp this month into your record', stampMonth, ['STAMP']),
-      h('div', { class: 'stamp-sub', text: 'Stamp this month into your record' }) ]), 'tour-stamp');
+      h('div', { class: 'stamp-sub', text: 'Stamp this month into your record' }),
+      btn('fb-link', 'Suggestions', function () { openFeedback(); }, ['Spotted a bug or have an idea? Send a suggestion']) ]), 'tour-stamp');
     if (state.stampFlash) w.append(h('div', { class: 'toast', role: 'status', text: '✓ ' + state.stampFlashLabel + ' stamped. Open Records (top left) to see it.' }));
     return w;
   }
@@ -1868,9 +2415,9 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
 
   /* ---------- overlays ---------- */
   function sheet(title, sub, body, wide) {
-    var back = h('div', { class: 'overlay', role: 'dialog', 'aria-modal': 'true', 'aria-label': title,
+    var back = h('div', { class: 'overlay' + (shown.overlayEnter ? ' enter' : ''), role: 'dialog', 'aria-modal': 'true', 'aria-label': title,
       onclick: function (e) { if (e.target === back) closeOverlay(); } });
-    back.append(h('div', { class: 'sheet' + (wide ? ' wide' : '') }, [
+    back.append(h('div', { class: 'sheet' + (wide === true ? ' wide' : wide ? ' ' + wide : '') }, [
       btn('sheet-close', 'Close ' + title, function () { set({ overlay: null, exportMsg: null }); }, ['✕']),
       h('h3', { text: title }), h('p', { class: 'sub', text: sub }), body ]));
     return back;
@@ -1913,15 +2460,16 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     state.locations.forEach(function (l) {
       list.append(h('div', { class: 'sheet-row' }, [
         field('locname-' + l.id, l.name, function (v) { setLocationName(l, v.trim()); }, { ph: 'Bank or account name', label: 'Location name' }),
+        h('label', { class: 'loc-day', for: 'locday-' + l.id }, [h('span', { text: 'Moves on' }), daySelect('locday-' + l.id, l.day, function (v) { l.day = v; commit(); }, '', 'Day money moves into ' + (l.name || 'this location'))]),
         h('span', { class: 'loc-total', text: money(t.byLoc[l.name] || 0) }),
         btn('rm', 'Remove location', function () { removeLocation(l); }, ['✕']) ]));
     });
     return h('div', {}, [list, btn('sheet-add', 'Add location', function () { state.locations.push({ id: uid('loc'), name: '' }); commit(); }, ['+ Add location']),
-      h('div', { class: 'hint', text: 'Removing a location clears it from any items that used it.' })]);
+      h('div', { class: 'hint', text: 'Set the day your money moves into each account automatically. Removing a location clears it from any items that used it.' })]);
   }
   function recordsBody() {
     var recs = state.records.slice().sort(function (a, b) { return a.year !== b.year ? a.year - b.year : MONTHS.indexOf(a.month) - MONTHS.indexOf(b.month); });
-    if (!recs.length) return h('div', { class: 'empty', text: 'No months stamped yet. Hit STAMP at the bottom of the planner once you’re happy with a month’s numbers.' });
+    if (!recs.length) return h('div', {}, [h('div', { class: 'empty', text: 'No months stamped yet. Hit STAMP at the bottom of the planner once you’re happy with a month’s numbers.' }), fbCard('records')]);
     var order = [], seen = {};
     state.groups.forEach(function (g) { g.categories.forEach(function (c) { c.items.forEach(function (it) { if (!seen[it.id]) { seen[it.id] = 1; order.push({ id: it.id, name: it.label || 'Untitled', color: g.color }); } }); }); });
     recs.forEach(function (r) { (r.items || []).forEach(function (it) { if (!seen[it.id]) { seen[it.id] = 1; order.push({ id: it.id, name: it.name, color: it.color || '#5A5266' }); } }); });
@@ -1945,12 +2493,12 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
       canPickFile() ? btn('export-alt', 'Save to a different file', function () { saveRecordsToExcel(true); }, ['Save to a different file']) : null,
       h('span', { class: 'export-note', text: 'Each year gets its own file: ' + xlsxName(ey) }) ]);
     var msg = state.exportMsg ? h('div', { class: 'export-msg ' + state.exportMsg.kind, role: 'status', text: state.exportMsg.text }) : null;
-    return h('div', {}, [bar, msg, h('div', { class: 'rec-grid-wrap' }, [grid])]);
+    return h('div', {}, [bar, msg, h('div', { class: 'rec-grid-wrap' }, [grid]), fbCard('records')]);
   }
 
   function buildTour() {
     var i = state.introStep || 0, t = TOUR[i], last = i >= TOUR.length - 1;
-    return h('div', { class: 'tour', role: 'dialog', 'aria-label': 'Intro tour' }, [
+    return h('div', { class: 'tour' + (t.id === 'tour-feedback' ? ' raised' : ''), role: 'dialog', 'aria-label': 'Intro tour' }, [
       btn('x', 'Close tour', function () { set({ introOpen: false }); }, ['✕']),
       h('div', { class: 'accent', style: 'background:' + t.accent }),
       h('h4', { text: t.title }), h('p', { text: t.body }),
@@ -1964,9 +2512,1167 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
         btn('next', last ? 'Get started' : 'Next', function () { if (last) set({ introOpen: false }); else tourGo(i + 1); }, [last ? 'Get started' : 'Next']) ]) ]);
   }
 
+
+  /* ---------- debt (overlay) ----------
+     debts: [{ id, name, balance, apr, min, monthly }], in the order the user sets.
+     "In planner" = a planner item with id 'dbt_<debt id>' exists (Costs › Debt payments).
+     Paid = what that item had budgeted in each stamped Record. Restamping a month replaces
+     its Record, so a month can never be counted twice. */
+  var DEBT_COLOR = '#7E2A55';
+  function findDebt(id) { return (state.debts || []).find(function (d) { return d.id === id; }); }
+  function debtItemId(d) { return 'dbt_' + d.id; }
+  function debtPaid(d) {
+    var id = debtItemId(d), paid = 0, months = 0;
+    state.records.forEach(function (r) {
+      var hit = false;
+      (r.items || []).forEach(function (it) { if (it.id === id || it.debtId === d.id) { paid += Number(it.value) || 0; hit = true; } });
+      if (hit) months++;
+    });
+    return { paid: paid, months: months };
+  }
+  function debtCategory() {
+    var g = findGroup('costs') || state.groups.filter(function (x) { return x.key !== 'income'; })[0];
+    var c = g.categories.find(function (x) { return x.id === 'cat_debts'; });
+    if (!c) { c = { id: 'cat_debts', name: 'Debt payments', items: [] }; g.categories.push(c); }
+    return c;
+  }
+  function addDebtToPlanner(d) {
+    if (findItem(debtItemId(d))) return;
+    debtCategory().items.push({ id: debtItemId(d), label: d.name || 'Debt', target: d.monthly || '', budgeted: d.monthly || '', account: '', runs: '', due: '', automated: false, debtId: d.id });
+  }
+  function removeDebtFromPlanner(d) {
+    var f = findItem(debtItemId(d)); if (!f) return;
+    d.monthly = f.item.budgeted;
+    f.c.items.splice(f.idx, 1);
+    if (f.c.id === 'cat_debts' && !f.c.items.length) f.g.categories = f.g.categories.filter(function (c) { return c !== f.c; });
+  }
+  // When a debt is in the planner, its monthly payment IS the planner item's Budgeted amount.
+  function debtMonthly(d) { return d.monthly; }
+  /* Pay-off order. Snowball: smallest amount left first. Avalanche: highest APR first.
+     Custom: the user's own order, which is remembered while another order is showing. */
+  var DEBT_ORDERS = [
+    { key: 'custom', label: 'Custom', note: 'Your own order. Drag the ⠿ grip to change it.' },
+    { key: 'snowball', label: 'Snowball', note: 'Smallest amount left first, for quick wins.' },
+    { key: 'avalanche', label: 'Avalanche', note: 'Highest APR first, to pay the least interest.' } ];
+  function debtLeft(d) { return Math.max(0, amt(d.balance) - debtPaid(d).paid); }
+  function sortDebts() {
+    var mode = state.debtOrder || 'custom';
+    if (mode === 'snowball') state.debts.sort(function (a, b) { return debtLeft(a) - debtLeft(b) || amt(b.apr) - amt(a.apr); });
+    if (mode === 'avalanche') state.debts.sort(function (a, b) { return amt(b.apr) - amt(a.apr) || debtLeft(a) - debtLeft(b); });
+  }
+  function setDebtOrder(mode) {
+    var cur = state.debtOrder || 'custom';
+    if (mode === cur) return;
+    if (cur === 'custom') state.debtCustomOrder = state.debts.map(function (d) { return d.id; });
+    if (mode === 'custom' && state.debtCustomOrder) {
+      var pos = {}; state.debtCustomOrder.forEach(function (id, i) { pos[id] = i; });
+      state.debts.sort(function (a, b) { return (pos[a.id] == null ? 1e9 : pos[a.id]) - (pos[b.id] == null ? 1e9 : pos[b.id]); });
+    }
+    state.debtOrder = mode;
+    sortDebts(); commit();
+  }
+  function debtMovedByHand() { state.debtOrder = 'custom'; state.debtCustomOrder = state.debts.map(function (d) { return d.id; }); }
+  function orderPicker() {
+    var mode = state.debtOrder || 'custom', cur = DEBT_ORDERS.find(function (o) { return o.key === mode; });
+    return h('div', { class: 'order-pick' }, [
+      h('span', { class: 'lbl', id: 'order-lbl', text: 'Pay-off order' }),
+      h('div', { class: 'seg-o', role: 'group', 'aria-labelledby': 'order-lbl' }, DEBT_ORDERS.map(function (o) {
+        return btn('', o.label + ' order', function () { setDebtOrder(o.key); }, [o.label], { 'aria-pressed': String(o.key === mode) });
+      })),
+      // All three notes share one grid cell, so the line is always as tall as the longest and nothing below moves.
+      h('div', { class: 'order-notes', 'aria-live': 'polite' }, DEBT_ORDERS.map(function (o) { return h('span', { class: o.key === mode ? 'on' : null, 'aria-hidden': o.key === mode ? null : 'true', text: o.note }); })) ]);
+  }
+  function bar(p) { return h('div', { class: 'pbar', role: 'progressbar', 'aria-valuemin': '0', 'aria-valuemax': '100', 'aria-valuenow': String(Math.round(p)) }, [h('i', { style: 'width:' + p.toFixed(1) + '%' })]); }
+
+  function debtBody() {
+    sortDebts();
+    var c = DEBT_COLOR;
+    var card = h('section', { class: 'group debt-group flip-group', style: '--g:' + c + ';--gm:' + c + ';--gl:' + lighten(c, .86) + ';--gl2:' + lighten(c, .6) + ';--gb:' + lighten(c, .93) });
+    var total = 0, paidAll = 0;
+    state.debts.forEach(function (d) { var b = amt(d.balance); total += b; paidAll += Math.min(debtPaid(d).paid, b); });
+    var pAll = total ? paidAll / total * 100 : 0;
+    card.append(h('div', { class: 'group-head' }, [h('h2', { text: 'Debts' }), h('span', { class: 'share', text: money(total - paidAll) + ' left' })]));
+    card.append(h('div', { class: 'debt-overall' }, [h('span', { text: 'Paid off' }), bar(pAll), h('span', { class: 'num', text: Math.round(pAll) + '% · ' + money(paidAll) + ' of ' + money(total) })]));
+    card.append(h('div', { class: 'drow colhead' }, [
+      h('span', { class: 'd-name', text: 'Debt' }), h('span', { class: 'd-bal', text: 'Balance' }), h('span', { class: 'd-apr', text: 'APR' }),
+      h('span', { class: 'd-min', text: 'Minimum' }), h('span', { class: 'd-pay', text: 'Monthly payment' }) ]));
+    var list = h('div', { class: 'item-list', 'data-drop-kind': 'debt', 'data-list-id': 'debts' }, [h('div', { class: 'empty-hint', text: 'No debts yet. Add one below.' })]);
+    state.debts.forEach(function (d) { list.append(debtRow(d)); });
+    card.append(list);
+    card.append(h('div', { class: 'add-row' }, [btn('add-btn', 'Add a debt', function () {
+      var id = uid('debt');
+      state.debts.push({ id: id, name: '', balance: '', apr: '', min: '', monthly: '' });
+      commit();
+      var n = document.querySelector('[data-k="dname-' + id + '"]'); if (n) n.focus();
+    }, ['+ Add debt'])]));
+    card.append(h('div', { class: 'drow foot' }, [
+      h('span', { class: 'd-name', text: 'Total' }),
+      h('span', { class: 'd-bal', text: fmt(total) }),
+      h('span', { class: 'd-min', text: fmt(sumItems(state.debts, 'min')) }),
+      h('span', { class: 'd-pay', text: fmt(state.debts.reduce(function (s, d) { return s + amt(debtMonthly(d)); }, 0)) }) ]));
+    // Every debt is paid at least its minimum, even if its monthly payment isn't set yet.
+    var curMonthly = state.debts.reduce(function (s, d) { return s + (debtLeft(d) > 0.005 ? Math.max(amt(debtMonthly(d)), amt(d.min)) : 0); }, 0);
+    var leftAll = state.debts.reduce(function (s, d) { return s + debtLeft(d); }, 0);
+    return h('div', {}, [orderPicker(), card, h('div', { class: 'debt-hint' }, [
+      'Any debt with a ', h('b', { text: 'Monthly payment' }), ' shows in your Monthly Planner under Costs › Debt payments. When you stamp a month, what you budgeted for it there counts as paid. Restamping a month replaces it, so it’s never counted twice.' ]),
+      extrasSection(), freeSection(curMonthly, leftAll), whatIfSection(curMonthly, leftAll), fbCard('debt') ]);
+  }
+
+  function debtRow(d) {
+    var row = h('div', { class: 'drow item-row', 'data-row-id': d.id });
+    var grip = h('button', { type: 'button', class: 'handle d-h', 'data-grip': d.id, 'aria-label': 'Move ' + (d.name || 'debt') + ' (drag, or use arrow keys)', html: GRIP });
+    grip.addEventListener('pointerdown', function (e) { startDrag(e, 'debt'); });
+    grip.addEventListener('keydown', function (e) {
+      if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return; e.preventDefault();
+      var i = state.debts.indexOf(d), ni = i + (e.key === 'ArrowUp' ? -1 : 1);
+      if (ni < 0 || ni >= state.debts.length) return;
+      moveInList(state.debts, d.id, ni); debtMovedByHand(); commit();
+      var n = document.querySelector('[data-grip="' + d.id + '"]'); if (n) n.focus();
+    });
+    var nm = d.name || 'debt', linked = findItem(debtItemId(d));
+    var num = function (key, prop, label, onSet, value) {
+      return field(key + '-' + d.id, value !== undefined ? value : d[prop], function (v) { var old = d[prop]; d[prop] = v; if (onSet) onSet(old, v); commit(); }, { cls: 'cell num', ph: '0', num: true, label: label + ' for ' + nm });
+    };
+    var sw = h('button', { type: 'button', class: 'sw d-sw', role: 'switch', 'aria-checked': String(!!linked), 'aria-label': 'Show ' + nm + ' in the Monthly Planner',
+      title: linked ? 'In your Monthly Planner (Costs › Debt payments)' : 'Add to your Monthly Planner',
+      onclick: function () { if (findItem(debtItemId(d))) removeDebtFromPlanner(d); else addDebtToPlanner(d); commit(); } }, [h('i')]);
+    row.append(grip,
+      field('dname-' + d.id, d.name, function (v) { d.name = v; var f = findItem(debtItemId(d)); if (f) f.item.label = v || 'Debt'; commit(); }, { cls: 'cell d-name', ph: 'Debt name', label: 'Debt name' }),
+      h('div', { class: 'd-bal' }, [num('dbal', 'balance', 'Balance')]),
+      h('div', { class: 'd-apr pct-wrap' }, [num('dapr', 'apr', 'APR'), '%']),
+      h('div', { class: 'd-min' }, [num('dmin', 'min', 'Minimum payment')]),
+      h('div', { class: 'd-pay' }, [num('dpay', 'monthly', 'Monthly payment', function (old, v) {
+        var f = findItem(debtItemId(d)); if (!f) return;
+        if (!f.item.target || f.item.target === f.item.budgeted) f.item.target = v;
+        f.item.budgeted = v;
+      }, debtMonthly(d))]),
+      btn('rm d-rm', 'Remove ' + nm, function () { removeDebtFromPlanner(d); state.debts = state.debts.filter(function (x) { return x !== d; }); state.debtExtras = state.debtExtras.filter(function (x) { return x.debtId !== d.id; }); commit(); }, ['✕']));
+    return row;
+  }
+
+
+  /* ---------- extra (one-off) debt payments ----------
+     debtExtras: [{ id, debtId, amount, monthKey:'October 2026', inPlanner }]
+     In planner: shown in Extras › Extra debt payments only while the planner is on that month,
+     so it's stamped once with that month and never carries over. Out of the planner: counts as paid now. */
+  function r2(n) { return Math.round(n * 100) / 100; }
+  function findExtra(id) { return (state.debtExtras || []).find(function (x) { return x.id === id; }); }
+  function plannerMonthKey() { return (state.month || MONTHS[new Date().getMonth()]) + ' ' + (state.year || String(new Date().getFullYear())); }
+  function extraStamped(x) { return state.records.some(function (r) { return (r.items || []).some(function (it) { return it.id === 'dbx_' + x.id; }); }); }
+  function extraCategory() {
+    var g = findGroup('extras') || state.groups.filter(function (x) { return x.key !== 'income'; }).slice(-1)[0];
+    var c = g.categories.find(function (x) { return x.id === 'cat_debt_extras'; });
+    if (!c) { c = { id: 'cat_debt_extras', name: 'Extra debt payments', items: [] }; g.categories.push(c); }
+    return c;
+  }
+  function syncDebtExtras() {
+    if (!state.debtExtras || !state.groups || !state.debts) return;
+    var key = plannerMonthKey();
+    var wanted = function (x) { return x && x.monthKey === key && findDebt(x.debtId); };
+    state.groups.forEach(function (g) { g.categories.forEach(function (c) {
+      c.items = c.items.filter(function (it) { return !it.extraId || wanted(findExtra(it.extraId)); });
+    }); });
+    state.debtExtras.forEach(function (x) {
+      if (!wanted(x)) return;
+      var d = findDebt(x.debtId), id = 'dbx_' + x.id, f = findItem(id), label = 'Extra · ' + (d.name || 'Debt');
+      if (f) { f.item.label = label; f.item.budgeted = x.amount; f.item.target = x.amount; }
+      else extraCategory().items.push({ id: id, label: label, target: x.amount, budgeted: x.amount, account: '', runs: '', due: '', automated: false, debtId: d.id, extraId: x.id });
+    });
+    state.groups.forEach(function (g) { g.categories = g.categories.filter(function (c) { return !(c.id === 'cat_debt_extras' && !c.items.length); }); });
+  }
+  function extrasSection() {
+    var live = state.debts.filter(function (d) { return debtLeft(d) > 0.005; });
+    var X = state.xDraft || (state.xDraft = { debtId: '', amount: '' });
+    if (!live.some(function (d) { return d.id === X.debtId; })) X.debtId = live.length ? live[0].id : '';
+    var sel = h('select', { class: 'xsel', id: 'f-x-debt', 'aria-label': 'Debt to pay extra towards', onchange: function (e) { X.debtId = e.target.value; } },
+      live.length ? live.map(function (d) { return h('option', { value: d.id, text: d.name || 'Untitled debt' }); }) : [h('option', { value: '', text: 'No debts left to pay' })]);
+    sel.value = X.debtId;
+    var amtIn = h('input', { type: 'text', inputmode: 'decimal', id: 'f-x-amt', 'data-k': 'x-amt', placeholder: '0', 'aria-label': 'Extra amount in pounds', oninput: function (e) { X.amount = e.target.value; } });
+    amtIn.value = X.amount;
+    amtIn.addEventListener('keydown', function (e) { if (e.key === 'Enter') add(); });
+    function add() {
+      var a = amt(X.amount); if (a <= 0 || !X.debtId) { amtIn.focus(); return; }
+      state.debtExtras.unshift({ id: uid('dx'), debtId: X.debtId, amount: String(r2(a)), monthKey: plannerMonthKey() });
+      X.amount = ''; commit();
+    }
+    var list = h('div', { class: 'xlist' });
+    state.debtExtras.forEach(function (x) {
+      var d = findDebt(x.debtId); if (!d) return;
+      list.append(h('div', { class: 'xrow' }, [
+        h('span', { class: 'xn' }, [d.name || 'Untitled debt', h('small', { text: x.monthKey + (extraStamped(x) ? ' · stamped' : '') })]),
+        h('span', { class: 'xv', text: money(amt(x.amount)) }),
+        btn('rm', 'Remove this extra payment', function () { state.debtExtras = state.debtExtras.filter(function (y) { return y !== x; }); commit(); }, ['✕']) ]));
+    });
+    return h('section', { class: 'dsec' }, [
+      h('div', { class: 'dsec-head' }, [h('h4', { text: 'Extra payments' }), h('p', { text: 'Paying a bit more this month? It goes into Extras in your planner for ' + plannerMonthKey() + '.' })]),
+      h('div', { class: 'xbar' }, [sel, h('label', { class: 'xamt', for: 'f-x-amt' }, [h('span', { text: '£' }), amtIn]), btn('xadd', 'Add to planner', add, ['Add to planner'])]),
+      list.children.length ? list : null ]);
+  }
+
+  /* ---------- debt-free date + what if ----------
+     Each month: interest is added (APR / 12), every minimum is paid, and the rest of the money
+     goes down the list in your chosen order, so a cleared debt's payment rolls onto the next. */
+  function payoffSim(monthly) {
+    var list = state.debts.map(function (d) { return { bal: debtLeft(d), r: amt(d.apr) / 1200, min: amt(d.min) }; }).filter(function (x) { return x.bal > 0.005; });
+    var res = { months: 0, interest: 0, ok: true };
+    if (!list.length) return res;
+    for (var m = 0; m < 600; m++) {
+      var left = list.filter(function (x) { return x.bal > 0.005; });
+      if (!left.length) break;
+      var b = monthly;
+      left.forEach(function (x) { var i = x.bal * x.r; x.bal += i; res.interest += i; });
+      left.forEach(function (x) { var p = Math.max(0, Math.min(x.bal, x.min, b)); x.bal -= p; b -= p; });
+      left.forEach(function (x) { if (b <= 0.005) return; var p = Math.min(x.bal, b); x.bal -= p; b -= p; });
+      res.months = m + 1;
+    }
+    if (list.some(function (x) { return x.bal > 0.005; })) res.ok = false;
+    return res;
+  }
+  function freeDateLabel(months) { var d = new Date(); d.setDate(1); d.setMonth(d.getMonth() + months - 1); return MONTHS[d.getMonth()] + ' ' + d.getFullYear(); }
+  function monthsText(n) { var y = Math.floor(n / 12), m = n % 12; return (y ? y + (y === 1 ? ' year' : ' years') : '') + (y && m ? ' ' : '') + (m || !y ? m + (m === 1 ? ' month' : ' months') : ''); }
+
+  var RING = '<svg viewBox="0 0 48 48" aria-hidden="true"><g transform="rotate(-10 24 24)" fill="none" stroke="currentColor"><circle cx="24" cy="24" r="21.5" stroke-width="2.4"/><circle cx="24" cy="24" r="16.5" stroke-width="1.2" stroke-dasharray="2.4 2.2"/></g><text x="24" y="30" text-anchor="middle" font-family="DM Serif Display, Georgia, serif" font-size="17" fill="currentColor">£0</text></svg>';
+  function freeSection(cur, left) {
+    var sim = payoffSim(cur), big, sub;
+    if (left <= 0.005) { big = 'Debt-free'; sub = 'Nothing left to pay. Well done.'; }
+    else if (cur <= 0) { big = 'Not set yet'; sub = 'Add monthly payments above to see your date.'; }
+    else if (!sim.ok) { big = 'Not on track'; sub = 'Your payments don’t cover the interest yet.'; }
+    else { big = freeDateLabel(sim.months); sub = 'In ' + monthsText(sim.months) + ' · ' + money(left) + ' left at ' + money(cur) + ' a month, minimums included'; }
+    return h('section', { class: 'dsec' }, [
+      h('div', { class: 'dfree' }, [h('span', { class: 'ring', html: RING }), h('span', { class: 'k', text: 'Debt-free by' }), h('div', { class: 'big', text: big }), h('div', { class: 'dsub', text: sub })]) ]);
+  }
+
+  function whatIfSection(cur, left) {
+    var base = cur;
+    var val = state.whatIf != null ? amt(state.whatIf) : base;
+    var baseSim = payoffSim(base);
+    var vDate = h('span', { class: 'date' }), vCmp = h('span', { class: 'wif-cmp' });
+    var num = h('input', { type: 'text', inputmode: 'decimal', id: 'f-whatif', 'data-k': 'whatif', 'aria-label': 'Monthly amount in pounds' });
+    num.value = val ? String(r2(val)) : '';
+    function show(v) {
+      var sim = payoffSim(v);
+      vCmp.hidden = false;
+      if (left <= 0.005) { vDate.textContent = 'Debt-free'; vCmp.hidden = true; return; }
+      if (!sim.ok || v <= 0) { vDate.textContent = 'Not on track'; vCmp.className = 'wif-cmp worse'; vCmp.textContent = 'Doesn’t cover the interest'; return; }
+      vDate.textContent = freeDateLabel(sim.months);
+      if (!baseSim.ok || base <= 0) { vCmp.className = 'wif-cmp better'; vCmp.textContent = 'In ' + monthsText(sim.months); return; }
+      var dm = baseSim.months - sim.months, di = Math.round(baseSim.interest - sim.interest);
+      if (dm === 0) { vCmp.className = 'wif-cmp'; vCmp.textContent = 'Same as now'; return; }
+      vCmp.className = 'wif-cmp ' + (dm > 0 ? 'better' : 'worse');
+      vCmp.textContent = monthsText(Math.abs(dm)) + (dm > 0 ? ' sooner · saves ' + money(di) + ' interest' : ' later');
+    }
+    num.addEventListener('input', function () { state.whatIf = num.value; show(amt(num.value)); });
+    num.addEventListener('keydown', function (e) { if (e.key === 'Enter') num.blur(); });
+    show(val);
+    return h('section', { class: 'dsec' }, [
+      h('div', { class: 'dsec-head' }, [h('h4', { text: 'What if Calculator' }), h('p', { text: 'You owe ' + money(left) + '. Try a different monthly amount. Your plan won’t change.' })]),
+      h('div', { class: 'wif' }, [
+        h('div', { class: 'wif-ask' }, ['If I paid', h('label', { class: 'wif-in', for: 'f-whatif' }, [h('span', { text: '£' }), num]), 'a month', h('span', { class: 'wif-now', text: 'Now ' + money(base) })]),
+        h('div', { class: 'wif-out' }, [h('span', { class: 'k', text: 'Debt-free by' }), vDate, vCmp]) ]) ]);
+  }
+
+
+  /* =====================================================================
+     SAVINGS (overlay) — same idea as Debt.
+     "In planner" = a planner item 'sav_<id>' (Investments & Savings › Savings).
+     Saved now = starting amount + what that item had budgeted in each stamped Record.
+     savingExtras: one-off deposits, in Extras › Extra savings for their month only.
+     ===================================================================== */
+  var SAVE_COLOR = '#7E2A55';
+  function findSaving(id) { return (state.savings || []).find(function (x) { return x.id === id; }); }
+  function findSavingExtra(id) { return (state.savingExtras || []).find(function (x) { return x.id === id; }); }
+  function savingItemId(sv) { return 'sav_' + sv.id; }
+  function savedNow(sv) {
+    var id = savingItemId(sv), total = amt(sv.saved);
+    state.records.forEach(function (r) { (r.items || []).forEach(function (it) { if (it.id === id || it.savingId === sv.id) total += Number(it.value) || 0; }); });
+    (state.savingUsed || []).forEach(function (u) { if (u.savingId === sv.id) total -= amt(u.amount); });
+    return total;
+  }
+  function potLeft(sv) { return Math.max(0, amt(sv.goal) - savedNow(sv)); }
+  function savingMonthly(sv) { return sv.monthly; }
+  function savingCategory() {
+    var g = findGroup('investSavings') || state.groups.filter(function (x) { return x.key !== 'income'; })[0];
+    var c = g.categories.find(function (x) { return x.id === 'cat_savings'; });
+    if (!c) { c = { id: 'cat_savings', name: 'Savings', items: [] }; g.categories.push(c); }
+    return c;
+  }
+  function addSavingToPlanner(sv) {
+    if (findItem(savingItemId(sv))) return;
+    savingCategory().items.push({ id: savingItemId(sv), label: sv.name || 'Savings', target: sv.monthly || '', budgeted: sv.monthly || '', account: '', runs: '', due: '', automated: false, savingId: sv.id });
+  }
+  function removeSavingFromPlanner(sv) {
+    var f = findItem(savingItemId(sv)); if (!f) return;
+    sv.monthly = f.item.budgeted;
+    f.c.items.splice(f.idx, 1);
+  }
+
+  function savingMovedByHand() {}
+
+  function savingsBody() {
+    var c = SAVE_COLOR;
+    var card = h('section', { class: 'group debt-group save-group flip-group', style: '--g:' + c + ';--gm:' + c + ';--gl:' + lighten(c, .86) + ';--gl2:' + lighten(c, .6) + ';--gb:' + lighten(c, .93) });
+    var goalAll = 0, savedAll = 0;
+    state.savings.forEach(function (sv) { var g = amt(sv.goal); goalAll += g; savedAll += g ? Math.min(savedNow(sv), g) : 0; });
+    var pAll = goalAll ? savedAll / goalAll * 100 : 0;
+    card.append(h('div', { class: 'group-head' }, [h('h2', { text: 'Savings' }), h('span', { class: 'share', text: money(Math.max(0, goalAll - savedAll)) + ' to go' })]));
+    card.append(h('div', { class: 'debt-overall' }, [h('span', { text: 'Saved' }), bar(pAll), h('span', { class: 'num', text: Math.round(pAll) + '% · ' + money(savedAll) + ' of ' + money(goalAll) })]));
+    card.append(h('div', { class: 'drow colhead' }, [
+      h('span', { class: 'd-name', text: 'Savings' }), h('span', { class: 'd-bal', text: 'Goal' }), h('span', { class: 'd-apr', text: 'Saved' }),
+      h('span', { class: 'd-min', text: 'Interest' }), h('span', { class: 'd-pay', text: 'Monthly saving' }) ]));
+    var list = h('div', { class: 'item-list', 'data-drop-kind': 'saving', 'data-list-id': 'savings' }, [h('div', { class: 'empty-hint', text: 'No savings yet. Add one below.' })]);
+    state.savings.forEach(function (sv) { list.append(savingRow(sv)); });
+    card.append(list);
+    card.append(h('div', { class: 'add-row' }, [btn('add-btn', 'Add savings', function () {
+      var id = uid('sv');
+      state.savings.push({ id: id, name: '', goal: '', saved: '', aer: '', monthly: '' });
+      commit();
+      var n = document.querySelector('[data-k="sname-' + id + '"]'); if (n) n.focus();
+    }, ['+ Add savings'])]));
+    card.append(h('div', { class: 'drow foot' }, [
+      h('span', { class: 'd-name', text: 'Total' }),
+      h('span', { class: 'd-bal', text: fmt(goalAll) }),
+      h('span', { class: 'd-apr', text: fmt(state.savings.reduce(function (s2, sv) { return s2 + savedNow(sv); }, 0)) }),
+      h('span', { class: 'd-pay', text: fmt(state.savings.reduce(function (s2, sv) { return s2 + amt(savingMonthly(sv)); }, 0)) }) ]));
+    var cur = state.savings.reduce(function (s2, sv) { return s2 + (potLeft(sv) > 0.005 ? amt(savingMonthly(sv)) : 0); }, 0);
+    var toGo = state.savings.reduce(function (s2, sv) { return s2 + potLeft(sv); }, 0);
+    return h('div', {}, [card, h('div', { class: 'debt-hint' }, [
+      'Anything with a ', h('b', { text: 'Monthly saving' }), ' shows in your Monthly Planner under Investments & Savings › Savings. ', h('b', { text: 'Saved' }), ' is what your stamped Records show, plus anything you saved before PayStamp, minus anything you’ve used. Restamping a month replaces it, so it’s never counted twice.' ]),
+      savingExtrasSection(), efundSection(), previousSavingsSection(), savingsUsedSection(), saveWhatIf(cur), fbCard('savings') ]);
+  }
+
+  function savingRow(sv) {
+    var row = h('div', { class: 'drow item-row', 'data-row-id': sv.id });
+    var grip = h('button', { type: 'button', class: 'handle d-h', 'data-grip': sv.id, 'aria-label': 'Move ' + (sv.name || 'savings') + ' (drag, or use arrow keys)', html: GRIP });
+    grip.addEventListener('pointerdown', function (e) { startDrag(e, 'saving'); });
+    grip.addEventListener('keydown', function (e) {
+      if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return; e.preventDefault();
+      var i = state.savings.indexOf(sv), ni = i + (e.key === 'ArrowUp' ? -1 : 1);
+      if (ni < 0 || ni >= state.savings.length) return;
+      moveInList(state.savings, sv.id, ni); savingMovedByHand(); commit();
+      var n = document.querySelector('[data-grip="' + sv.id + '"]'); if (n) n.focus();
+    });
+    var nm = sv.name || 'savings', linked = findItem(savingItemId(sv));
+    var num = function (key, prop, label, onSet, value) {
+      return field(key + '-' + sv.id, value !== undefined ? value : sv[prop], function (v) { var old = sv[prop]; sv[prop] = v; if (onSet) onSet(old, v); commit(); }, { cls: 'cell num', ph: '0', num: true, label: label + ' for ' + nm });
+    };
+    var sw = h('button', { type: 'button', class: 'sw d-sw', role: 'switch', 'aria-checked': String(!!linked), 'aria-label': 'Show ' + nm + ' in the Monthly Planner',
+      title: linked ? 'In your Monthly Planner (Investments & Savings › Savings)' : 'Add to your Monthly Planner',
+      onclick: function () { if (findItem(savingItemId(sv))) removeSavingFromPlanner(sv); else addSavingToPlanner(sv); commit(); } }, [h('i')]);
+    row.append(grip,
+      field('sname-' + sv.id, sv.name, function (v) { sv.name = v; var f = findItem(savingItemId(sv)); if (f) f.item.label = v || 'Savings'; commit(); }, { cls: 'cell d-name', ph: 'e.g. Emergency fund', label: 'Savings name' }),
+      h('div', { class: 'd-bal' }, [num('sgoal', 'goal', 'Goal')]),
+      h('span', { class: 'd-apr ro-num', title: savedTip(sv), text: fmt(savedNow(sv)) }),
+      h('div', { class: 'd-min pct-wrap' }, [num('saer', 'aer', 'Interest rate'), '%']),
+      h('div', { class: 'd-pay' }, [num('spay', 'monthly', 'Monthly saving', function (old, v) {
+        var f = findItem(savingItemId(sv)); if (!f) return;
+        if (!f.item.target || f.item.target === f.item.budgeted) f.item.target = v;
+        f.item.budgeted = v;
+      }, savingMonthly(sv))]),
+      btn('rm d-rm', 'Remove ' + nm, function () { removeSavingFromPlanner(sv); state.savings = state.savings.filter(function (x) { return x !== sv; }); state.savingExtras = state.savingExtras.filter(function (x) { return x.savingId !== sv.id; }); state.savingUsed = state.savingUsed.filter(function (x) { return x.savingId !== sv.id; }); commit(); }, ['✕']));
+    return row;
+  }
+
+  /* one-off deposits → Extras › Extra savings (for that month only) */
+  function savingExtraStamped(x) { return state.records.some(function (r) { return (r.items || []).some(function (it) { return it.id === 'svx_' + x.id; }); }); }
+  function savingExtraCategory() {
+    var g = findGroup('extras') || state.groups.filter(function (x) { return x.key !== 'income'; }).slice(-1)[0];
+    var c = g.categories.find(function (x) { return x.id === 'cat_save_extras'; });
+    if (!c) { c = { id: 'cat_save_extras', name: 'Extra savings', items: [] }; g.categories.push(c); }
+    return c;
+  }
+  function syncSavingExtras() {
+    if (!state.savingExtras || !state.groups || !state.savings) return;
+    var key = plannerMonthKey();
+    var wanted = function (x) { return x && x.monthKey === key && findSaving(x.savingId); };
+    state.groups.forEach(function (g) { g.categories.forEach(function (c) {
+      c.items = c.items.filter(function (it) { return !it.saveExtraId || wanted(findSavingExtra(it.saveExtraId)); });
+    }); });
+    state.savingExtras.forEach(function (x) {
+      if (!wanted(x)) return;
+      var sv = findSaving(x.savingId), id = 'svx_' + x.id, f = findItem(id), label = 'Extra · ' + (sv.name || 'Savings');
+      if (f) { f.item.label = label; f.item.budgeted = x.amount; f.item.target = x.amount; }
+      else savingExtraCategory().items.push({ id: id, label: label, target: x.amount, budgeted: x.amount, account: '', runs: '', due: '', automated: false, savingId: sv.id, saveExtraId: x.id });
+    });
+    state.groups.forEach(function (g) { g.categories = g.categories.filter(function (c) { return !(c.id === 'cat_save_extras' && !c.items.length); }); });
+  }
+  function savingExtrasSection() {
+    var pots = state.savings;
+    var X = state.sxDraft || (state.sxDraft = { savingId: '', amount: '' });
+    if (!pots.some(function (p) { return p.id === X.savingId; })) X.savingId = pots.length ? pots[0].id : '';
+    var sel = h('select', { class: 'xsel', id: 'f-sx-pot', 'aria-label': 'Savings to add extra to', onchange: function (e) { X.savingId = e.target.value; } },
+      pots.length ? pots.map(function (p) { return h('option', { value: p.id, text: p.name || 'Untitled savings' }); }) : [h('option', { value: '', text: 'No savings yet' })]);
+    sel.value = X.savingId;
+    var amtIn = h('input', { type: 'text', inputmode: 'decimal', id: 'f-sx-amt', 'data-k': 'sx-amt', placeholder: '0', 'aria-label': 'Extra amount in pounds', oninput: function (e) { X.amount = e.target.value; } });
+    amtIn.value = X.amount;
+    amtIn.addEventListener('keydown', function (e) { if (e.key === 'Enter') add(); });
+    function add() {
+      var a = amt(X.amount); if (a <= 0 || !X.savingId) { amtIn.focus(); return; }
+      state.savingExtras.unshift({ id: uid('sx'), savingId: X.savingId, amount: String(r2(a)), monthKey: plannerMonthKey() });
+      X.amount = ''; commit();
+    }
+    var list = h('div', { class: 'xlist' });
+    state.savingExtras.forEach(function (x) {
+      var sv = findSaving(x.savingId); if (!sv) return;
+      list.append(h('div', { class: 'xrow' }, [
+        h('span', { class: 'xn' }, [sv.name || 'Untitled savings', h('small', { text: x.monthKey + (savingExtraStamped(x) ? ' · stamped' : '') })]),
+        h('span', { class: 'xv', text: money(amt(x.amount)) }),
+        btn('rm', 'Remove this extra saving', function () { state.savingExtras = state.savingExtras.filter(function (y) { return y !== x; }); commit(); }, ['✕']) ]));
+    });
+    return h('section', { class: 'dsec' }, [
+      h('div', { class: 'dsec-head' }, [h('h4', { text: 'Extra savings' }), h('p', { text: 'Putting a bit more away this month? It goes into Extras in your planner for ' + plannerMonthKey() + '.' })]),
+      h('div', { class: 'xbar' }, [sel, h('label', { class: 'xamt', for: 'f-sx-amt' }, [h('span', { text: '£' }), amtIn]), btn('xadd', 'Add to planner', add, ['Add to planner'])]),
+      list.children.length ? list : null ]);
+  }
+
+  function usedTotal(sv) { return (state.savingUsed || []).reduce(function (t, u) { return t + (u.savingId === sv.id ? amt(u.amount) : 0); }, 0); }
+  function savedTip(sv) {
+    var before = amt(sv.saved), used = usedTotal(sv), stamped = savedNow(sv) - before + used;
+    return 'Before PayStamp ' + money(before) + ' + stamped months ' + money(stamped) + (used ? ' − used ' + money(used) : '');
+  }
+  /* Money taken out of savings (minimisable). Each entry comes off that savings' Saved amount. */
+  function savingsUsedSection() {
+    var open = !!state.usedOpen, all = state.savingUsed;
+    var total = all.reduce(function (t, u) { return t + amt(u.amount); }, 0);
+    var head = h('button', { type: 'button', class: 'prev-toggle', 'aria-expanded': String(open), 'aria-controls': 'used-body',
+      onclick: function () { set({ usedOpen: !open }); } }, [
+      h('span', { class: 'pt-text' }, [h('h4', { text: 'Savings used' }), h('small', { text: total ? money(total) + ' used' : 'Taken money out? Record it here.' })]),
+      h('span', { class: 'pt-arrow', 'aria-hidden': 'true', text: open ? '▾' : '▸' }) ]);
+    var body = null;
+    if (open) {
+      var U = state.usedDraft || (state.usedDraft = { savingId: '', amount: '', note: '' });
+      if (!state.savings.some(function (p) { return p.id === U.savingId; })) U.savingId = state.savings.length ? state.savings[0].id : '';
+      var sel = h('select', { class: 'xsel', id: 'f-used-sv', 'aria-label': 'Savings the money came out of', onchange: function (e) { U.savingId = e.target.value; } },
+        state.savings.length ? state.savings.map(function (p) { return h('option', { value: p.id, text: (p.name || 'Untitled savings') + ' · ' + money(savedNow(p)) }); }) : [h('option', { value: '', text: 'No savings yet' })]);
+      sel.value = U.savingId;
+      var amtIn = h('input', { type: 'text', inputmode: 'decimal', id: 'f-used-amt', placeholder: '0', 'aria-label': 'Amount used in pounds', oninput: function (e) { U.amount = e.target.value; } });
+      amtIn.value = U.amount;
+      var noteIn = h('input', { type: 'text', id: 'f-used-note', class: 'used-note', placeholder: 'What for? (optional)', 'aria-label': 'What it was used for', oninput: function (e) { U.note = e.target.value; } });
+      noteIn.value = U.note;
+      function record() {
+        var a = amt(U.amount); if (a <= 0 || !U.savingId) { amtIn.focus(); return; }
+        var d = new Date();
+        state.savingUsed.unshift({ id: uid('su'), savingId: U.savingId, amount: String(r2(a)), date: d.getDate() + ' ' + MONTHS[d.getMonth()].slice(0, 3) + ' ' + d.getFullYear(), note: (U.note || '').trim() });
+        U.amount = ''; U.note = ''; commit();
+      }
+      [amtIn, noteIn].forEach(function (el) { el.addEventListener('keydown', function (e) { if (e.key === 'Enter') record(); }); });
+      var list = h('div', { class: 'xlist' });
+      all.forEach(function (u) {
+        var sv = findSaving(u.savingId); if (!sv) return;
+        list.append(h('div', { class: 'xrow' }, [
+          h('span', { class: 'xn' }, [sv.name || 'Untitled savings', h('small', { text: u.date + (u.note ? ' · ' + u.note : '') })]),
+          h('span', { class: 'xv used-v', text: '−' + money(amt(u.amount)) }),
+          btn('rm', 'Remove this entry', function () { state.savingUsed = state.savingUsed.filter(function (y) { return y !== u; }); commit(); }, ['✕']) ]));
+      });
+      body = h('div', { class: 'prev-body', id: 'used-body' }, [
+        h('p', { class: 'prev-note', text: 'Money you’ve taken out of your savings. It comes off Saved straight away.' }),
+        h('div', { class: 'xbar used-bar' }, [sel, h('label', { class: 'xamt', for: 'f-used-amt' }, [h('span', { text: '£' }), amtIn]), noteIn, btn('xadd', 'Record savings used', record, ['Record'])]),
+        list.children.length ? list : null ]);
+    }
+    return h('section', { class: 'dsec prev' + (open ? ' open' : '') }, [head, body]);
+  }
+
+  /* Savings made before using PayStamp (minimisable). sv.saved holds this amount. */
+  function previousSavingsSection() {
+    var open = !!state.prevSavingsOpen;
+    var total = state.savings.reduce(function (s2, sv) { return s2 + amt(sv.saved); }, 0);
+    var head = h('button', { type: 'button', class: 'prev-toggle', 'aria-expanded': String(open), 'aria-controls': 'prev-body',
+      onclick: function () { set({ prevSavingsOpen: !open }); } }, [
+      h('span', { class: 'pt-text' }, [h('h4', { text: 'Savings before PayStamp' }), h('small', { text: total ? money(total) + ' added' : 'Already had money saved? Add it here.' })]),
+      h('span', { class: 'pt-arrow', 'aria-hidden': 'true', text: open ? '▾' : '▸' }) ]);
+    var body = null;
+    if (open) {
+      var rows = state.savings.map(function (sv) {
+        return h('div', { class: 'xrow prev-row' }, [
+          h('span', { class: 'xn', text: sv.name || 'Untitled savings' }),
+          h('label', { class: 'xamt', for: 'f-sprev-' + sv.id }, [h('span', { text: '£' }),
+            field('sprev-' + sv.id, sv.saved, function (v) { sv.saved = v; commit(); }, { cls: 'prev-in', ph: '0', num: true, label: 'Saved before PayStamp for ' + (sv.name || 'savings') })]) ]);
+      });
+      body = h('div', { class: 'prev-body', id: 'prev-body' }, [
+        h('p', { class: 'prev-note', text: 'What you’d already saved before you started stamping months. It’s added to Saved, along with everything in your Records.' }),
+        rows.length ? h('div', { class: 'xlist' }, rows) : h('div', { class: 'prev-note', text: 'Add savings above first.' }) ]);
+    }
+    return h('section', { class: 'dsec prev' + (open ? ' open' : '') }, [head, body]);
+  }
+
+
+  /* =====================================================================
+     INVESTMENTS (overlay) — same idea as Savings.
+     Invested = before PayStamp + stamped months (planner item 'inv_<id>') − sold/withdrawn.
+     Current value = last value typed in + anything invested since it was typed in.
+     ===================================================================== */
+  var INV_COLOR = '#7E2A55';
+  function findInvestment(id) { return (state.investments || []).find(function (x) { return x.id === id; }); }
+  function findInvestExtra(id) { return (state.investExtras || []).find(function (x) { return x.id === id; }); }
+  function invItemId(iv) { return 'inv_' + iv.id; }
+  function invStamped(iv) {
+    var id = invItemId(iv), t = 0;
+    state.records.forEach(function (r) { (r.items || []).forEach(function (it) { if (it.id === id || it.investmentId === iv.id) t += Number(it.value) || 0; }); });
+    return t;
+  }
+  function invOut(iv) { return (state.investUsed || []).reduce(function (t, u) { return t + (u.investmentId === iv.id ? amt(u.amount) : 0); }, 0); }
+  function invested(iv) { return amt(iv.before) + invStamped(iv) - invOut(iv); }
+  function invValue(iv) {
+    if (iv.value === '' || iv.value == null) return invested(iv);
+    return amt(iv.value) + (invested(iv) - amt(iv.valueBase));
+  }
+  function invMonthly(iv) { return iv.monthly; }
+  function invCategory() {
+    var g = findGroup('investSavings') || state.groups.filter(function (x) { return x.key !== 'income'; })[0];
+    var c = g.categories.find(function (x) { return x.id === 'cat_invest'; });
+    if (!c) { c = { id: 'cat_invest', name: 'Investments', items: [] }; g.categories.unshift(c); }
+    return c;
+  }
+  function addInvToPlanner(iv) {
+    if (findItem(invItemId(iv))) return;
+    invCategory().items.push({ id: invItemId(iv), label: iv.name || 'Investment', target: iv.monthly || '', budgeted: iv.monthly || '', account: '', runs: '', due: '', automated: false, investmentId: iv.id });
+  }
+  function removeInvFromPlanner(iv) {
+    var f = findItem(invItemId(iv)); if (!f) return;
+    iv.monthly = f.item.budgeted;
+    f.c.items.splice(f.idx, 1);
+  }
+  function gainEl(cls, gain, base) {
+    var p = base > 0 ? gain / base * 100 : 0, up = gain >= 0;
+    return h('span', { class: cls + ' gain ' + (Math.abs(gain) < 0.5 ? '' : up ? 'up' : 'down') }, [(up ? '+' : '−') + money(Math.abs(gain)), h('small', { text: (up ? '+' : '−') + Math.abs(p).toFixed(1) + '%' })]);
+  }
+
+  // When Worth now was last typed in, and the cash added since (no growth is estimated).
+  function worthTip(iv) {
+    if (!iv.checkedAt) return 'Not checked yet. Type in what your provider shows.';
+    var d = new Date(iv.checkedAt), added = invested(iv) - amt(iv.valueBase);
+    var stale = Date.now() - iv.checkedAt > 45 * 864e5;
+    return (stale ? 'Time to update · ' : '') + 'Checked ' + d.getDate() + ' ' + MONTHS[d.getMonth()].slice(0, 3) + ' ' + d.getFullYear() + (Math.abs(added) >= 0.5 ? ' · ' + money(Math.round(added)) + ' added since' : '');
+  }
+  function staleDot(iv) {
+    return iv.checkedAt && Date.now() - iv.checkedAt > 45 * 864e5 ? h('span', { class: 'stale-dot', 'aria-label': 'Worth now needs updating' }) : null;
+  }
+  function investmentsBody() {
+    var c = INV_COLOR;
+    var card = h('section', { class: 'group debt-group inv-group flip-group', style: '--g:' + c + ';--gm:' + c + ';--gl:' + lighten(c, .86) + ';--gl2:' + lighten(c, .6) + ';--gb:' + lighten(c, .93) });
+    var inAll = 0, valAll = 0;
+    state.investments.forEach(function (iv) { inAll += invested(iv); valAll += invValue(iv); });
+    var gAll = valAll - inAll, up = gAll >= 0;
+    card.append(h('div', { class: 'group-head' }, [h('h2', { text: 'Investments' }), h('span', { class: 'share', text: money(valAll) + ' worth' })]));
+    card.append(h('div', { class: 'inv-sum' }, [
+      h('span', {}, ['Put in ', h('b', { text: money(inAll) })]),
+      h('span', {}, ['Worth now ', h('b', { text: money(valAll) })]),
+      h('span', {}, ['Growth ', h('b', { class: Math.abs(gAll) < 0.5 ? '' : up ? 'up' : 'down', text: (up ? '+' : '−') + money(Math.abs(gAll)) + (inAll > 0 ? ' (' + (up ? '+' : '−') + Math.abs(gAll / inAll * 100).toFixed(1) + '%)' : '') })]) ]));
+    card.append(h('div', { class: 'drow colhead' }, [
+      h('span', { class: 'd-name', text: 'Investment' }), h('span', { class: 'd-bal', text: 'Put in' }), h('span', { class: 'd-apr', text: 'Worth now' }),
+      h('span', { class: 'd-min', text: 'Growth' }), h('span', { class: 'd-pay', text: 'Monthly' }) ]));
+    var list = h('div', { class: 'item-list', 'data-drop-kind': 'investment', 'data-list-id': 'investments' }, [h('div', { class: 'empty-hint', text: 'No investments yet. Add one below.' })]);
+    state.investments.forEach(function (iv) { list.append(invRow(iv)); });
+    card.append(list);
+    card.append(h('div', { class: 'add-row' }, [btn('add-btn', 'Add an investment', function () {
+      var id = uid('iv');
+      state.investments.push({ id: id, name: '', before: '', value: '', valueBase: '0', monthly: '' });
+      commit();
+      var n = document.querySelector('[data-k="iname-' + id + '"]'); if (n) n.focus();
+    }, ['+ Add investment'])]));
+    card.append(h('div', { class: 'drow foot' }, [
+      h('span', { class: 'd-name', text: 'Total' }),
+      h('span', { class: 'd-bal', text: fmt(inAll) }),
+      h('span', { class: 'd-apr', text: fmt(valAll) }),
+      h('span', { class: 'd-min', text: (up ? '+' : '−') + fmt(Math.abs(gAll)) }),
+      h('span', { class: 'd-pay', text: fmt(state.investments.reduce(function (t, iv) { return t + amt(invMonthly(iv)); }, 0)) }) ]));
+    return h('div', {}, [card, h('div', { class: 'debt-hint' }, [
+      h('b', { text: 'Put in' }), ' is what your stamped Records show, plus anything invested before PayStamp, minus anything sold or withdrawn. Type ', h('b', { text: 'Worth now' }), ' from your provider’s app whenever you check it; money you put in afterwards is added on top. Anything with a ', h('b', { text: 'Monthly' }), ' amount shows in your planner under Investments & Savings › Investments.' ]),
+      invExtrasSection(), invBeforeSection(), invOutSection(), invWhatIf(), fbCard('investments') ]);
+  }
+
+  function invRow(iv) {
+    var row = h('div', { class: 'drow item-row', 'data-row-id': iv.id });
+    var grip = h('button', { type: 'button', class: 'handle d-h', 'data-grip': iv.id, 'aria-label': 'Move ' + (iv.name || 'investment') + ' (drag, or use arrow keys)', html: GRIP });
+    grip.addEventListener('pointerdown', function (e) { startDrag(e, 'investment'); });
+    grip.addEventListener('keydown', function (e) {
+      if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return; e.preventDefault();
+      var i = state.investments.indexOf(iv), ni = i + (e.key === 'ArrowUp' ? -1 : 1);
+      if (ni < 0 || ni >= state.investments.length) return;
+      moveInList(state.investments, iv.id, ni); commit();
+      var n = document.querySelector('[data-grip="' + iv.id + '"]'); if (n) n.focus();
+    });
+    var nm = iv.name || 'investment', linked = findItem(invItemId(iv)), inv = invested(iv), val = invValue(iv);
+    var sw = h('button', { type: 'button', class: 'sw d-sw', role: 'switch', 'aria-checked': String(!!linked), 'aria-label': 'Show ' + nm + ' in the Monthly Planner',
+      title: linked ? 'In your Monthly Planner (Investments & Savings › Investments)' : 'Add to your Monthly Planner',
+      onclick: function () { if (findItem(invItemId(iv))) removeInvFromPlanner(iv); else addInvToPlanner(iv); commit(); } }, [h('i')]);
+    var out = invOut(iv);
+    row.append(grip,
+      h('div', { class: 'd-name name-wrap' }, [
+        field('iname-' + iv.id, iv.name, function (v) { iv.name = v; var f = findItem(invItemId(iv)); if (f) f.item.label = v || 'Investment'; commit(); }, { cls: 'cell', ph: 'e.g. Stocks & Shares ISA', label: 'Investment name' }),
+        h('button', { type: 'button', class: 'isa-mark', 'aria-pressed': String(!!iv.isa), title: iv.isa ? 'Marked as a Stocks & Shares ISA' : 'Mark as a Stocks & Shares ISA',
+          onclick: function () { iv.isa = !iv.isa; commit(); } }, [iv.isa ? '✓ S&S ISA' : '+ S&S ISA']) ]),
+      h('span', { class: 'd-bal ro-num', title: 'Before PayStamp ' + money(amt(iv.before)) + ' + stamped months ' + money(invStamped(iv)) + (out ? ' − sold/withdrawn ' + money(out) : ''), text: fmt(inv) }),
+      h('div', { class: 'd-apr worth-cell', 'data-tip': worthTip(iv) }, [field('ival-' + iv.id, iv.value === '' ? '' : String(r2(val)), function (v) { iv.value = v; iv.valueBase = String(invested(iv)); iv.checkedAt = Date.now(); commit(); }, { cls: 'cell num', ph: fmt(inv), num: true, label: 'Worth now for ' + nm }), staleDot(iv)]),
+      gainEl('d-min', val - inv, inv),
+      h('div', { class: 'd-pay' }, [field('ipay-' + iv.id, invMonthly(iv), function (v) {
+        iv.monthly = v; var f = findItem(invItemId(iv));
+        if (f) { if (!f.item.target || f.item.target === f.item.budgeted) f.item.target = v; f.item.budgeted = v; }
+        commit();
+      }, { cls: 'cell num', ph: '0', num: true, label: 'Monthly for ' + nm })]),
+      btn('rm d-rm', 'Remove ' + nm, function () {
+        removeInvFromPlanner(iv);
+        state.investments = state.investments.filter(function (x) { return x !== iv; });
+        state.investExtras = state.investExtras.filter(function (x) { return x.investmentId !== iv.id; });
+        state.investUsed = state.investUsed.filter(function (x) { return x.investmentId !== iv.id; });
+        commit();
+      }, ['✕']));
+    return row;
+  }
+
+  function invToggle(key, title, small, bodyFn) {
+    var open = !!state[key];
+    return h('section', { class: 'dsec prev' + (open ? ' open' : '') }, [
+      h('button', { type: 'button', class: 'prev-toggle', 'aria-expanded': String(open), onclick: function () { var o = {}; o[key] = !open; set(o); } }, [
+        h('span', { class: 'pt-text' }, [h('h4', { text: title }), h('small', { text: small })]),
+        h('span', { class: 'pt-arrow', 'aria-hidden': 'true', text: open ? '▾' : '▸' }) ]),
+      open ? bodyFn() : null ]);
+  }
+  function invBeforeSection() {
+    var total = state.investments.reduce(function (t, iv) { return t + amt(iv.before); }, 0);
+    return invToggle('invBeforeOpen', 'Invested before PayStamp', total ? money(total) + ' added' : 'Already had money invested? Add it here.', function () {
+      return h('div', { class: 'prev-body' }, [
+        h('p', { class: 'prev-note', text: 'What you’d put in before you started stamping months. It’s added to Put in, along with everything in your Records.' }),
+        h('div', { class: 'xlist' }, state.investments.map(function (iv) {
+          return h('div', { class: 'xrow prev-row' }, [
+            h('span', { class: 'xn', text: iv.name || 'Untitled investment' }),
+            h('label', { class: 'xamt', for: 'f-ibefore-' + iv.id }, [h('span', { text: '£' }),
+              field('ibefore-' + iv.id, iv.before, function (v) {
+                // Correcting this doesn't change Worth now: shift the base by the same amount.
+                var was = amt(iv.before); iv.before = v; iv.valueBase = String(amt(iv.valueBase) + amt(v) - was);
+                commit();
+              }, { cls: 'prev-in', ph: '0', num: true, label: 'Invested before PayStamp for ' + (iv.name || 'investment') })]) ]);
+        })) ]);
+    });
+  }
+  function invOutSection() {
+    var all = state.investUsed, total = all.reduce(function (t, u) { return t + amt(u.amount); }, 0);
+    return invToggle('invOutOpen', 'Sold or withdrawn', total ? money(total) + ' taken out' : 'Taken money out? Record it here.', function () {
+      var U = state.invOutDraft || (state.invOutDraft = { investmentId: '', amount: '', note: '' });
+      if (!state.investments.some(function (p) { return p.id === U.investmentId; })) U.investmentId = state.investments.length ? state.investments[0].id : '';
+      var sel = h('select', { class: 'xsel', id: 'f-iout-iv', 'aria-label': 'Investment the money came out of', onchange: function (e) { U.investmentId = e.target.value; } },
+        state.investments.map(function (p) { return h('option', { value: p.id, text: (p.name || 'Untitled investment') + ' · ' + money(invValue(p)) }); }));
+      sel.value = U.investmentId;
+      var amtIn = h('input', { type: 'text', inputmode: 'decimal', id: 'f-iout-amt', placeholder: '0', 'aria-label': 'Amount taken out in pounds', oninput: function (e) { U.amount = e.target.value; } });
+      amtIn.value = U.amount;
+      var noteIn = h('input', { type: 'text', id: 'f-iout-note', class: 'used-note', placeholder: 'What for? (optional)', 'aria-label': 'What it was for', oninput: function (e) { U.note = e.target.value; } });
+      noteIn.value = U.note;
+      function record() {
+        var a = amt(U.amount); if (a <= 0 || !U.investmentId) { amtIn.focus(); return; }
+        var d = new Date();
+        state.investUsed.unshift({ id: uid('io'), investmentId: U.investmentId, amount: String(r2(a)), date: d.getDate() + ' ' + MONTHS[d.getMonth()].slice(0, 3) + ' ' + d.getFullYear(), note: (U.note || '').trim() });
+        U.amount = ''; U.note = ''; commit();
+      }
+      [amtIn, noteIn].forEach(function (el) { el.addEventListener('keydown', function (e) { if (e.key === 'Enter') record(); }); });
+      var list = h('div', { class: 'xlist' });
+      all.forEach(function (u) {
+        var iv = findInvestment(u.investmentId); if (!iv) return;
+        list.append(h('div', { class: 'xrow' }, [
+          h('span', { class: 'xn' }, [iv.name || 'Untitled investment', h('small', { text: u.date + (u.note ? ' · ' + u.note : '') })]),
+          h('span', { class: 'xv used-v', text: '−' + money(amt(u.amount)) }),
+          btn('rm', 'Remove this entry', function () { state.investUsed = state.investUsed.filter(function (y) { return y !== u; }); commit(); }, ['✕']) ]));
+      });
+      return h('div', { class: 'prev-body' }, [
+        h('p', { class: 'prev-note', text: 'Money you’ve sold or taken out. It comes off Put in and Worth now straight away.' }),
+        h('div', { class: 'xbar used-bar' }, [sel, h('label', { class: 'xamt', for: 'f-iout-amt' }, [h('span', { text: '£' }), amtIn]), noteIn, btn('xadd', 'Record sold or withdrawn', record, ['Record'])]),
+        list.children.length ? list : null ]);
+    });
+  }
+
+  /* one-off investments → Extras › Extra investments (for that month only) */
+  function invExtraStamped(x) { return state.records.some(function (r) { return (r.items || []).some(function (it) { return it.id === 'ivx_' + x.id; }); }); }
+  function invExtraCategory() {
+    var g = findGroup('extras') || state.groups.filter(function (x) { return x.key !== 'income'; }).slice(-1)[0];
+    var c = g.categories.find(function (x) { return x.id === 'cat_inv_extras'; });
+    if (!c) { c = { id: 'cat_inv_extras', name: 'Extra investments', items: [] }; g.categories.push(c); }
+    return c;
+  }
+  function syncInvestExtras() {
+    if (!state.investExtras || !state.groups || !state.investments) return;
+    var key = plannerMonthKey();
+    var wanted = function (x) { return x && x.monthKey === key && findInvestment(x.investmentId); };
+    state.groups.forEach(function (g) { g.categories.forEach(function (c) {
+      c.items = c.items.filter(function (it) { return !it.investExtraId || wanted(findInvestExtra(it.investExtraId)); });
+    }); });
+    state.investExtras.forEach(function (x) {
+      if (!wanted(x)) return;
+      var iv = findInvestment(x.investmentId), id = 'ivx_' + x.id, f = findItem(id), label = 'Extra · ' + (iv.name || 'Investment');
+      if (f) { f.item.label = label; f.item.budgeted = x.amount; f.item.target = x.amount; }
+      else invExtraCategory().items.push({ id: id, label: label, target: x.amount, budgeted: x.amount, account: '', runs: '', due: '', automated: false, investmentId: iv.id, investExtraId: x.id });
+    });
+    state.groups.forEach(function (g) { g.categories = g.categories.filter(function (c) { return !(c.id === 'cat_inv_extras' && !c.items.length); }); });
+  }
+  function invExtrasSection() {
+    var X = state.ixDraft || (state.ixDraft = { investmentId: '', amount: '' });
+    if (!state.investments.some(function (p) { return p.id === X.investmentId; })) X.investmentId = state.investments.length ? state.investments[0].id : '';
+    var sel = h('select', { class: 'xsel', id: 'f-ix-iv', 'aria-label': 'Investment to add extra to', onchange: function (e) { X.investmentId = e.target.value; } },
+      state.investments.length ? state.investments.map(function (p) { return h('option', { value: p.id, text: p.name || 'Untitled investment' }); }) : [h('option', { value: '', text: 'No investments yet' })]);
+    sel.value = X.investmentId;
+    var amtIn = h('input', { type: 'text', inputmode: 'decimal', id: 'f-ix-amt', 'data-k': 'ix-amt', placeholder: '0', 'aria-label': 'Extra amount in pounds', oninput: function (e) { X.amount = e.target.value; } });
+    amtIn.value = X.amount;
+    amtIn.addEventListener('keydown', function (e) { if (e.key === 'Enter') add(); });
+    function add() {
+      var a = amt(X.amount); if (a <= 0 || !X.investmentId) { amtIn.focus(); return; }
+      state.investExtras.unshift({ id: uid('ix'), investmentId: X.investmentId, amount: String(r2(a)), monthKey: plannerMonthKey() });
+      X.amount = ''; commit();
+    }
+    var list = h('div', { class: 'xlist' });
+    state.investExtras.forEach(function (x) {
+      var iv = findInvestment(x.investmentId); if (!iv) return;
+      list.append(h('div', { class: 'xrow' }, [
+        h('span', { class: 'xn' }, [iv.name || 'Untitled investment', h('small', { text: x.monthKey + (invExtraStamped(x) ? ' · stamped' : '') })]),
+        h('span', { class: 'xv', text: money(amt(x.amount)) }),
+        btn('rm', 'Remove this extra investment', function () { state.investExtras = state.investExtras.filter(function (y) { return y !== x; }); commit(); }, ['✕']) ]));
+    });
+    return h('section', { class: 'dsec' }, [
+      h('div', { class: 'dsec-head' }, [h('h4', { text: 'Extra investments' }), h('p', { text: 'Putting a bit more in this month? It goes into Extras in your planner for ' + plannerMonthKey() + '.' })]),
+      h('div', { class: 'xbar' }, [sel, h('label', { class: 'xamt', for: 'f-ix-amt' }, [h('span', { text: '£' }), amtIn]), btn('xadd', 'Add to planner', add, ['Add to planner'])]),
+      list.children.length ? list : null ]);
+  }
+
+
+  /* ---------- planner links ----------
+     Giving a debt, savings or investment a Monthly amount adds a line to the planner. The line stays
+     (even at £0) until its ✕ is pressed in the planner, which clears the Monthly amount. */
+  function linkedEntity(it) {
+    if (it.extraId || it.saveExtraId || it.investExtraId) return null;
+    return it.debtId ? findDebt(it.debtId) : it.savingId ? findSaving(it.savingId) : it.investmentId ? findInvestment(it.investmentId) : null;
+  }
+  function syncLinkedItems() {
+    if (!state.groups) return;
+    [[state.debts, debtItemId, addDebtToPlanner], [state.savings, savingItemId, addSavingToPlanner], [state.investments, invItemId, addInvToPlanner]].forEach(function (k) {
+      (k[0] || []).forEach(function (e) {
+        var f = findItem(k[1](e)), m = e.monthly || '';
+        if (f) { if (f.item.budgeted !== m) { if (!f.item.target || f.item.target === f.item.budgeted) f.item.target = m; f.item.budgeted = m; } }
+        else if (amt(m) > 0) k[2](e);
+      });
+    });
+  }
+  function linkTag(it) {
+    var page = it.debtId ? 'Debt' : it.savingId ? 'Savings' : it.investmentId ? 'Investments' : null;
+    if (!page) return null;
+    var tag = h('button', { type: 'button', class: 'link-tag', 'data-tip': 'Linked to your ' + page + ' page. Changing it here changes it there too.', 'aria-label': 'Linked to your ' + page + ' page', text: page });
+    tag.addEventListener('click', function () { tag.classList.toggle('tip-on'); setTimeout(function () { tag.classList.remove('tip-on'); }, 2500); });
+    return tag;
+  }
+
+
+  /* ---------- feedback ----------
+     The form hands { kind, message, contactOk, page, userAgent } to window.PayStamp.sendFeedback,
+     which the live site provides (saves to the Supabase 'feedback' table). The preview has no
+     server, so it only shows what would be sent. */
+  var FB_KINDS = [
+    { key: 'suggestion', label: 'Suggestion', note: 'An idea or something to improve', ph: 'What would make PayStamp better for you?' },
+    { key: 'bug', label: 'Something’s broken', note: 'A bug or something not working', ph: 'What were you doing, and what happened? The more detail the better.' } ];
+  var FB_AREAS = [
+    { key: 'planner', label: 'Monthly Planner' }, { key: 'debt', label: 'Debt' }, { key: 'savings', label: 'Savings' },
+    { key: 'investments', label: 'Investments' }, { key: 'records', label: 'Records' }, { key: 'account', label: 'Signing in / account' }, { key: 'other', label: 'Something else' } ];
+  var FB_ICON = '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 3.5h12a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H9l-4 3v-3H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M6.5 8h7M6.5 11h4.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>';
+  function fbCard(area) {
+    var a = FB_AREAS.find(function (x) { return x.key === area; });
+    return h('div', { class: 'fb-card' }, [
+      h('span', { class: 'fb-card-ic', html: FB_ICON }),
+      h('span', { class: 'fb-card-t' }, [h('b', { text: 'Ideas for ' + a.label + '?' }), ' PayStamp is new, so tell us what would help or what isn’t working.']),
+      btn('fb-card-btn', 'Send a suggestion about ' + a.label, function () { openFeedback(area); }, ['Suggestions']) ]);
+  }
+  function openFeedback(area) {
+    state.fbFrom = state.overlay; state.fbSent = false; state.fbErr = null;
+    if (!state.fbDraft) state.fbDraft = { kind: 'suggestion', message: '', contactOk: true };
+    state.fbDraft.area = area || (['debt', 'savings', 'investments', 'records'].indexOf(state.overlay) > -1 ? state.overlay : 'planner');
+    set({ overlay: 'feedback', openMenu: null });
+    setTimeout(function () { var t = document.getElementById('f-fb-text'); if (t) t.focus(); }, 60);
+  }
+  function feedbackBody() {
+    var P = window.PayStamp || {};
+    if (state.fbSent) {
+      return h('div', { class: 'fb-done' }, [
+        h('p', { style: 'margin:0', text: 'Your message has been sent. Every message is read, and it really helps shape what comes next.' }),
+        P.preview ? h('div', { class: 'pv', text: 'This is the preview, so nothing was actually sent. On paystamp.co.uk it’s saved for you to read.' }) : null,
+        h('button', { type: 'button', class: 'fb-send', onclick: function () { set({ overlay: state.fbFrom || null, fbSent: false }); } }, [state.fbFrom ? 'Back' : 'Done']) ]);
+    }
+    var D = state.fbDraft, kind = FB_KINDS.find(function (k) { return k.key === D.kind; });
+    var text = h('textarea', { class: 'fb-text', id: 'f-fb-text', 'data-k': 'fb-text', placeholder: kind.ph, 'aria-label': 'Your message', maxlength: '4000' });
+    text.value = D.message;
+    var send = h('button', { type: 'button', class: 'fb-send', disabled: D.message.trim().length < 3 || state.fbSending ? true : null }, [state.fbSending ? 'Sending…' : 'Send']);
+    text.addEventListener('input', function () { D.message = text.value; send.disabled = D.message.trim().length < 3; });
+    var email = P.getEmail ? P.getEmail() : '';
+    var reply = h('input', { type: 'checkbox', id: 'f-fb-reply', onchange: function (e) { D.contactOk = e.target.checked; } });
+    reply.checked = !!D.contactOk;
+    send.addEventListener('click', function () {
+      if (D.message.trim().length < 3) return;
+      var area = FB_AREAS.find(function (x) { return x.key === D.area; }) || FB_AREAS[0];
+      var payload = { kind: D.kind, area: area.label, message: D.message.trim(), contactOk: !!D.contactOk, month: plannerMonthKey(), founder: state.founder.number || null, userAgent: navigator.userAgent, screen: innerWidth + '×' + innerHeight };
+      set({ fbSending: true, fbErr: null });
+      var go = P.sendFeedback ? P.sendFeedback(payload) : Promise.resolve();
+      Promise.resolve(go).then(function () {
+        state.fbDraft = { kind: 'suggestion', message: '', contactOk: true, area: D.area };
+        set({ fbSending: false, fbSent: true });
+      }, function () {
+        set({ fbSending: false, fbErr: 'It didn’t send. Check your internet connection and try again. Your message is still here.' });
+      });
+    });
+    return h('div', { class: 'fb-form' }, [
+      h('div', { class: 'fb-kind', role: 'group', 'aria-label': 'Type of feedback' }, FB_KINDS.map(function (k) {
+        return h('button', { type: 'button', 'aria-pressed': String(k.key === D.kind), onclick: function () { D.kind = k.key; scheduleRender(); } }, [k.label, h('small', { text: k.note })]);
+      })),
+      h('div', { class: 'fb-area' }, [h('span', { class: 'fb-lbl', id: 'fb-area-lbl', text: 'Where is it?' }),
+        h('div', { class: 'fb-chips', role: 'group', 'aria-labelledby': 'fb-area-lbl' }, FB_AREAS.map(function (a) {
+          return h('button', { type: 'button', 'aria-pressed': String(a.key === D.area), onclick: function () { D.area = a.key; scheduleRender(); } }, [a.label]);
+        })) ]),
+      text,
+      h('label', { class: 'fb-reply', for: 'f-fb-reply' }, [reply, h('span', { text: email ? 'You can email me about this at ' + email : 'You can email me about this (we’ll use the email you signed in with)' })]),
+      state.founder.number ? h('p', { class: 'fb-founder', text: 'Sent as Founding Member #' + state.founder.number + ', so it’s seen first.' }) : null,
+      state.fbErr ? h('p', { class: 'fb-err', role: 'alert', text: state.fbErr }) : null,
+      h('div', { class: 'fb-foot' }, [h('span', { class: 'fb-note', text: D.kind === 'bug' ? 'Your browser type and screen size are included to help fix it.' : '' }), send]) ]);
+  }
+
+
+  /* ---------- what's new ----------
+     Newest first. Add an entry at the top for each release; the banner shows until it's seen. */
+  var WN = [
+    { version: '3.0', date: '3 October 2026', title: 'Debt, Savings and Investments', items: [
+      'New Debt, Savings and Investments pages, in the menu at the top left. They link straight into your planner.',
+      'Stamping a month now pays down your debts and adds to your savings and investments.',
+      'Debt-free date, Snowball or Avalanche ordering, and What if Calculators to plan ahead.',
+      'Collect milestone stamps, and the first 100 users become numbered founders.',
+      'Payment dates, transfer days for each bank, and percentages on every category.',
+      'Send us ideas or report a problem with the yellow Suggestions button.' ] },
+    { version: '2.1', date: '27 September 2026', title: 'A home page for PayStamp', items: [
+      'A new home page explaining how PayStamp works, for anyone who isn’t signed in yet.',
+      'People already signed in go straight to their planner.' ] },
+    { version: '2.0', date: 'September 2026', title: 'The redesigned planner', items: [
+      'Edit any name or amount with one click.',
+      'Drag items to reorder them or move them to another category.',
+      'Targets, Notes and Locations moved into the menu at the top right.',
+      'Save your Records to Excel, one file per year.' ] } ];
+  function openWhatsNew() { state.seenWhatsNew = WN[0].version; openOverlay('whatsnew'); }
+  function whatsNewBanner() {
+    if (state.seenWhatsNew === WN[0].version || state.introOpen) return null;
+    return h('div', { class: 'wn-banner', role: 'status' }, [
+      h('span', { class: 'wn-tag', text: 'New' }),
+      h('span', { class: 'wn-text' }, [h('b', { text: WN[0].title + '. ' }), 'See what’s new in this update.']),
+      btn('wn-open', 'See what’s new', openWhatsNew, ['See what’s new']),
+      btn('wn-x', 'Dismiss', function () { set({ seenWhatsNew: WN[0].version }); }, ['✕']) ]);
+  }
+  function whatsNewBody() {
+    return h('div', { class: 'wn-list' }, WN.slice(0, 1).map(function (r, i) {
+      return h('article', { class: 'wn-entry' + (i === 0 ? ' latest' : '') }, [
+        h('div', { class: 'wn-meta' }, [h('span', { class: 'wn-ver', text: 'Version ' + r.version }), h('span', { class: 'wn-date', text: r.date }), i === 0 ? h('span', { class: 'wn-tag', text: 'Latest' }) : null]),
+        h('h4', { text: r.title }),
+        h('ul', {}, r.items.map(function (t) { return h('li', { text: t }); })) ]);
+    }));
+  }
+
+
+  /* =====================================================================
+     THE FOUNDING 100
+     state.founder (preview; on the live site this comes from the Supabase profile):
+       { number, name, elite, eliteNumber, joined, code, placesLeft, eliteTaken }
+     - Stamping a first real month quietly claims the next number (1–100). Rules are hidden.
+     - Everyone has one personal invite link, shared as often as they like.
+     - Elite: 3 people who joined through your link become founders. Own numbering from #1.
+     ===================================================================== */
+  var SITE = 'https://paystamp.co.uk';
+  function inviteLink() { return SITE + '/?invite=' + state.founder.code; }
+  function inviteMessage() {
+    var F = state.founder, who = F.name || 'A friend';
+    if (F.placesLeft > 0) return who + ' has invited you to PayStamp, a simple way to give every pound of your pay a job. Join now and you could be one of the first 100 founders: ' + inviteLink();
+    return who + ' thinks you’d like PayStamp, a simple way to give every pound of your pay a job: ' + inviteLink();
+  }
+  function realMonthCheck() {
+    var t = totals(), defs = defaultGroups(), base = {};
+    defs.forEach(function (g) { if (g.key === 'income') return; g.categories.forEach(function (c) { c.items.forEach(function (it) { base[it.id] = (it.label || '') + '|' + amt(it.budgeted); }); }); });
+    base['dbt_debt1'] = 'Credit card|150';
+    var seen = {}, changes = 0;
+    state.groups.forEach(function (g) { if (g.key === 'income') return; g.categories.forEach(function (c) { c.items.forEach(function (it) {
+      seen[it.id] = 1;
+      if (base[it.id] == null || base[it.id] !== (it.label || '') + '|' + amt(it.budgeted)) changes++;
+    }); }); });
+    Object.keys(base).forEach(function (id) { if (!seen[id]) changes++; });
+    return { ok: t.income > 0 && Math.abs(t.income - 1900) > 0.005 && changes >= 3 && Math.abs(t.zero) < 0.01 };
+  }
+  function claimFounder(label) {
+    var F = state.founder, P = window.PayStamp || {};
+    if (P.claimFounder) {
+      // Live site: the database hands out the next number, so two people can never share one.
+      P.claimFounder(label).then(function (nf) {
+        var name = F.name;
+        if (nf) Object.assign(F, nf, { name: name });
+        if (F.number) { state.stampAnim = true; set({ overlay: 'founderWelcome' }); }
+        else afterStamp(label);
+      }, function () { afterStamp(label); });
+      return;
+    }
+    F.number = 100 - F.placesLeft + 1; F.placesLeft -= 1; F.since = label;
+    state.stampAnim = true; state.overlay = 'founderWelcome';
+  }
+  // If no founder place came through, carry on as a normal stamp.
+  function afterStamp(label) {
+    if ((state.pendingStamps || []).length) { set({ overlay: 'newStamps' }); return; }
+    set({ stampFlash: true, stampFlashLabel: label });
+    clearTimeout(stampMonth.t);
+    stampMonth.t = setTimeout(function () { state.stampFlash = false; scheduleRender(); }, 3200);
+  }
+
+  /* ---------- stamps ---------- */
+  var stampSeq = 0;
+  /* One stamp design: a solid coloured ring with white writing, a tinted centre and a symbol. */
+  var STAMP = {
+    founder:   { ring: '#C9A23A', edge: '#B8902A', tint: '#FFF4D6', ink: '#8A6400', text: 'FOUNDING MEMBER • THE 100 • ' },
+    elite:     { ring: '#16131C', edge: '#D4AF37', tint: '#D4AF37', ink: '#16131C', text: 'ELITE FOUNDER ★ PAYSTAMP ★ ', textInk: '#E8C96A', elite: true },
+    efund1k:   { ring: '#2F8F5B', tint: '#E4F3EA', ink: '#1D6B43', text: 'EMERGENCY FUND • £1,000 • ', name: '£1,000 emergency fund' },
+    automated: { ring: '#7E2A55', tint: '#F5E7EE', ink: '#7E2A55', text: 'AUTOMATED • PAYMENTS • ', name: 'Automated payments' },
+    halfway:   { ring: '#C2483D', tint: '#FBE9E7', ink: '#C2483D', text: 'DEBT CRUSHER • HALFWAY • ', name: 'Debt crusher: halfway' },
+    debtfree:  { ring: '#A8342B', tint: '#FBE9E7', ink: '#A8342B', text: 'DEBT FREE • DEBT FREE • ', name: 'Debt-free' },
+    isa:       { ring: '#1F6F8B', tint: '#E3F0F5', ink: '#1F6F8B', text: 'ISA INVESTOR • GROWING • ', name: 'ISA investor' },
+    efund3:    { ring: '#2F8F5B', tint: '#E4F3EA', ink: '#1D6B43', text: 'EMERGENCY FUND • 3 MONTHS • ', name: '3-month emergency fund' },
+    efund6:    { ring: '#165A37', tint: '#DCEFE3', ink: '#165A37', text: 'EMERGENCY FUND • 6 MONTHS • ', name: '6-month emergency fund' },
+    first:     { ring: '#7E2A55', tint: '#F5E7EE', ink: '#7E2A55', text: 'FIRST STAMP • PAYSTAMP • ', name: 'First stamp' },
+    streak3:   { ring: '#5A5FB0', tint: '#ECEDF8', ink: '#5A5FB0', text: '3 MONTHS • IN A ROW • ', name: '3 months in a row' },
+    streak6:   { ring: '#43479A', tint: '#E7E8F5', ink: '#43479A', text: '6 MONTHS • IN A ROW • ', name: '6 months in a row' },
+    streak12:  { ring: '#2E3180', tint: '#E2E3F2', ink: '#2E3180', text: 'ONE YEAR • 12 MONTHS • ', name: 'A full year in a row' },
+    goal:      { ring: '#D9822B', tint: '#FCEFE1', ink: '#D9822B', text: 'SAVINGS GOAL • REACHED • ', name: 'Savings goal reached' } };
+  var stampSeq = 0;
+  function stampSVG(key, num) {
+    var c = STAMP[key], id = 'stp' + (++stampSeq), ink = c.ink, mid = '';
+    if (key === 'founder') mid = '<text x="50" y="57" text-anchor="middle" fill="' + ink + '" font-family="DM Serif Display,Georgia,serif" font-size="' + (num > 99 ? 16 : 20) + '">#' + num + '</text>';
+    if (key === 'elite') mid = '<circle cx="50" cy="50" r="23.5" fill="none" stroke="#8A6400" stroke-width="3" stroke-dasharray="1 2.6" opacity=".55"/><polygon points="50,34 52.3,39 57.6,39.4 53.5,42.8 54.8,48 50,45.2 45.2,48 46.5,42.8 42.4,39.4 47.7,39" fill="#16131C"/><text x="50" y="66" text-anchor="middle" fill="#16131C" font-family="DM Serif Display,Georgia,serif" font-size="17">#' + num + '</text>';
+    if (key === 'efund1k') mid = '<text x="50" y="57" text-anchor="middle" fill="' + ink + '" font-family="DM Serif Display,Georgia,serif" font-size="20">£1k</text>';
+    if (key === 'automated') mid = '<circle cx="50" cy="50" r="11" fill="none" stroke="' + ink + '" stroke-width="2.8" stroke-dasharray="26 8.5"/><polygon points="39.4,55 40.4,61 45.4,56" fill="' + ink + '"/><polygon points="60.6,45 59.6,39 54.6,44" fill="' + ink + '"/>';
+    if (key === 'halfway') mid = '<circle cx="50" cy="50" r="12" fill="none" stroke="' + ink + '" stroke-width="2.6"/><path d="M50 38 a12 12 0 0 1 0 24 z" fill="' + ink + '"/>';
+    if (key === 'debtfree') mid = '<rect x="35.5" y="51.6" width="14" height="3.8" rx="1.9" fill="' + ink + '" transform="rotate(45 42.5 53.5)"/><rect x="41.3" y="48.6" width="26" height="3.8" rx="1.9" fill="' + ink + '" transform="rotate(-48 54.3 50.5)"/>';
+    if (key === 'isa') mid = '<rect x="37" y="52" width="6" height="10" rx="1.5" fill="' + ink + '"/><rect x="47" y="45" width="6" height="17" rx="1.5" fill="' + ink + '"/><rect x="57" y="37" width="6" height="25" rx="1.5" fill="' + ink + '"/>';
+    if (key === 'efund3' || key === 'efund6') mid = '<text x="50" y="50" text-anchor="middle" fill="' + ink + '" font-family="DM Serif Display,Georgia,serif" font-size="22">' + (key === 'efund3' ? '3' : '6') + '</text><text x="50" y="63" text-anchor="middle" fill="' + ink + '" font-family="DM Sans,system-ui,sans-serif" font-size="9.5" font-weight="700">MONTHS</text>';
+    if (key === 'first') mid = '<text x="50" y="57" text-anchor="middle" fill="' + ink + '" font-family="DM Serif Display,Georgia,serif" font-size="20">1st</text>';
+    if (key === 'streak3' || key === 'streak6' || key === 'streak12') mid = '<rect x="36" y="38" width="28" height="25" rx="3.5" fill="#fff" stroke="' + ink + '" stroke-width="2.4"/><rect x="36" y="38" width="28" height="7" rx="2" fill="' + ink + '"/><rect x="41" y="34" width="3" height="7" rx="1.5" fill="' + ink + '"/><rect x="56" y="34" width="3" height="7" rx="1.5" fill="' + ink + '"/><text x="50" y="60" text-anchor="middle" fill="' + ink + '" font-family="DM Sans,system-ui,sans-serif" font-size="13" font-weight="700">' + key.slice(6) + '</text>';
+    if (key === 'goal') mid = '<circle cx="50" cy="50" r="13" fill="none" stroke="' + ink + '" stroke-width="2.4"/><circle cx="50" cy="50" r="7.5" fill="none" stroke="' + ink + '" stroke-width="2.4"/><circle cx="50" cy="50" r="3" fill="' + ink + '"/>';
+    return '<svg viewBox="0 0 100 100" aria-hidden="true"><defs><path id="' + id + '" d="M19 50 a31 31 0 1 1 62 0 a31 31 0 1 1 -62 0"/></defs>' +
+      '<circle cx="50" cy="50" r="48" fill="none" stroke="' + (c.edge || c.ring) + '" stroke-width="' + (c.elite ? 2.5 : 1.5) + '"/><circle cx="50" cy="50" r="45" fill="' + c.ring + '"/>' +
+      '<circle cx="50" cy="50" r="27" fill="' + c.tint + '" stroke="' + (c.elite ? '#8A6400' : '#fff') + '" stroke-width="' + (c.elite ? 1.5 : 2.5) + '"/>' +
+      '<text fill="' + (c.textInk || '#fff') + '" font-family="DM Sans,system-ui,sans-serif" font-size="11" font-weight="700"><textPath href="#' + id + '" textLength="192" lengthAdjust="spacing">' + c.text + '</textPath></text>' + mid + '</svg>';
+  }
+  function founderStampSVG(num) { return stampSVG('founder', num); }
+  function eliteSealSVG(num) { return stampSVG('elite', num); }
+
+  /* ---------- milestones ----------
+     Awarded when a real month is stamped. Shown in the order earned (after the founder stamps).
+     If the condition stops being true, the stamp fades; it comes back when it's true again. */
+  function costsTotal() { var g = findGroup('costs'); return g ? groupSum(g, 'budgeted') : 0; }
+  function efundSaved(id) { var sv = id && findSaving(id); return sv ? savedNow(sv) : 0; }
+  function totalDebtStart() { return state.debts.reduce(function (t, d) { return t + amt(d.balance); }, 0); }
+  function isaInvs() { return state.investments.filter(function (iv) { return iv.isa; }); }
+  // Months stamped in a row, counting back from the most recent stamped month.
+  function streakLen() {
+    var idx = state.records.map(function (r) { return Number(r.year) * 12 + MONTHS.indexOf(r.month); }).sort(function (a, b) { return b - a; });
+    if (!idx.length) return 0;
+    var n = 1; for (var i = 1; i < idx.length; i++) { if (idx[i] === idx[i - 1] - 1) n++; else if (idx[i] !== idx[i - 1]) break; }
+    return n;
+  }
+  var MILESTONES = [
+    { key: 'first', permanent: true, check: function () { return true; } },
+    { key: 'streak3', permanent: true, check: function () { return streakLen() >= 3; } },
+    { key: 'streak6', permanent: true, check: function () { return streakLen() >= 6; } },
+    { key: 'streak12', permanent: true, check: function () { return streakLen() >= 12; } },
+    { key: 'goal', permanent: true, check: function () { return state.savings.some(function (sv) { return amt(sv.goal) > 0 && savedNow(sv) >= amt(sv.goal); }); } },
+    { key: 'efund1k', check: function () { return efundSaved(state.efundStarter) >= 1000; }, lost: 'Your £1,000 fund is below £1,000.', how: 'Mark your starter emergency fund on the Savings page and save £1,000 into it.' },
+    { key: 'automated', check: function () { var n = 0, all = true; state.groups.forEach(function (g) { if (g.key === 'income') return; g.categories.forEach(function (c) { c.items.forEach(function (it) { n++; if (!it.automated) all = false; }); }); }); return n > 0 && all; }, lost: 'Not every payment is automated right now.' },
+    { key: 'halfway', check: function () { var tot = totalDebtStart(); if (!tot) return false; var paid = state.debts.reduce(function (t, d) { return t + Math.min(debtPaid(d).paid, amt(d.balance)); }, 0); return paid >= tot / 2; }, lost: 'Less than half your debt is paid off right now.', earnOnly: function () { return totalDebtStart() > 0; } },
+    { key: 'debtfree', check: function () { return state.debts.every(function (d) { return debtLeft(d) <= 0.005; }); }, lost: 'You have debt again. Clear it to bring this back.' },
+    { key: 'isa', check: function () { return isaInvs().some(function (iv) { return amt(invMonthly(iv)) > 0; }); }, earn: function (rec) { var ids = isaInvs().map(function (iv) { return iv.id; }); return (rec.items || []).some(function (it) { return it.investmentId && ids.indexOf(it.investmentId) > -1 && it.value > 0; }); }, lost: 'Nothing is going into an ISA right now.' },
+    { key: 'efund3', check: function () { var c = costsTotal(); return !!state.efundMain && c > 0 && efundSaved(state.efundMain) >= 3 * c; }, lost: 'Your emergency fund is below 3 months of costs.' },
+    { key: 'efund6', check: function () { var c = costsTotal(); return !!state.efundMain && c > 0 && efundSaved(state.efundMain) >= 6 * c; }, lost: 'Your emergency fund is below 6 months of costs.' } ];
+  function awardMilestones(label) {
+    if (!state.realStamped) return [];
+    var rec = state.records[state.records.length - 1], fresh = [];
+    MILESTONES.forEach(function (m) {
+      if (state.milestones[m.key]) return;
+      if (m.earnOnly && !m.earnOnly()) return;
+      if (m.earn ? m.earn(rec) : m.check()) { state.milestones[m.key] = { at: Date.now(), label: label }; fresh.push(m.key); }
+    });
+    if (fresh.length) state.animStamps = fresh.slice();
+    return fresh;
+  }
+  function stampButton(key, num, tip, faded) {
+    var anim = (key === 'founder' && state.stampAnim) || (state.animStamps || []).indexOf(key) > -1;
+    var b = h('button', { type: 'button', class: 'ms' + (faded ? ' faded' : '') + (anim ? ' anim' : ''), 'data-tip': tip, 'aria-label': tip, html: stampSVG(key, num) });
+    b.addEventListener('click', function () { b.classList.toggle('tip-on'); setTimeout(function () { b.classList.remove('tip-on'); }, 2500); });
+    return b;
+  }
+  function stampRow() {
+    var F = state.founder, kids = [];
+    if (F.number) kids.push(stampButton('founder', F.number, 'Founding Member #' + F.number + (F.since ? ' · since ' + F.since : '')));
+    if (F.number && F.elite) kids.push(stampButton('elite', F.eliteNumber, 'Elite Founding Member #' + F.eliteNumber + (F.eliteSince ? ' · since ' + F.eliteSince : '')));
+    MILESTONES.filter(function (m) { return state.milestones[m.key]; })
+      .sort(function (a, b) { return state.milestones[a.key].at - state.milestones[b.key].at; })
+      .forEach(function (m) {
+        var on = m.permanent || m.check(), e = state.milestones[m.key];
+        kids.push(stampButton(m.key, null, STAMP[m.key].name + ' · earned ' + e.label + (on ? '' : '. ' + m.lost), !on));
+      });
+    // Up to 7 sit side by side; more than that overlap neatly (sooner on phones).
+    if (!kids.length) return null;
+    var n = kids.length, phone = innerWidth <= 640, size = phone ? 46 : 52, room = Math.min(innerWidth - 32, 640);
+    var stack = n > (phone ? 5 : 7), ov = 0;
+    if (stack) ov = Math.max(16, Math.ceil((n * size - room) / (n - 1)));
+    var r = h('div', { class: 'stamp-row' + (stack ? ' stack' : '') }, kids);
+    r.style.setProperty('--ov', ov + 'px');
+    return r;
+  }
+  function founderLine() {
+    var F = state.founder;
+    if (!F.number) return null;
+    return h('div', { class: 'f-bar', role: 'region', 'aria-label': 'Founding places' }, [
+      F.placesLeft > 0 ? h('button', { type: 'button', class: 'f-left', onclick: function () { openOverlay('founderInfo'); } }, [h('b', { text: String(F.placesLeft) }), h('span', { class: 'fb-long', text: ' founding' }), ' places left']) : null,
+      btn('f-gift', F.placesLeft > 0 ? 'Give a friend founder access' : 'Share PayStamp', function () { openOverlay('invites'); }, [F.placesLeft > 0 ? '🎁 Give a friend founder access' : '🎁 Share PayStamp']) ]);
+  }
+  function newStampsBody() {
+    var keys = state.pendingStamps || [];
+    var done = function () { state.pendingStamps = []; set({ overlay: null }); };
+    return h('div', { class: 'f-welcome' }, [
+      h('div', { class: 'ns-row' }, keys.map(function (k) { return h('div', { class: 'ns-item' }, [h('span', { class: 'f-big-stamp ns', html: stampSVG(k) }), h('b', { text: STAMP[k].name })]); })),
+      h('p', { text: keys.length > 1 ? 'They’ve been added to the top of your planner, next to PayStamp.' : 'It’s been added to the top of your planner, next to PayStamp.' }),
+      h('div', { class: 'sheet-actions' }, [btn('fb-send', 'Done', done, ['Done'])]) ]);
+  }
+
+  /* ---------- emergency funds (Savings page) ---------- */
+  function efundSection() {
+    var open = !!state.efundOpen, c = costsTotal();
+    var pick = function (key, label, id) {
+      var sel = h('select', { class: 'xsel', id: id, 'aria-label': label, onchange: function (e) { state[key] = e.target.value; commit(); } },
+        [h('option', { value: '', text: 'Not set' })].concat(state.savings.map(function (sv) { return h('option', { value: sv.id, text: sv.name || 'Untitled savings' }); })));
+      sel.value = state[key] || '';
+      return h('label', { class: 'ef-pick', for: id }, [h('span', { text: label }), sel]);
+    };
+    var names = [state.efundStarter, state.efundMain].map(function (id) { var sv = id && findSaving(id); return sv ? sv.name : null; }).filter(Boolean);
+    return h('section', { class: 'dsec prev' + (open ? ' open' : '') }, [
+      h('button', { type: 'button', class: 'prev-toggle', 'aria-expanded': String(open), onclick: function () { set({ efundOpen: !open }); } }, [
+        h('span', { class: 'pt-text' }, [h('h4', { text: 'Emergency funds' }), h('small', { text: names.length ? names.join(' · ') : 'Tell PayStamp which savings are your emergency funds.' })]),
+        h('span', { class: 'pt-arrow', 'aria-hidden': 'true', text: open ? '▾' : '▸' }) ]),
+      open ? h('div', { class: 'prev-body' }, [
+        h('p', { class: 'prev-note', text: 'Used for your emergency fund stamps. Your 3–6 month fund is measured against your monthly Costs (' + money(Math.round(c)) + '), so 3 months is ' + money(Math.round(c * 3)) + ' and 6 months is ' + money(Math.round(c * 6)) + '.' }),
+        h('div', { class: 'ef-grid' }, [pick('efundStarter', 'Starter fund (£1,000)', 'f-ef-start'), pick('efundMain', 'Emergency fund (3–6 months)', 'f-ef-main')]) ]) : null ]);
+  }
+
+  /* ---------- sheets ---------- */
+  function founderInfoBody() {
+    var F = state.founder;
+    return h('div', { class: 'f-info' }, [
+      h('p', { class: 'f-lead', text: 'Founders are the first 100 people to use PayStamp.' }),
+      h('ul', { class: 'f-list' }, [
+        h('li', { text: 'You get a founder number, from 1 to 100.' }),
+        h('li', { text: 'Founders get perks as PayStamp grows.' }),
+        h('li', {}, ['Invite 3 people who become founders, and you become an ', h('b', { text: 'Elite Founder' }), '. Elite places are rare, and they close when the 100 are gone.']) ]),
+      F.number ? h('p', { class: 'f-you', text: 'You’re Founding Member #' + F.number + (F.elite ? ' and Elite Founding Member #' + F.eliteNumber : '') + '.' })
+        : h('p', { class: 'f-hint', text: 'Stamp your first month of real planning to get your number.' }),
+      h('div', { class: 'f-counter' }, [h('b', { text: String(F.placesLeft) }), ' founding places left']),
+      h('div', { class: 'sheet-actions' }, [btn('fb-send', 'Invite friends', function () { openOverlay('invites'); }, ['Invite friends'])]) ]);
+  }
+  function nameField() {
+    var F = state.founder;
+    return h('label', { class: 'f-name', for: 'f-founder-name' }, [h('span', { text: 'Your first name, shown on your invite' }),
+      field('founder-name', F.name, function (v) { F.name = v.trim().slice(0, 24); commit(); }, { cls: 'tf', ph: 'e.g. Sam', label: 'Your first name' })]);
+  }
+  function founderWelcomeBody() {
+    var F = state.founder;
+    return h('div', { class: 'f-welcome' }, [
+      h('span', { class: 'f-big-stamp', html: founderStampSVG(F.number) }),
+      h('h4', { text: 'Founding Member #' + F.number }),
+      F.since ? h('p', { class: 'f-hint', text: 'Since ' + F.since }) : null,
+      h('p', { text: 'You’re one of PayStamp’s first 100 users. Your stamp now sits next to PayStamp at the top of your planner.' }),
+      h('div', { class: 'sheet-actions' }, [btn('fb-send', 'Done', function () { set({ overlay: (state.pendingStamps || []).length ? 'newStamps' : null }); }, ['Done']), btn('btn-t', 'What’s a founder?', function () { openOverlay('founderInfo'); }, ['What’s a founder?'])]) ]);
+  }
+  var qrLoad = null;
+  function drawQR(el, text) {
+    if (!qrLoad) qrLoad = new Promise(function (res, rej) { var sc = document.createElement('script'); sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js'; sc.onload = res; sc.onerror = rej; document.head.append(sc); });
+    qrLoad.then(function () { el.innerHTML = ''; new window.QRCode(el, { text: text, width: 148, height: 148, colorDark: '#211C2E', colorLight: '#ffffff', correctLevel: window.QRCode.CorrectLevel.M }); },
+      function () { el.textContent = 'The QR code didn’t load. Use Copy link instead.'; });
+  }
+  function copyText(text, done) {
+    var fallback = function () { var ta = document.createElement('textarea'); ta.value = text; document.body.append(ta); ta.select(); try { document.execCommand('copy'); } catch (e) {} ta.remove(); done(); };
+    try { navigator.clipboard.writeText(text).then(done, fallback); } catch (e) { fallback(); }
+  }
+  function invitesBody() {
+    var F = state.founder, msg = inviteMessage(), wa = 'https://wa.me/?text=' + encodeURIComponent(msg);
+    var copyBtn = btn('mini', 'Copy your invite link', function () { copyText(inviteLink(), function () { copyBtn.textContent = 'Copied'; setTimeout(function () { copyBtn.textContent = 'Copy link'; }, 1600); }); }, ['Copy link']);
+    var prog = F.number && F.placesLeft > 0 && !F.elite ? h('div', { class: 'f-prog' }, [
+      h('div', { class: 'f-dots' }, [0, 1, 2].map(function (i) { return h('i', { class: i < F.joined ? 'on' : '' }); })),
+      h('span', { text: F.joined + ' of 3 people you invited are founders. At 3, you become an Elite Founder.' }) ]) : null;
+    return h('div', { class: 'f-body' }, [
+      nameField(),
+      h('div', { class: 'f-link-row' }, [h('span', { class: 'f-inv-link', text: inviteLink().replace('https://', '') }),
+        h('a', { class: 'mini wa', href: wa, target: '_blank', rel: 'noopener' }, ['WhatsApp']), copyBtn]),
+      h('div', { class: 'f-qr' }, [h('div', { class: 'f-qr-box', 'data-qr': wa }), h('p', { text: 'On a laptop? Scan this with your phone. WhatsApp opens with your invite ready to send.' })]),
+      prog,
+      h('div', { class: 'f-preview' }, [h('span', { class: 'fb-lbl', text: 'What your friend sees' }), h('p', { text: msg })]) ]);
+  }
+
+
+  /* ---------- What if? (savings): a standalone calculator, monthly amount × time ---------- */
+  function saveWhatIf(cur) {
+    var open = !!state.saveWifOpen;
+    var W = state.saveWif || (state.saveWif = { monthly: String(cur), years: '1', months: '0' });
+    if (W.months == null) W.months = '0';
+    var head = h('button', { type: 'button', class: 'prev-toggle', 'aria-expanded': String(open), onclick: function () { set({ saveWifOpen: !open }); } }, [
+      h('span', { class: 'pt-text' }, [h('h4', { text: 'What if Calculator' }), h('small', { text: 'See what you’d have if you saved a set amount.' })]),
+      h('span', { class: 'pt-arrow', 'aria-hidden': 'true', text: open ? '▾' : '▸' }) ]);
+    var body = null;
+    if (open) {
+      var total = h('span', { class: 'sw-total' });
+      var show = function () {
+        var m = amt(W.monthly), n = Math.max(0, Math.round(amt(W.years) * 12 + amt(W.months)));
+        total.textContent = money(Math.round(m * n));
+      };
+      var inp = function (key, prop, label) {
+        var el = h('input', { type: 'text', inputmode: 'decimal', id: 'f-' + key, 'data-k': key, 'aria-label': label, class: 'sw-in' });
+        el.value = W[prop]; el.addEventListener('input', function () { W[prop] = el.value; show(); });
+        return el;
+      };
+      show();
+      body = h('div', { class: 'prev-body' }, [
+        h('div', { class: 'sw-row' }, ['Save', h('span', { class: 'sw-box' }, ['£', inp('swm', 'monthly', 'Amount saved each month')]), 'a month for', h('span', { class: 'sw-box' }, [inp('swy', 'years', 'Number of years'), 'years']), h('span', { class: 'sw-box' }, [inp('swmo', 'months', 'Number of months'), 'months'])]),
+        h('div', { class: 'sw-out' }, [h('span', { class: 'sw-k', text: 'You’d have' }), total]) ]);
+    }
+    return h('section', { class: 'dsec prev' + (open ? ' open' : '') }, [head, body]);
+  }
+
+  /* ---------- What if? (investments) ----------
+     Monthly compounding from today's total worth: FV = V(1+r)^n + M((1+r)^n − 1)/r. */
+  function invWhatIf() {
+    var open = !!state.invWifOpen;
+    var cur = state.investments.reduce(function (t, iv) { return t + amt(invMonthly(iv)); }, 0);
+    var W = state.invWif || (state.invWif = { start: '0', monthly: String(cur), years: '10', growth: '5' });
+    var head = h('button', { type: 'button', class: 'prev-toggle', 'aria-expanded': String(open), onclick: function () { set({ invWifOpen: !open }); } }, [
+      h('span', { class: 'pt-text' }, [h('h4', { text: 'What if Calculator' }), h('small', { text: 'See what an investment could grow to.' })]),
+      h('span', { class: 'pt-arrow', 'aria-hidden': 'true', text: open ? '▾' : '▸' }) ]);
+    var body = null;
+    if (open) {
+      var vIn = h('span', { class: 'v' }), vEnd = h('span', { class: 'v hi' }), vGrow = h('span', { class: 'v' });
+      // Monthly compounding: FV = S(1+r)^n + M((1+r)^n − 1)/r
+      var show = function () {
+        var S = amt(W.start), m = amt(W.monthly), n = Math.max(0, Math.round(amt(W.years) * 12)), r = amt(W.growth) / 1200;
+        var f = Math.pow(1 + r, n), end = S * f + (r ? m * (f - 1) / r : m * n), put = S + m * n;
+        vIn.textContent = money(Math.round(put)); vEnd.textContent = money(Math.round(end));
+        vGrow.textContent = (end >= put ? '+' : '−') + money(Math.abs(Math.round(end - put)));
+      };
+      var inp = function (key, prop, pre, post, label) {
+        var el = h('input', { type: 'text', inputmode: 'decimal', id: 'f-' + key, 'data-k': key, 'aria-label': label });
+        el.value = W[prop]; el.addEventListener('input', function () { W[prop] = el.value; show(); });
+        return h('label', { for: 'f-' + key }, [label, h('span', { class: 'wif-in' }, [pre ? h('span', { text: pre }) : null, el, post ? h('small', { style: 'font-size:14px;color:var(--muted);font-weight:600', text: post }) : null])]);
+      };
+      show();
+      body = h('div', { class: 'prev-body iw' }, [
+        h('div', { class: 'wif-grid four' }, [inp('iw-s', 'start', '£', '', 'Starting amount'), inp('iw-m', 'monthly', '£', '', 'Each month'), inp('iw-y', 'years', '', 'yrs', 'For'), inp('iw-g', 'growth', '', '%', 'Yearly growth')]),
+        h('div', { class: 'wif-stats' }, [h('div', {}, [h('span', { class: 'k', text: 'Put in by then' }), vIn]), h('div', {}, [h('span', { class: 'k', text: 'Worth' }), vEnd]), h('div', {}, [h('span', { class: 'k', text: 'Growth' }), vGrow])]),
+        h('p', { class: 'wif-note', text: 'Growth isn’t guaranteed: investments can go down as well as up, so treat this as a rough guide.' }) ]);
+    }
+    return h('section', { class: 'dsec prev' + (open ? ' open' : '') }, [head, body]);
+  }
+
   function start(initial) {
     Object.assign(state, initial || {});
     migrate();
+    syncLinkedItems();
+    syncDebtExtras();
+    syncSavingExtras();
+    syncInvestExtras();
     render();
   }
   window.PlannerApp = { start: start, savedKeys: SAVED_KEYS };
