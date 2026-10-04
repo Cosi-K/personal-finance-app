@@ -42,6 +42,10 @@ button{cursor:pointer}
 .brand svg{width:34px;height:34px;display:block}
 .title{font-family:var(--serif);font-size:clamp(28px,5vw,40px);line-height:1.05;letter-spacing:-.01em;margin:0;font-weight:400;text-wrap:balance}
 .rule{width:72px;height:4px;border-radius:2px;background:var(--plum)}
+.greet{display:flex;flex-direction:column;align-items:center;gap:2px;max-width:100%}
+.greet strong{font-size:16px;font-weight:600;color:var(--ink)}
+.greet span{font-size:12.5px;color:var(--muted);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.greet b{color:var(--plum);font-weight:700}
 .month-pick{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;border-radius:24px}
 .pill-select{appearance:none;-webkit-appearance:none;background:var(--card) url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235A6273' stroke-width='1.5' fill='none'/%3E%3C/svg%3E") no-repeat right 14px center;border:1px solid var(--line);border-radius:20px;padding:9px 38px 9px 20px;font-size:13.5px;font-weight:500;color:#3A332E}
 .pill-select:hover{border-color:#C8C2B2}
@@ -831,6 +835,14 @@ body.has-fbar .page{padding-top:84px}
 .auth-msg.info{background:#FFF6CC;color:#3A2E00;}
 .auth-demo{width:100%;border:1.5px solid #E4DFD3;border-radius:999px;background:transparent;color:#4A4356;font-size:13.5px;font-weight:600;padding:11px 0;cursor:pointer;margin-top:10px;}
 .auth-loading{font-size:14px;color:#6B6478;text-align:center;padding:24px 0;}
+.auth-pass{position:relative;display:flex;}
+.auth-pass input{flex:1;min-width:0;padding-right:48px;}
+.auth-eye{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:36px;height:36px;border:none;background:transparent;border-radius:8px;color:#6B6478;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;}
+.auth-eye:hover{background:#F3EEE3;color:#7E2A55;}
+.auth-eye svg{width:20px;height:20px;display:block;}
+.auth-eye .eye-off{display:none;}
+.auth-eye[aria-pressed="true"] .eye-on{display:none;}
+.auth-eye[aria-pressed="true"] .eye-off{display:block;}
 
 /* ---------- save status pill ---------- */
 #save-status{position:fixed;bottom:18px;left:18px;z-index:50;font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:999px;background:#FFFFFF;color:#4A4356;box-shadow:0 4px 14px rgba(33,28,46,.14);display:flex;align-items:center;gap:7px;transition:opacity .3s;}
@@ -1314,8 +1326,21 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
   }
   function field(id, label, type, autocomplete) {
     var input = el('input', { id: id, name: id, type: type, required: '', autocomplete: autocomplete });
-    if (type === 'password') input.setAttribute('minlength', '6');
-    return el('div', { class: 'auth-field' }, [el('label', { for: id, text: label }), input]);
+    if (type !== 'password') return el('div', { class: 'auth-field' }, [el('label', { for: id, text: label }), input]);
+    input.setAttribute('minlength', '6');
+    // Show / hide, so a typo can be spotted before submitting. Left out of the Tab order so Tab goes straight to the next box.
+    var eye = el('button', { type: 'button', class: 'auth-eye', 'aria-label': 'Show password', 'aria-pressed': 'false', tabindex: '-1', title: 'Show password' });
+    eye.innerHTML = '<svg class="eye-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>'
+      + '<svg class="eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.6 5.1A9.8 9.8 0 0 1 12 5c6.4 0 10 7 10 7a17.6 17.6 0 0 1-3.2 4.2M6.6 6.6A17.4 17.4 0 0 0 2 12s3.6 7 10 7a9.6 9.6 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/><path d="M3 3l18 18"/></svg>';
+    eye.addEventListener('mousedown', function (e) { e.preventDefault(); }); // keep the caret in the box
+    eye.addEventListener('click', function () {
+      var show = input.type === 'password';
+      input.type = show ? 'text' : 'password';
+      eye.setAttribute('aria-pressed', String(show));
+      eye.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+      eye.title = show ? 'Hide password' : 'Show password';
+    });
+    return el('div', { class: 'auth-field' }, [el('label', { for: id, text: label }), el('div', { class: 'auth-pass' }, [input, eye])]);
   }
 
   function renderAuth(mode, opts) {
@@ -1364,7 +1389,10 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     var form = el('form', { novalidate: '' });
     if (mode !== 'newpass') form.appendChild(field('email', 'Email', 'email', 'email'));
     if (mode === 'signin') form.appendChild(field('password', 'Password', 'password', 'current-password'));
-    if (mode === 'signup' || mode === 'newpass') form.appendChild(field('password', mode === 'newpass' ? 'New password' : 'Password (6+ characters)', 'password', 'new-password'));
+    if (mode === 'signup' || mode === 'newpass') {
+      form.appendChild(field('password', mode === 'newpass' ? 'New password (6+ characters)' : 'Password (6+ characters)', 'password', 'new-password'));
+      form.appendChild(field('password2', mode === 'newpass' ? 'Type the new password again' : 'Type the password again', 'password', 'new-password'));
+    }
     if (opts.email && form.querySelector('#email')) form.querySelector('#email').value = opts.email;
 
     var labels = { signin: 'Sign in', signup: 'Create account', reset: 'Send reset link', newpass: 'Save new password' };
@@ -1407,6 +1435,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
       var password = form.querySelector('#password') ? form.querySelector('#password').value : '';
       if (mode !== 'newpass' && !/^\S+@\S+\.\S+$/.test(email)) { renderAuth(mode, { error: 'Please enter a valid email address.', email: email }); return; }
       if ((mode === 'signin' || mode === 'signup' || mode === 'newpass') && password.length < 6) { renderAuth(mode, { error: 'Your password needs to be at least 6 characters.', email: email }); return; }
+      if ((mode === 'signup' || mode === 'newpass') && password !== form.querySelector('#password2').value) { renderAuth(mode, { error: 'The two passwords don’t match. Please type them again.', email: email }); return; }
       submit.disabled = true;
       submit.textContent = 'Please wait…';
 
@@ -1534,6 +1563,28 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     ];
   }
 
+  function defaultInvestments() {
+    return [
+      { id: 'iv1', name: 'Stocks & Shares ISA', type: 'isa', before: '4200', value: '5150', valueBase: '4200', monthly: '173' },
+      { id: 'iv2', name: 'Lifetime ISA', type: 'lisa', before: '1800', value: '2010', valueBase: '1800', monthly: '' },
+      { id: 'iv3', name: 'Workplace pension', type: 'pension', before: '8600', value: '9840', valueBase: '8600', monthly: '' } ];
+  }
+  function defaultSavings() {
+    return [
+      { id: 'sv1', name: 'Emergency fund', goal: '3000', saved: '1200', aer: '4.1', monthly: '40' },
+      { id: 'sv2', name: 'Christmas pot', goal: '300', saved: '90', aer: '3.0', monthly: '15' },
+      { id: 'sv3', name: 'Holiday', goal: '1500', saved: '250', aer: '3.5', monthly: '' },
+      { id: 'sv4', name: 'House deposit', goal: '15000', saved: '2400', aer: '4.5', monthly: '' } ];
+  }
+  function defaultDebts() {
+    return [
+      { id: 'debt1', name: 'Credit card', balance: '2400', apr: '29.9', min: '72', monthly: '150' },
+      { id: 'debt2', name: 'Car finance', balance: '4800', apr: '7.9', min: '180', monthly: '' },
+      { id: 'debt3', name: 'Overdraft', balance: '650', apr: '39.9', min: '20', monthly: '' },
+      { id: 'debt4', name: 'Store card', balance: '320', apr: '19.9', min: '15', monthly: '' },
+      { id: 'debt5', name: 'Personal loan', balance: '1100', apr: '12.9', min: '85', monthly: '' } ];
+  }
+
   /* Bring v1 data up to v2 shape (safe to run on every start). */
   function migrate() {
     // People who already have a plan (from v2) start with empty Debt, Savings and Investments lists,
@@ -1557,10 +1608,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     // investments: [{ id, name, before, value, valueBase, monthly }]
     //   before = invested before PayStamp; value = what the provider showed when last typed in;
     //   valueBase = amount invested at that moment, so later stamped contributions are added on top.
-    if (!state.investments) state.investments = [
-      { id: 'iv1', name: 'Stocks & Shares ISA', type: 'isa', before: '4200', value: '5150', valueBase: '4200', monthly: '173' },
-      { id: 'iv2', name: 'Lifetime ISA', type: 'lisa', before: '1800', value: '2010', valueBase: '1800', monthly: '' },
-      { id: 'iv3', name: 'Workplace pension', type: 'pension', before: '8600', value: '9840', valueBase: '8600', monthly: '' } ];
+    if (!state.investments) state.investments = defaultInvestments();
     state.investments.forEach(function (iv) { if (iv.isa === undefined) iv.isa = iv.type ? iv.type === 'isa' : /stocks.*shares.*isa|s&s isa/i.test(iv.name || ''); });
     if (!state.milestones) state.milestones = {};
     if (state.efundStarter === undefined) state.efundStarter = existingPlan ? '' : 'sv1';
@@ -1568,18 +1616,9 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     if (!state.savingExtras) state.savingExtras = [];
     if (!state.savingUsed) state.savingUsed = [];  // [{ id, savingId, amount, date, note }]
     // savings: [{ id, name, goal, saved, aer, monthly }]; saved = what was in the pot when added.
-    if (!state.savings) state.savings = [
-      { id: 'sv1', name: 'Emergency fund', goal: '3000', saved: '1200', aer: '4.1', monthly: '40' },
-      { id: 'sv2', name: 'Christmas pot', goal: '300', saved: '90', aer: '3.0', monthly: '15' },
-      { id: 'sv3', name: 'Holiday', goal: '1500', saved: '250', aer: '3.5', monthly: '' },
-      { id: 'sv4', name: 'House deposit', goal: '15000', saved: '2400', aer: '4.5', monthly: '' } ];
+    if (!state.savings) state.savings = defaultSavings();
     var freshDebts = !state.debts;
-    if (!state.debts) state.debts = [
-      { id: 'debt1', name: 'Credit card', balance: '2400', apr: '29.9', min: '72', monthly: '150' },
-      { id: 'debt2', name: 'Car finance', balance: '4800', apr: '7.9', min: '180', monthly: '' },
-      { id: 'debt3', name: 'Overdraft', balance: '650', apr: '39.9', min: '20', monthly: '' },
-      { id: 'debt4', name: 'Store card', balance: '320', apr: '19.9', min: '15', monthly: '' },
-      { id: 'debt5', name: 'Personal loan', balance: '1100', apr: '12.9', min: '85', monthly: '' } ];
+    if (!state.debts) state.debts = defaultDebts();
     state.aims = state.aims.map(function (a) {
       a = Object.assign({}, a);
       if (a.id === 'cat_fixed' && (!a.label || /fixed costs/i.test(a.label))) a.label = 'Costs';
@@ -1869,6 +1908,44 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     clearTimeout(stampMonth.t);
     stampMonth.t = setTimeout(function () { state.stampFlash = false; scheduleRender(); }, 3200);
   }
+  /* ---------- Tab goes down ----------
+     In a list (planner items, debts, savings, investments…) Tab moves to the same box in the row below,
+     and Shift+Tab to the row above. Past the last row it carries on to the next thing on the page.
+     Typing a new value rebuilds the page, which used to lose the Tab, so the next box is found first
+     and focused again after the rebuild. */
+  var FOCUSABLE = 'input:not([type=hidden]):not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), a[href], [tabindex]';
+  function visible(n) { return !!(n && n.getClientRects().length); }
+  function tabStops(scope) { return Array.prototype.filter.call(scope.querySelectorAll(FOCUSABLE), function (n) { return n.tabIndex >= 0 && visible(n); }); }
+  function tabScope(n) { return (n && n.closest('.overlay')) || document.getElementById('app'); }
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Tab' || e.altKey || e.ctrlKey || e.metaKey) return;
+    var el = e.target;
+    if (!el || !el.matches || !el.matches('#app input[data-k], #app select[data-k]')) return;
+    var inOverlay = !!el.closest('.overlay'), scope = tabScope(el), back = e.shiftKey;
+    var targetKey = null, targetIdx = -1;
+    var row = el.closest('[data-row-id]'), prefix = el.dataset.k.split('-')[0] + '-';
+    if (row) {
+      var rows = Array.prototype.slice.call(scope.querySelectorAll('[data-row-id]')), i = rows.indexOf(row);
+      for (i += back ? -1 : 1; i >= 0 && i < rows.length; i += back ? -1 : 1) {
+        var hit = rows[i].querySelector('[data-k^="' + CSS.escape(prefix) + '"]');
+        if (hit && visible(hit) && hit.tabIndex >= 0) { targetKey = hit.dataset.k; break; }
+      }
+    }
+    if (!targetKey) {
+      var stops = tabStops(scope), j = stops.indexOf(el) + (back ? -1 : 1);
+      if (j < 0 || j >= stops.length) return;           // let the browser leave the page as normal
+      if (stops[j].dataset && stops[j].dataset.k) targetKey = stops[j].dataset.k; else targetIdx = j;
+    }
+    e.preventDefault();
+    el.blur();                                           // saves the box (and may rebuild the page)
+    var fresh = inOverlay ? document.querySelector('#app .overlay') : document.getElementById('app');
+    if (!fresh) return;
+    var t = targetKey ? fresh.querySelector('[data-k="' + CSS.escape(targetKey) + '"]') : tabStops(fresh)[targetIdx];
+    if (!t) return;
+    t.focus();
+    if (t.tagName === 'INPUT' && t.select) t.select();
+  }, true);
+
   function openOverlay(name) { set({ overlay: name, openMenu: null }); }
   // New pages carry a "New" tag in the menu until they've been opened once.
   function isNewPage(key) { return !(state.seenPages || {})[key]; }
@@ -1973,6 +2050,13 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     return f;
   }
 
+  // A hello with the account's email, so it's clear whose plan is open (handy on a shared device).
+  function greeting() {
+    var P = window.PayStamp || {}, email = P.getEmail ? P.getEmail() : '';
+    if (!email || email.indexOf('@') < 0) return null;
+    var hr = new Date().getHours(), hi = hr < 12 ? 'Good morning' : hr < 18 ? 'Good afternoon' : 'Good evening';
+    return h('div', { class: 'greet' }, [h('strong', { text: hi + ' 👋' }), h('span', {}, ['Signed in as ', h('b', { text: email })])]);
+  }
   function buildPage() {
     var nowYear = new Date().getFullYear();
     var month = state.month || MONTHS[new Date().getMonth()], year = state.year || String(nowYear);
@@ -1985,6 +2069,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
       withHi(h('div', { class: 'brand-row', id: 'tour-founder' }, [h('div', { class: 'brand' }, [logo(46), h('span', { text: 'PayStamp' })]), stampRow()]), 'tour-founder'),
       h('h1', { class: 'title', text: 'Monthly Planner' }),
       h('div', { class: 'rule' }),
+      greeting(),
       withHi(h('div', { class: 'month-pick', id: 'tour-month' }, [
         sel('month', month, MONTHS, function (v) { set({ month: v }); }, 'Month'),
         sel('year', year, years, function (v) { set({ year: v }); }, 'Year') ]), 'tour-month'),
@@ -3456,10 +3541,27 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
   /* ---------- milestones ----------
      Awarded when a real month is stamped. Shown in the order earned (after the founder stamps).
      If the condition stops being true, the stamp fades; it comes back when it's true again. */
+  /* Example figures never earn a stamp. An example entry counts as the person's own once they type their own
+     figure into it (savings: amount saved; debts: balance; investments: monthly amount; planner rows:
+     name or amount). Renaming alone isn't enough, because the figure would still be the example's. Until then it's left out of every stamp check. */
+  var countExamples = false;   // only switched on inside dropExampleStamps(), to see what the old rules gave
+  function byId(list, id) { return list.filter(function (x) { return x.id === id; })[0]; }
+  function exampleSaving(sv) { var e = byId(defaultSavings(), sv.id); return !countExamples && !!e && amt(sv.saved) === amt(e.saved); }
+  function exampleDebt(d) { var e = byId(defaultDebts(), d.id); return !countExamples && !!e && amt(d.balance) === amt(e.balance); }
+  function exampleInvestment(iv) { var e = byId(defaultInvestments(), iv.id); return !countExamples && !!e && amt(iv.monthly) === amt(e.monthly); }
+  function exampleItem(it) {
+    if (countExamples) return false;
+    var base = null;
+    defaultGroups().forEach(function (g) { g.categories.forEach(function (c) { c.items.forEach(function (x) { if (x.id === it.id) base = x; }); }); });
+    if (it.id === 'dbt_debt1') base = { label: 'Credit card', budgeted: '150' };
+    return !!base && (it.label || '') === base.label && amt(it.budgeted) === amt(base.budgeted);
+  }
+  function ownSavings() { return state.savings.filter(function (sv) { return !exampleSaving(sv); }); }
+  function ownDebts() { return state.debts.filter(function (d) { return !exampleDebt(d); }); }
   function costsTotal() { var g = findGroup('costs'); return g ? groupSum(g, 'budgeted') : 0; }
-  function efundSaved(id) { var sv = id && findSaving(id); return sv ? savedNow(sv) : 0; }
-  function totalDebtStart() { return state.debts.reduce(function (t, d) { return t + amt(d.balance); }, 0); }
-  function isaInvs() { return state.investments.filter(function (iv) { return iv.isa; }); }
+  function efundSaved(id) { var sv = id && findSaving(id); return sv && !exampleSaving(sv) ? savedNow(sv) : 0; }
+  function totalDebtStart() { return ownDebts().reduce(function (t, d) { return t + amt(d.balance); }, 0); }
+  function isaInvs() { return state.investments.filter(function (iv) { return iv.isa && !exampleInvestment(iv); }); }
   // Months stamped in a row, counting back from the most recent stamped month.
   function streakLen() {
     var idx = state.records.map(function (r) { return Number(r.year) * 12 + MONTHS.indexOf(r.month); }).sort(function (a, b) { return b - a; });
@@ -3472,14 +3574,27 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     { key: 'streak3', permanent: true, check: function () { return streakLen() >= 3; } },
     { key: 'streak6', permanent: true, check: function () { return streakLen() >= 6; } },
     { key: 'streak12', permanent: true, check: function () { return streakLen() >= 12; } },
-    { key: 'goal', permanent: true, check: function () { return state.savings.some(function (sv) { return amt(sv.goal) > 0 && savedNow(sv) >= amt(sv.goal); }); } },
+    { key: 'goal', permanent: true, check: function () { return ownSavings().some(function (sv) { return amt(sv.goal) > 0 && savedNow(sv) >= amt(sv.goal); }); } },
     { key: 'efund1k', check: function () { return efundSaved(state.efundStarter) >= 1000; }, lost: 'Your £1,000 fund is below £1,000.', how: 'Mark your starter emergency fund on the Savings page and save £1,000 into it.' },
-    { key: 'automated', check: function () { var n = 0, all = true; state.groups.forEach(function (g) { if (g.key === 'income') return; g.categories.forEach(function (c) { c.items.forEach(function (it) { n++; if (!it.automated) all = false; }); }); }); return n > 0 && all; }, lost: 'Not every payment is automated right now.' },
-    { key: 'halfway', check: function () { var tot = totalDebtStart(); if (!tot) return false; var paid = state.debts.reduce(function (t, d) { return t + Math.min(debtPaid(d).paid, amt(d.balance)); }, 0); return paid >= tot / 2; }, lost: 'Less than half your debt is paid off right now.', earnOnly: function () { return totalDebtStart() > 0; } },
-    { key: 'debtfree', check: function () { return state.debts.every(function (d) { return debtLeft(d) <= 0.005; }); }, lost: 'You have debt again. Clear it to bring this back.' },
+    // The example rows come ticked, so a row still showing its example name and amount holds this back.
+    { key: 'automated', check: function () { var n = 0, all = true; state.groups.forEach(function (g) { if (g.key === 'income') return; g.categories.forEach(function (c) { c.items.forEach(function (it) { n++; if (!it.automated || exampleItem(it)) all = false; }); }); }); return n > 0 && all; }, lost: 'Not every payment is automated right now.' },
+    { key: 'halfway', check: function () { var tot = totalDebtStart(); if (!tot) return false; var paid = ownDebts().reduce(function (t, d) { return t + Math.min(debtPaid(d).paid, amt(d.balance)); }, 0); return paid >= tot / 2; }, lost: 'Less than half your debt is paid off right now.', earnOnly: function () { return totalDebtStart() > 0; } },
+    { key: 'debtfree', check: function () { return state.debts.every(function (d) { return !exampleDebt(d) && debtLeft(d) <= 0.005; }); }, lost: 'You have debt again. Clear it to bring this back.' },
     { key: 'isa', check: function () { return isaInvs().some(function (iv) { return amt(invMonthly(iv)) > 0; }); }, earn: function (rec) { var ids = isaInvs().map(function (iv) { return iv.id; }); return (rec.items || []).some(function (it) { return it.investmentId && ids.indexOf(it.investmentId) > -1 && it.value > 0; }); }, lost: 'Nothing is going into an ISA right now.' },
     { key: 'efund3', check: function () { var c = costsTotal(); return !!state.efundMain && c > 0 && efundSaved(state.efundMain) >= 3 * c; }, lost: 'Your emergency fund is below 3 months of costs.' },
     { key: 'efund6', check: function () { var c = costsTotal(); return !!state.efundMain && c > 0 && efundSaved(state.efundMain) >= 6 * c; }, lost: 'Your emergency fund is below 6 months of costs.' } ];
+  // Takes away any stamp that was only earned because of example figures (true under the old rules,
+  // false now). Stamps that are genuinely lost stay, faded, as before. Returns true if anything changed.
+  function dropExampleStamps() {
+    var changed = false, ms = state.milestones || {};
+    MILESTONES.forEach(function (m) {
+      if (!ms[m.key] || m.key === 'first' || /^streak/.test(m.key)) return;
+      var now = m.check(); if (now) return;
+      countExamples = true; var before; try { before = m.check(); } finally { countExamples = false; }
+      if (before) { delete ms[m.key]; changed = true; }
+    });
+    return changed;
+  }
   function awardMilestones(label) {
     if (!state.realStamped) return [];
     var rec = state.records[state.records.length - 1], fresh = [];
@@ -3673,6 +3788,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     syncDebtExtras();
     syncSavingExtras();
     syncInvestExtras();
+    if (dropExampleStamps()) save();
     render();
   }
   window.PlannerApp = { start: start, savedKeys: SAVED_KEYS };
