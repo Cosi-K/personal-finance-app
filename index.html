@@ -308,6 +308,34 @@ body.dragging,body.dragging *{cursor:grabbing!important;user-select:none!importa
 .debt-group .colhead .d-bal,.debt-group .colhead .d-apr,.debt-group .colhead .d-min,.debt-group .colhead .d-pay{text-align:right;padding-right:7px}
 .debt-group .foot .d-bal,.debt-group .foot .d-min,.debt-group .foot .d-pay{text-align:right;padding-right:8px;font-variant-numeric:tabular-nums}
 .pct-wrap{display:flex;align-items:center;gap:2px;font-size:13px;font-weight:600;color:#5A5266}
+/* savings What if Calculator */
+.gp-k{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.gp-box{display:flex;align-items:center;gap:3px;border:1.5px solid var(--line);border-radius:10px;background:var(--paper);padding:0 10px;min-width:0}
+.gp-box:focus-within{border-color:var(--plum);background:#fff}
+.gp-box b{color:var(--plum);font-weight:700}
+.gp-box i{font-style:normal;font-size:12px;color:var(--muted);font-weight:600;white-space:nowrap}
+.gp-in{flex:1;min-width:0;width:100%;border:none;background:transparent;font-size:15px;font-weight:600;padding:8px 2px;outline:none;font-variant-numeric:tabular-nums}
+.gp-pair{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.gp-need{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px}
+.gp-k2{font-size:13.5px;color:var(--ink2)}
+.gp-big{font-family:var(--serif);font-size:28px;color:var(--plum);font-variant-numeric:tabular-nums;line-height:1.1}
+.gp-use{border:none;background:var(--plum);color:var(--paper);border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:700;align-self:center}
+.gp-use:hover{opacity:.9}
+.gp-set{font-size:12.5px;font-weight:700;color:var(--good);align-self:center}
+.gp-note,.gp-msg{margin:0;font-size:12.5px;color:var(--muted)}
+.gp-at{margin:0;font-size:13px;font-weight:600;color:var(--ink2);border-radius:8px;padding:7px 10px;background:var(--sand)}
+.gp-at.ok{background:var(--good-bg);color:var(--good)}
+.gp-at.short{background:var(--warn-bg);color:var(--warn)}
+.sw-body{gap:14px}
+.sw-modes{align-self:flex-start}
+.sw-f{display:flex;flex-direction:column;gap:5px;min-width:0}
+.sw-f .xsel{max-width:420px}
+.sw-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) minmax(0,1.5fr);gap:10px 12px;align-items:start}
+.sw-grid .gp-box,.sw-when .gp-box{background:var(--card)}
+.sw-result{display:flex;flex-direction:column;gap:8px;align-items:flex-start;border-top:1px solid var(--line);padding-top:14px}
+.sw-result .gp-at{align-self:stretch}
+@media (max-width:640px){ .sw-grid{grid-template-columns:1fr 1fr} .sw-when{grid-column:1 / -1} .sw-modes{align-self:stretch;flex-wrap:nowrap} .sw-modes button{flex:1;padding:8px 6px;font-size:12px} }
+
 .pct-wrap .cell{flex:1}
 .d-prog{display:flex;align-items:center;gap:12px;padding:0 7px;font-size:12px;color:#5A5266;font-weight:600}
 .pbar{flex:1;min-width:60px;height:8px;border-radius:4px;background:#fff;box-shadow:inset 0 0 0 1px var(--gl2);overflow:hidden}
@@ -366,6 +394,15 @@ body.dragging,body.dragging *{cursor:grabbing!important;user-select:none!importa
 .wif-cmp{font-size:13px;font-weight:700;border-radius:999px;padding:5px 12px;background:var(--sand);color:var(--ink2)}
 .wif-cmp.better{background:var(--good-bg);color:var(--good)}
 .wif-cmp.worse{background:var(--warn-bg);color:var(--warn)}
+.dwif-body{gap:12px}
+.dwif{padding:18px 20px;gap:12px}
+.dwif-sel{appearance:none;-webkit-appearance:none;border:1.5px solid var(--line);border-radius:12px;background:var(--paper) url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237E2A55' stroke-width='1.6' fill='none'/%3E%3C/svg%3E") no-repeat right 12px center;padding:10px 34px 10px 14px;font-size:15px;font-weight:600;color:var(--ink);max-width:100%}
+.dwif-sel:focus{outline:none;border-color:var(--plum)}
+.dwif .wif-out .date{font-size:26px}
+.dwif-in{font-size:13px;color:var(--muted);font-weight:600}
+.dwif .rm{margin-left:auto}
+.dwif-add{display:flex;justify-content:center}
+.dwif-add .add-btn{border:1.5px solid var(--plum);color:var(--plum);background:#fff;padding:6px 14px}
 @media (max-width:640px){
   .xbar{grid-template-columns:minmax(0,1fr) auto}
   .xbar .xsel{grid-column:1 / -1}
@@ -1917,20 +1954,43 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
   function visible(n) { return !!(n && n.getClientRects().length); }
   function tabStops(scope) { return Array.prototype.filter.call(scope.querySelectorAll(FOCUSABLE), function (n) { return n.tabIndex >= 0 && visible(n); }); }
   function tabScope(n) { return (n && n.closest('.overlay')) || document.getElementById('app'); }
+  // The key of the same box in the next (or previous) row, or null if there isn't one.
+  function sameBoxInNextRow(el, scope, back) {
+    var row = el.closest('[data-row-id]'); if (!row) return null;
+    var key = el.dataset.k, rid = row.dataset.rowId;
+    var prefix = key.slice(-(rid.length + 1)) === '-' + rid ? key.slice(0, key.length - rid.length) : key.split('-')[0] + '-';
+    var rows = Array.prototype.slice.call(scope.querySelectorAll('[data-row-id]')), i = rows.indexOf(row);
+    for (i += back ? -1 : 1; i >= 0 && i < rows.length; i += back ? -1 : 1) {
+      var hit = rows[i].querySelector('[data-k^="' + CSS.escape(prefix) + '"]');
+      if (hit && visible(hit) && hit.tabIndex >= 0) return hit.dataset.k;
+    }
+    return null;
+  }
+  function focusKeyAfterSave(el, key) {
+    var inOverlay = !!el.closest('.overlay');
+    el.blur();                                           // saves the box (and may rebuild the page)
+    var fresh = inOverlay ? document.querySelector('#app .overlay') : document.getElementById('app');
+    var t = fresh && fresh.querySelector('[data-k="' + CSS.escape(key) + '"]');
+    if (!t) return;
+    t.focus();
+    if (t.tagName === 'INPUT' && t.select) t.select();
+  }
+  // Down / Up arrows do the same in a list: same box, next or previous row. (Not in dropdowns,
+  // where the arrows choose an option.) At the top or bottom of a list they do nothing.
+  document.addEventListener('keydown', function (e) {
+    if ((e.key !== 'ArrowDown' && e.key !== 'ArrowUp') || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    var el = e.target;
+    if (!el || !el.matches || !el.matches('#app input[data-k]') || !el.closest('[data-row-id]')) return;
+    var key = sameBoxInNextRow(el, tabScope(el), e.key === 'ArrowUp');
+    e.preventDefault();
+    if (key) focusKeyAfterSave(el, key);
+  }, true);
   document.addEventListener('keydown', function (e) {
     if (e.key !== 'Tab' || e.altKey || e.ctrlKey || e.metaKey) return;
     var el = e.target;
     if (!el || !el.matches || !el.matches('#app input[data-k], #app select[data-k]')) return;
     var inOverlay = !!el.closest('.overlay'), scope = tabScope(el), back = e.shiftKey;
-    var targetKey = null, targetIdx = -1;
-    var row = el.closest('[data-row-id]'), prefix = el.dataset.k.split('-')[0] + '-';
-    if (row) {
-      var rows = Array.prototype.slice.call(scope.querySelectorAll('[data-row-id]')), i = rows.indexOf(row);
-      for (i += back ? -1 : 1; i >= 0 && i < rows.length; i += back ? -1 : 1) {
-        var hit = rows[i].querySelector('[data-k^="' + CSS.escape(prefix) + '"]');
-        if (hit && visible(hit) && hit.tabIndex >= 0) { targetKey = hit.dataset.k; break; }
-      }
-    }
+    var targetKey = sameBoxInNextRow(el, scope, back), targetIdx = -1;
     if (!targetKey) {
       var stops = tabStops(scope), j = stops.indexOf(el) + (back ? -1 : 1);
       if (j < 0 || j >= stops.length) return;           // let the browser leave the page as normal
@@ -2113,7 +2173,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
       btn('rm', 'Remove category ' + (c.name || ''), function () { g.categories = g.categories.filter(function (x) { return x !== c; }); commit(); }, ['✕']) ]));
     blk.append(h('div', { class: 'row colhead' }, [
       h('span', { class: 'c-name', text: 'Item' }), h('span', { class: 'c-loc', text: 'Location' }), h('span', { class: 'c-date', text: 'Paid on' }), h('span', { class: 'c-auto', text: 'Automated' }),
-      h('span', { class: 'c-tgt', text: g.key === 'income' ? 'Expected' : 'Target' }), h('span', { class: 'c-bud', text: g.key === 'income' ? 'Actual pay' : 'Budgeted' }) ]));
+      h('span', { class: 'c-tgt', text: g.key === 'income' ? 'Expected' : 'Last Month' }), h('span', { class: 'c-bud', text: g.key === 'income' ? 'Actual pay' : 'Budgeted' }) ]));
     var list = h('div', { class: 'item-list', 'data-drop-kind': 'item', 'data-list-id': c.id }, [h('div', { class: 'empty-hint', text: 'No items yet. Drag one here or add a new one.' })]);
     c.items.forEach(function (it) { list.append(itemRow(it, g.key === 'income')); });
     blk.append(list);
@@ -2149,7 +2209,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
       loc,
       daySelect('day-' + it.id, it.payDay, function (v) { it.payDay = v; commit(); }, 'c-date', 'Payment date for ' + (it.label || 'item')),
       auto,
-      field('tgt-' + it.id, it.target, function (v) { it.target = v; commit(); }, { cls: 'cell num c-tgt', ph: '0', num: true, label: (isIncome ? 'Expected pay for ' : 'Target for ') + (it.label || 'item') }),
+      field('tgt-' + it.id, it.target, function (v) { it.target = v; commit(); }, { cls: 'cell num c-tgt', ph: '0', num: true, label: (isIncome ? 'Expected pay for ' : 'Last month for ') + (it.label || 'item') }),
       field('bud-' + it.id, it.budgeted, function (v) { it.budgeted = v; if (it.investExtraId) { var ix = findInvestExtra(it.investExtraId); if (ix) ix.amount = v; } else if (it.investmentId) { var iv = findInvestment(it.investmentId); if (iv) iv.monthly = v; } else if (it.saveExtraId) { var sx = findSavingExtra(it.saveExtraId); if (sx) sx.amount = v; } else if (it.savingId) { var sv = findSaving(it.savingId); if (sv) sv.monthly = v; } else if (it.extraId) { var xx = findExtra(it.extraId); if (xx) xx.amount = v; } else if (it.debtId) { var dd = findDebt(it.debtId); if (dd) dd.monthly = v; } commit(); }, { cls: 'cell num c-bud', ph: '0', num: true, label: (isIncome ? 'Actual pay for ' : 'Budgeted for ') + (it.label || 'item') }),
       btn('rm c-rm', 'Remove ' + (it.label || 'item'), function () { if (it.extraId) state.debtExtras = state.debtExtras.filter(function (y) { return y.id !== it.extraId; }); if (it.saveExtraId) state.savingExtras = state.savingExtras.filter(function (y) { return y.id !== it.saveExtraId; }); if (it.investExtraId) state.investExtras = state.investExtras.filter(function (y) { return y.id !== it.investExtraId; }); var ent = linkedEntity(it); if (ent) ent.monthly = ''; var f = findItem(it.id); f.c.items.splice(f.idx, 1); commit(); }, ['✕']));
     return row;
@@ -2207,7 +2267,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     var msg = ok ? 'Every pound has a job.' : t.zero > 0 ? money(t.zero) + ' still needs a category.' : money(-t.zero) + ' over-assigned. Trim a category.';
     var main = h('div', { class: 'sum-main' }, [
       h('div', { class: 'eyebrow', text: 'Month summary' }),
-      h('div', { class: 'line target-line' }, [h('span', { class: 'k' }, ['Target total']), h('span', { class: 'v', text: money(t.target) })]),
+      h('div', { class: 'line target-line' }, [h('span', { class: 'k' }, ['Last month total']), h('span', { class: 'v', text: money(t.target) })]),
       h('div', { class: 'divider' }),
       h('div', { class: 'line' }, [h('span', { class: 'k', text: 'Take-home pay' }), h('span', { class: 'v', text: money(t.income) })]),
       h('div', { class: 'line' }, [h('span', { class: 'k', text: 'Budgeted total' }), h('span', { class: 'v', text: money(t.allocated) })]),
@@ -2827,33 +2887,79 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
       h('div', { class: 'dfree' }, [h('span', { class: 'ring', html: RING }), h('span', { class: 'k', text: 'Debt-free by' }), h('div', { class: 'big', text: big }), h('div', { class: 'dsub', text: sub })]) ]);
   }
 
-  function whatIfSection(cur, left) {
-    var base = cur;
-    var val = state.whatIf != null ? amt(state.whatIf) : base;
-    var baseSim = payoffSim(base);
-    var vDate = h('span', { class: 'date' }), vCmp = h('span', { class: 'wif-cmp' });
-    var num = h('input', { type: 'text', inputmode: 'decimal', id: 'f-whatif', 'data-k': 'whatif', 'aria-label': 'Monthly amount in pounds' });
-    num.value = val ? String(r2(val)) : '';
-    function show(v) {
-      var sim = payoffSim(v);
-      vCmp.hidden = false;
-      if (left <= 0.005) { vDate.textContent = 'Debt-free'; vCmp.hidden = true; return; }
-      if (!sim.ok || v <= 0) { vDate.textContent = 'Not on track'; vCmp.className = 'wif-cmp worse'; vCmp.textContent = 'Doesn’t cover the interest'; return; }
-      vDate.textContent = freeDateLabel(sim.months);
-      if (!baseSim.ok || base <= 0) { vCmp.className = 'wif-cmp better'; vCmp.textContent = 'In ' + monthsText(sim.months); return; }
-      var dm = baseSim.months - sim.months, di = Math.round(baseSim.interest - sim.interest);
-      if (dm === 0) { vCmp.className = 'wif-cmp'; vCmp.textContent = 'Same as now'; return; }
-      vCmp.className = 'wif-cmp ' + (dm > 0 ? 'better' : 'worse');
-      vCmp.textContent = monthsText(Math.abs(dm)) + (dm > 0 ? ' sooner · saves ' + money(di) + ' interest' : ' later');
+  /* What if Calculator (debt). Folded away until opened. Each line asks "if I paid £X a month to
+     <all my debts | one debt>" and answers with how long it takes and the date. Several lines can be
+     open at once to compare. Nothing here changes the plan. */
+  function singleDebtSim(d, pay) {
+    var bal = debtLeft(d), r = amt(d.apr) / 1200, res = { months: 0, interest: 0, ok: true };
+    if (bal <= 0.005) return res;
+    for (var m = 0; m < 600 && bal > 0.005; m++) {
+      var i = bal * r; bal += i; res.interest += i;
+      bal -= Math.min(bal, pay); res.months = m + 1;
     }
-    num.addEventListener('input', function () { state.whatIf = num.value; show(amt(num.value)); });
-    num.addEventListener('keydown', function (e) { if (e.key === 'Enter') num.blur(); });
-    show(val);
-    return h('section', { class: 'dsec' }, [
-      h('div', { class: 'dsec-head' }, [h('h4', { text: 'What if Calculator' }), h('p', { text: 'You owe ' + money(left) + '. Try a different monthly amount. Your plan won’t change.' })]),
-      h('div', { class: 'wif' }, [
-        h('div', { class: 'wif-ask' }, ['If I paid', h('label', { class: 'wif-in', for: 'f-whatif' }, [h('span', { text: '£' }), num]), 'a month', h('span', { class: 'wif-now', text: 'Now ' + money(base) })]),
-        h('div', { class: 'wif-out' }, [h('span', { class: 'k', text: 'Debt-free by' }), vDate, vCmp]) ]) ]);
+    if (bal > 0.005) res.ok = false;
+    return res;
+  }
+  function debtPayNow(d) { return debtLeft(d) > 0.005 ? Math.max(amt(debtMonthly(d)), amt(d.min)) : 0; }
+  function whatIfSection(cur, left) {
+    var open = !!state.debtWifOpen;
+    var head = h('button', { type: 'button', class: 'prev-toggle', 'aria-expanded': String(open), onclick: function () { set({ debtWifOpen: !open }); } }, [
+      h('span', { class: 'pt-text' }, [h('h4', { text: 'What if Calculator' }), h('small', { text: 'See when you’d be debt-free if you paid a different amount, to one debt or all of them.' })]),
+      h('span', { class: 'pt-arrow', 'aria-hidden': 'true', text: open ? '▾' : '▸' }) ]);
+    if (!open) return h('section', { class: 'dsec prev' }, [head]);
+    var owing = state.debts.filter(function (d) { return debtLeft(d) > 0.005; });
+    if (!state.debtWifs || !state.debtWifs.length) state.debtWifs = [{ id: uid('dw'), debtId: 'all', amount: cur ? String(r2(cur)) : '' }];
+    var body = h('div', { class: 'prev-body dwif-body' });
+    if (left <= 0.005) {
+      body.append(h('p', { class: 'prev-note', text: 'You’re debt-free, so there’s nothing to work out. Well done.' }));
+      return h('section', { class: 'dsec prev open' }, [head, body]);
+    }
+    state.debtWifs.forEach(function (W, idx) {
+      if (W.debtId !== 'all' && !owing.some(function (d) { return d.id === W.debtId; })) W.debtId = 'all';
+      var d = W.debtId === 'all' ? null : findDebt(W.debtId);
+      var now = d ? debtPayNow(d) : cur;
+      var sel = h('select', { class: 'dwif-sel', 'data-k': 'dwifsel-' + W.id, 'aria-label': 'Which debt', onchange: function (e) {
+        W.debtId = e.target.value;
+        var nd = W.debtId === 'all' ? null : findDebt(W.debtId);
+        W.amount = String(r2(nd ? debtPayNow(nd) : cur)) ;
+        commit();
+      } }, [h('option', { value: 'all', text: 'all my debts' })].concat(owing.map(function (x) { return h('option', { value: x.id, text: x.name || 'Untitled debt' }); })));
+      sel.value = W.debtId;
+      var num = h('input', { type: 'text', inputmode: 'decimal', 'data-k': 'dwifamt-' + W.id, id: 'f-dwifamt-' + W.id, 'aria-label': 'Monthly amount in pounds' });
+      num.value = W.amount || '';
+      var vLead = h('span', { class: 'k' }), vDate = h('span', { class: 'date' }), vIn = h('span', { class: 'dwif-in' }), vCmp = h('span', { class: 'wif-cmp' });
+      var show = function () {
+        var v = amt(W.amount), sim = d ? singleDebtSim(d, v) : payoffSim(v), base = d ? singleDebtSim(d, now) : payoffSim(now);
+        vLead.textContent = d ? (d.name || 'This debt') + ' would be paid off by' : 'You’d be debt-free by';
+        vCmp.hidden = false; vIn.hidden = false;
+        if (v <= 0 || !sim.ok) {
+          vDate.textContent = 'Never'; vIn.hidden = true;
+          vCmp.className = 'wif-cmp worse'; vCmp.textContent = v <= 0 ? 'Type an amount above' : 'That doesn’t cover the interest';
+          return;
+        }
+        vDate.textContent = freeDateLabel(sim.months);
+        vIn.textContent = 'in ' + monthsText(sim.months) + ' · ' + money(Math.round(sim.interest)) + ' interest';
+        if (!base.ok || now <= 0) { vCmp.className = 'wif-cmp better'; vCmp.textContent = 'You’re not on track at the moment'; return; }
+        var dm = base.months - sim.months, di = Math.round(base.interest - sim.interest);
+        if (dm === 0) { vCmp.className = 'wif-cmp'; vCmp.textContent = 'Same as now'; return; }
+        vCmp.className = 'wif-cmp ' + (dm > 0 ? 'better' : 'worse');
+        vCmp.textContent = monthsText(Math.abs(dm)) + (dm > 0 ? ' sooner than now · saves ' + money(Math.max(0, di)) + ' interest' : ' later than now · ' + money(Math.max(0, -di)) + ' more interest');
+      };
+      num.addEventListener('input', function () { W.amount = num.value; show(); });
+      num.addEventListener('keydown', function (e) { if (e.key === 'Enter') num.blur(); });
+      show();
+      var rm = state.debtWifs.length > 1 ? btn('rm dwif-rm', 'Remove this what if', function () { state.debtWifs = state.debtWifs.filter(function (x) { return x !== W; }); commit(); }, ['✕']) : null;
+      body.append(h('div', { class: 'wif dwif' }, [
+        h('div', { class: 'wif-ask' }, ['If I paid', h('label', { class: 'wif-in', for: 'f-dwifamt-' + W.id }, [h('span', { text: '£' }), num]), 'a month to', sel,
+          h('span', { class: 'wif-now', text: 'Now ' + money(now) }), rm]),
+        h('div', { class: 'wif-out' }, [vLead, vDate, vIn, vCmp]) ]));
+    });
+    body.append(h('div', { class: 'dwif-add' }, [btn('add-btn', 'Add another what if', function () {
+      state.debtWifs.push({ id: uid('dw'), debtId: owing.length ? owing[0].id : 'all', amount: owing.length ? String(r2(debtPayNow(owing[0]))) : String(r2(cur)) });
+      commit();
+    }, ['+ Add another what if'])]));
+    body.append(h('p', { class: 'wif-note', text: 'One debt on its own: only that debt and the amount you type, with its interest. All my debts: minimums first, then the rest down your list in your chosen order. Your plan won’t change.' }));
+    return h('section', { class: 'dsec prev open' }, [head, body]);
   }
 
 
@@ -2956,6 +3062,33 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
       btn('rm d-rm', 'Remove ' + nm, function () { removeSavingFromPlanner(sv); state.savings = state.savings.filter(function (x) { return x !== sv; }); state.savingExtras = state.savingExtras.filter(function (x) { return x.savingId !== sv.id; }); state.savingUsed = state.savingUsed.filter(function (x) { return x.savingId !== sv.id; }); commit(); }, ['✕']));
     return row;
   }
+
+  /* ---------- savings maths (used by the What if Calculator) ----------
+     Interest is added monthly from the yearly rate (AER). Monthly amount needed for a goal:
+       goal = S(1+r)^n + M((1+r)^n − 1)/r   →   M = (goal − S(1+r)^n) · r / ((1+r)^n − 1)
+     and, the other way round, how many months a monthly amount takes to reach it. */
+  function monthIndexNow() { var d = new Date(); return d.getFullYear() * 12 + d.getMonth(); }
+  function byIndex(by) { var m = /^(\d{4})-(\d{1,2})$/.exec(by || ''); return m ? Number(m[1]) * 12 + Number(m[2]) - 1 : null; }
+  function byFromIndex(i) { return Math.floor(i / 12) + '-' + String(i % 12 + 1).padStart(2, '0'); }
+  function byLabel(i) { return MONTHS[i % 12] + ' ' + Math.floor(i / 12); }
+  function monthlyRate(sv) { var a = amt(sv.aer != null ? sv.aer : sv); return a > 0 ? Math.pow(1 + a / 100, 1 / 12) - 1 : 0; }
+  function neededMonthly(goal, saved, r, n) {
+    if (n <= 0) return null;
+    if (!r) return (goal - saved) / n;
+    var g = Math.pow(1 + r, n);
+    return (goal - saved * g) * r / (g - 1);
+  }
+  function monthsToGoal(goal, saved, r, pay) {
+    var bal = saved;
+    for (var m = 0; m < 1200; m++) { if (bal >= goal - 0.005) return m; bal = bal * (1 + r) + pay; }
+    return null;
+  }
+  function useMonthly(sv, v) {
+    v = String(v); sv.monthly = v;
+    var f = findItem(savingItemId(sv));
+    if (f) { if (!f.item.target || f.item.target === f.item.budgeted) f.item.target = v; f.item.budgeted = v; }
+  }
+
 
   /* one-off deposits → Extras › Extra savings (for that month only) */
   function savingExtraStamped(x) { return state.records.some(function (r) { return (r.items || []).some(function (it) { return it.id === 'svx_' + x.id; }); }); }
@@ -3414,6 +3547,12 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
   /* ---------- what's new ----------
      Newest first. Add an entry at the top for each release; the banner shows until it's seen. */
   var WN = [
+    { version: '3.2', date: '5 October 2026', title: 'Savings goal plans and a better What if', items: [
+      'Savings: the What if Calculator now works out what to save each month. Type a goal and a time, or pick one of your savings, then make it your monthly saving in one tap.',
+      'Debt: the What if Calculator is folded away until you open it. Test one debt or all of them, and add as many what ifs as you like to compare.',
+      'Planner: the Target column is now called Last Month.',
+      'Tab, and the up and down arrow keys, move straight down a column.',
+      'Passwords: show what you’ve typed, and type a new password twice to check it.' ] },
     { version: '3.0', date: '3 October 2026', title: 'Debt, Savings and Investments', items: [
       'New Debt, Savings and Investments pages, in the menu at the top left. They link straight into your planner.',
       'Stamping a month now pays down your debts and adds to your savings and investments.',
@@ -3672,11 +3811,11 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     return h('div', { class: 'f-info' }, [
       h('p', { class: 'f-lead', text: 'Founders are the first 100 people to use PayStamp.' }),
       h('ul', { class: 'f-list' }, [
-        h('li', { text: 'You get a founder number, from 1 to 100.' }),
+        h('li', {}, ['You get a founder number, from 1 to 100, when you ', h('b', { text: 'stamp your first month with a £0 balance' }), ', so every pound of your pay has a job.' ]),
         h('li', { text: 'Founders get perks as PayStamp grows.' }),
         h('li', {}, ['Invite 3 people who become founders, and you become an ', h('b', { text: 'Elite Founder' }), '. Elite places are rare, and they close when the 100 are gone.']) ]),
       F.number ? h('p', { class: 'f-you', text: 'You’re Founding Member #' + F.number + (F.elite ? ' and Elite Founding Member #' + F.eliteNumber : '') + '.' })
-        : h('p', { class: 'f-hint', text: 'Stamp your first month of real planning to get your number.' }),
+        : h('p', { class: 'f-hint', text: 'To get your number: plan your own month until the balance shows £0, then press Stamp.' }),
       h('div', { class: 'f-counter' }, [h('b', { text: String(F.placesLeft) }), ' founding places left']),
       h('div', { class: 'sheet-actions' }, [btn('fb-send', 'Invite friends', function () { openOverlay('invites'); }, ['Invite friends'])]) ]);
   }
@@ -3720,32 +3859,87 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
   }
 
 
-  /* ---------- What if? (savings): a standalone calculator, monthly amount × time ---------- */
+  /* ---------- What if? (savings) ----------
+     Two ways round, both with interest added monthly:
+       "What do I need to save?"  goal + time (+ already saved, interest) → monthly amount and the date
+       "What will I have?"        monthly amount + time (+ already saved, interest) → total by then
+     Pick one of your savings to fill in its numbers; then "Use £X a month" makes it that saving's monthly amount.
+     Typing only updates the answer. Nothing changes your plan unless you press Use. */
   function saveWhatIf(cur) {
     var open = !!state.saveWifOpen;
-    var W = state.saveWif || (state.saveWif = { monthly: String(cur), years: '1', months: '0' });
-    if (W.months == null) W.months = '0';
+    var W = state.saveWif;
+    if (!W || W.mode == null) W = state.saveWif = { mode: 'need', potId: '', goal: '', start: '', aer: '', years: '1', months: '0', monthly: String(cur || '') };
     var head = h('button', { type: 'button', class: 'prev-toggle', 'aria-expanded': String(open), onclick: function () { set({ saveWifOpen: !open }); } }, [
-      h('span', { class: 'pt-text' }, [h('h4', { text: 'What if Calculator' }), h('small', { text: 'See what you’d have if you saved a set amount.' })]),
+      h('span', { class: 'pt-text' }, [h('h4', { text: 'What if Calculator' }), h('small', { text: 'Set a goal and a time to see what to save each month, or see what you’d have.' })]),
       h('span', { class: 'pt-arrow', 'aria-hidden': 'true', text: open ? '▾' : '▸' }) ]);
-    var body = null;
-    if (open) {
-      var total = h('span', { class: 'sw-total' });
-      var show = function () {
-        var m = amt(W.monthly), n = Math.max(0, Math.round(amt(W.years) * 12 + amt(W.months)));
-        total.textContent = money(Math.round(m * n));
-      };
-      var inp = function (key, prop, label) {
-        var el = h('input', { type: 'text', inputmode: 'decimal', id: 'f-' + key, 'data-k': key, 'aria-label': label, class: 'sw-in' });
-        el.value = W[prop]; el.addEventListener('input', function () { W[prop] = el.value; show(); });
-        return el;
-      };
-      show();
-      body = h('div', { class: 'prev-body' }, [
-        h('div', { class: 'sw-row' }, ['Save', h('span', { class: 'sw-box' }, ['£', inp('swm', 'monthly', 'Amount saved each month')]), 'a month for', h('span', { class: 'sw-box' }, [inp('swy', 'years', 'Number of years'), 'years']), h('span', { class: 'sw-box' }, [inp('swmo', 'months', 'Number of months'), 'months'])]),
-        h('div', { class: 'sw-out' }, [h('span', { class: 'sw-k', text: 'You’d have' }), total]) ]);
+    if (!open) return h('section', { class: 'dsec prev' }, [head]);
+    if (W.potId && !findSaving(W.potId)) W.potId = '';
+    var pot = W.potId ? findSaving(W.potId) : null, need = W.mode === 'need';
+
+    var modes = h('div', { class: 'seg-o sw-modes', role: 'group', 'aria-label': 'What to work out' }, [['need', 'What do I need to save?'], ['have', 'What will I have?']].map(function (m) {
+      return btn('', m[1], function () { W.mode = m[0]; commit(); }, [m[1]], { 'aria-pressed': String(W.mode === m[0]) });
+    }));
+    var potSel = h('select', { class: 'xsel', id: 'f-sw-pot', 'aria-label': 'Which savings', onchange: function (e) {
+      W.potId = e.target.value; var sv = findSaving(W.potId);
+      if (sv) { W.goal = sv.goal || ''; W.start = String(r2(savedNow(sv))); W.aer = sv.aer || ''; W.monthly = sv.monthly || ''; }
+      commit();
+    } }, [h('option', { value: '', text: 'A new goal (type your own numbers)' })].concat(state.savings.map(function (sv) { return h('option', { value: sv.id, text: (sv.name || 'Untitled savings') }); })));
+    potSel.value = W.potId;
+
+    var out = h('div', { class: 'sw-result' });
+    var inp = function (key, prop, label, pre, post) {
+      var el = h('input', { type: 'text', inputmode: 'decimal', class: 'gp-in', id: 'f-' + key, 'data-k': key, 'aria-label': label, placeholder: '0' });
+      el.value = W[prop] == null ? '' : W[prop];
+      el.addEventListener('input', function () { W[prop] = el.value; show(); });
+      el.addEventListener('keydown', function (e) { if (e.key === 'Enter') el.blur(); });
+      return h('label', { class: 'sw-f', for: 'f-' + key }, [h('span', { class: 'gp-k', text: label }), h('span', { class: 'gp-box' }, [pre ? h('b', { text: pre }) : null, el, post ? h('i', { text: post }) : null])]);
+    };
+    var when = h('div', { class: 'sw-f sw-when' }, [h('span', { class: 'gp-k', text: need ? 'Reach it in' : 'For' }), h('span', { class: 'gp-pair' }, [
+      h('span', { class: 'gp-box' }, [(function () { var l = inp('sw-y', 'years', 'Years', '', 'yrs'); return l.querySelector('input'); })(), h('i', { text: 'yrs' })]),
+      h('span', { class: 'gp-box' }, [(function () { var l = inp('sw-mo', 'months', 'Months', '', 'mths'); return l.querySelector('input'); })(), h('i', { text: 'mths' })]) ])]);
+    var grid = h('div', { class: 'sw-grid' }, need
+      ? [inp('sw-goal', 'goal', 'Goal', '£'), inp('sw-start', 'start', 'Already saved', '£'), inp('sw-aer', 'aer', 'Interest', '', '% a year'), when]
+      : [inp('sw-m', 'monthly', 'Save each month', '£'), inp('sw-start', 'start', 'Already saved', '£'), inp('sw-aer', 'aer', 'Interest', '', '% a year'), when]);
+
+    function show() {
+      out.replaceChildren();
+      var n = Math.max(0, Math.round(amt(W.years) * 12 + amt(W.months))), S = amt(W.start), r = monthlyRate(amt(W.aer));
+      var by = n > 0 ? byLabel(monthIndexNow() + n) : null;
+      if (!n) { out.append(h('p', { class: 'gp-msg', text: 'Type how long you’ve got, in years and months.' })); return; }
+      if (need) {
+        var goal = amt(W.goal);
+        if (!goal) { out.append(h('p', { class: 'gp-msg', text: 'Type how much you want to save.' })); return; }
+        if (S >= goal) { out.append(h('p', { class: 'gp-msg', text: 'You’ve already got ' + money(S) + ', so you’ve reached ' + money(goal) + '.' })); return; }
+        var M = Math.max(0, Math.ceil(neededMonthly(goal, S, r, n)));
+        if (M === 0) { out.append(h('p', { class: 'gp-msg', text: 'The interest alone gets you to ' + money(goal) + ' by ' + by + '.' })); return; }
+        out.append(h('div', { class: 'gp-need' }, [h('span', { class: 'gp-k2', text: 'To have ' + money(goal) + ' by ' + by + ', save' }), h('span', { class: 'gp-big', text: money(M) + ' a month' })]));
+        var put = M * n, earned = Math.round(goal - S - put);
+        out.append(h('p', { class: 'gp-note', text: 'You’d put in ' + money(Math.round(put)) + (earned > 0 ? ' and interest adds about ' + money(earned) : '') + '.' }));
+        if (pot) {
+          var now = amt(savingMonthly(pot)), at = now > 0 ? monthsToGoal(goal, S, r, now) : null;
+          out.append(h('p', { class: 'gp-at ' + (now >= M ? 'ok' : 'short') }, [now > 0
+            ? 'You save ' + money(now) + ' a month into ' + (pot.name || 'this') + ' now' + (at == null ? ', which won’t reach it.' : ', which gets there by ' + byLabel(monthIndexNow() + at) + ' (' + monthsText(at) + ').')
+            : 'You’re not saving into ' + (pot.name || 'this') + ' each month yet.']));
+          out.append(now === M ? h('span', { class: 'gp-set', text: '✓ This is already your monthly saving for ' + (pot.name || 'this') })
+            : btn('gp-use', 'Use ' + money(M) + ' a month for ' + (pot.name || 'this saving'), function () { useMonthly(pot, M); if (amt(pot.goal) !== goal) pot.goal = String(goal); commit(); }, ['Use ' + money(M) + ' a month for ' + (pot.name || 'this saving')]));
+        }
+      } else {
+        var m = amt(W.monthly), g = Math.pow(1 + r, n), total = S * g + (r ? m * (g - 1) / r : m * n), putIn = S + m * n;
+        out.append(h('div', { class: 'gp-need' }, [h('span', { class: 'gp-k2', text: 'By ' + by + ' you’d have' }), h('span', { class: 'gp-big', text: money(Math.round(total)) })]));
+        out.append(h('p', { class: 'gp-note', text: money(Math.round(putIn)) + ' put in' + (total - putIn >= 1 ? ' + ' + money(Math.round(total - putIn)) + ' interest' : '') + '.' }));
+        if (pot && amt(pot.goal) > 0) {
+          var pg = amt(pot.goal);
+          out.append(h('p', { class: 'gp-at ' + (total >= pg ? 'ok' : 'short'), text: total >= pg ? 'That reaches your ' + (pot.name || '') + ' goal of ' + money(pg) + '.' : 'That’s ' + money(Math.round(pg - total)) + ' short of your ' + (pot.name || '') + ' goal of ' + money(pg) + '.' }));
+        }
+      }
     }
-    return h('section', { class: 'dsec prev' + (open ? ' open' : '') }, [head, body]);
+    show();
+    var body = h('div', { class: 'prev-body sw-body' }, [
+      modes,
+      h('label', { class: 'sw-f', for: 'f-sw-pot' }, [h('span', { class: 'gp-k', text: 'For' }), potSel]),
+      grid, out,
+      h('p', { class: 'wif-note', text: 'Interest is added monthly at the yearly rate you type. Nothing here changes your plan unless you press Use.' }) ]);
+    return h('section', { class: 'dsec prev open' }, [head, body]);
   }
 
   /* ---------- What if? (investments) ----------
