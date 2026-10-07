@@ -20,7 +20,7 @@
   --plum:#7E2A55; --plum-soft:#F3E6ED;
   --ink:#211C2E; --ink2:#4A4356; --muted:#6B6478; --faint:#8A8478;
   --paper:#FBF9F4; --card:#FFFFFF; --sand:#F3EEE3; --sand2:#EFE9DA; --line:#E4DFD3;
-  --good:#00602A; --good-bg:#E3F1E8; --warn:#8A2C24; --warn-bg:#F8E7E5;
+  --good:#1E6B47; --good-bg:#E3F1E8; --warn:#9A3A30; --warn-bg:#F8E7E5;
   --gold:#FFD400; --gold-ink:#3A2E00; --gold-line:#E0B800; --gold-soft:rgba(255,255,255,.6);
   --serif:'DM Serif Display',Georgia,'Times New Roman',serif;
   --sans:'DM Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
@@ -699,6 +699,604 @@ body.has-fbar .page{padding-top:84px}
 .worth-cell::after{content:attr(data-tip);position:absolute;right:0;bottom:calc(100% + 6px);width:max-content;max-width:220px;white-space:normal;text-align:left;background:var(--ink);color:var(--paper);font-size:12px;font-weight:600;line-height:1.35;padding:7px 10px;border-radius:8px;box-shadow:0 6px 16px rgba(33,28,46,.25);opacity:0;pointer-events:none;transform:translateY(3px);transition:opacity .12s,transform .12s;z-index:20}
 .worth-cell:hover::after,.worth-cell:focus-within::after{opacity:1;transform:none}
 .stale-dot{position:absolute;top:4px;right:2px;width:8px;height:8px;border-radius:50%;background:#E0A400;box-shadow:0 0 0 2px var(--gb)}
+
+
+/* ---------- v3.3: plum bar on top (laptop) or at the bottom (phone); the planner stays underneath ---------- */
+.ic{display:flex;flex-shrink:0}
+.lw{display:inline-flex}
+.lw svg{width:100%;height:100%;display:block}
+.chev{display:flex;color:var(--faint);margin-left:auto;flex-shrink:0}
+.chev svg{width:16px;height:16px}
+body.ov-open{overflow:hidden}
+.page{padding:110px 24px 90px}
+.content{max-width:1000px}
+.m-brand{display:none}
+
+/* top bar */
+.pnav{position:fixed;top:calc(14px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);width:min(1120px,calc(100% - 32px));height:64px;z-index:65;display:flex;align-items:center;gap:8px;background:var(--plum);border-radius:18px;padding:0 10px 0 14px;box-shadow:0 14px 34px rgba(126,42,85,.3);transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s}
+.pn-brand{display:flex;align-items:center;gap:9px;border:none;background:transparent;color:var(--paper);font-family:var(--serif);font-size:22px;padding:6px 10px 6px 4px;border-radius:12px;white-space:nowrap}
+.pn-brand:hover{background:rgba(255,255,255,.1)}
+.pn-mid{flex:1;display:flex;justify-content:center;gap:4px;border-radius:14px}
+.pn-right{display:flex;align-items:center;gap:6px;border-radius:14px}
+.pn-i{position:relative;border:none;background:transparent;font-size:14.5px;font-weight:600;color:#F2C6DB;padding:10px 16px;border-radius:12px;display:inline-flex;align-items:center;gap:8px;white-space:nowrap;transition:background .12s,color .12s}
+.pn-i:hover{background:rgba(255,255,255,.1);color:var(--paper)}
+.pn-i.on{background:var(--paper);color:var(--plum)}
+.pn-i .ic svg{width:18px;height:18px}
+.pn-i .dn svg{width:14px;height:14px;transition:transform .15s}
+.dn.up svg{transform:rotate(180deg)}
+.pn-new{font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:var(--gold);color:var(--gold-ink);border-radius:999px;padding:1px 6px}
+.pn-me{position:relative;display:flex;align-items:center;gap:4px;border:none;background:transparent;color:#F2C6DB;padding:5px 8px 5px 5px;border-radius:999px}
+.pn-me:hover,.pn-me.on{background:rgba(255,255,255,.14);color:var(--paper)}
+.pn-me .dn svg{width:14px;height:14px}
+.pn-av,.dd-av{width:36px;height:36px;border-radius:50%;background:var(--paper);color:var(--plum);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pn-av svg,.dd-av svg{width:20px;height:20px}
+.pn-av.gold,.dd-av.gold{background:transparent}
+.pn-av.gold svg,.dd-av.gold svg{width:100%;height:100%}
+.pn-dot{position:absolute;top:4px;left:32px;width:10px;height:10px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 2px var(--plum)}
+.dd{position:absolute;top:calc(100% + 10px);background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 20px 50px rgba(33,28,46,.22);padding:8px;width:290px;display:flex;flex-direction:column;gap:2px;animation:dropOpen .2s cubic-bezier(.16,1,.3,1);transform-origin:top}
+.dd-more{right:62px}
+.dd-me{right:0}
+.dd-i{display:flex;align-items:center;gap:12px;width:100%;border:none;background:transparent;text-align:left;padding:10px 12px;border-radius:11px;font-size:14.5px;font-weight:600;color:var(--ink)}
+.dd-i:hover{background:var(--sand)}
+.dd-i.on{background:var(--plum-soft);color:var(--plum)}
+.dd-i .ic{width:34px;height:34px;border-radius:10px;background:var(--plum-soft);color:var(--plum);align-items:center;justify-content:center}
+.dd-i .ic svg{width:18px;height:18px}
+.dd-t{flex:1;min-width:0}
+.dd-t small{display:block;font-size:12px;font-weight:500;color:var(--muted);margin-top:1px}
+.dd-i .cnt{font-size:11.5px;font-weight:700;color:var(--muted);background:var(--sand);border-radius:999px;padding:2px 8px}
+.dd-head{display:flex;align-items:center;gap:10px;padding:8px 10px 12px;margin-bottom:4px;border-bottom:1px solid var(--sand2)}
+.dd-head b{display:block;font-size:14px;color:var(--ink)}
+.dd-head b.fd{color:#7A5800}
+.dd-head small{display:block;font-size:12px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px}
+
+/* sections open over the planner, below the bar */
+.overlay{z-index:60;padding:100px 16px 60px}
+.sheet h3{font-size:30px}
+
+/* bottom bar (phone) */
+.bnav{display:none}
+
+/* This month: header + the bar that stays in view */
+.ph{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px 24px}
+.ph-left{display:flex;flex-direction:column;gap:6px}
+.mnav{display:flex;align-items:center;gap:10px}
+.head{padding-inline:0;gap:14px}
+.mnav{justify-content:center;margin-top:2px}
+.mlabel{font-family:var(--serif);font-size:26px;line-height:1;min-width:8.6em;text-align:center;color:var(--ink)}
+.mbtn{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--ink2);display:flex;align-items:center;justify-content:center;padding:0;flex-shrink:0}
+.mbtn:hover{border-color:var(--plum);color:var(--plum)}
+.mbtn svg{width:18px;height:18px}
+.ph-stamps{display:flex;justify-content:flex-end;border-radius:14px;padding:2px}
+.ph-stamps .stamp-row{justify-content:flex-end}
+.ph-none{font-size:12.5px;color:var(--faint);border:1.5px dashed var(--line);border-radius:999px;padding:7px 14px}
+.plan-bar{position:sticky;top:calc(88px + env(safe-area-inset-top,0px));z-index:20;display:flex;align-items:center;gap:10px 12px;flex-wrap:wrap;background:rgba(251,249,244,.94);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);margin:-14px -12px -10px;padding:10px 12px;border-radius:16px}
+.ltp{display:inline-flex;align-items:center;border-radius:999px;padding:9px 16px;font-weight:700;font-size:14px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.ltp.ok{background:var(--good-bg);color:var(--good)}
+.ltp.bad{background:var(--warn-bg);color:var(--warn)}
+.ltp-sub{flex:1;min-width:150px;font-size:13px;color:var(--muted)}
+.stamp-go{display:inline-flex;align-items:center;gap:9px;border:none;border-radius:999px;background:var(--plum);color:var(--paper);padding:8px 20px 8px 9px;font-family:var(--serif);font-size:19px;letter-spacing:.02em;box-shadow:0 6px 16px rgba(126,42,85,.32);transition:transform .15s}
+.stamp-go:hover{transform:translateY(-1px)}
+.stamp-go:active{transform:scale(.95)}
+.stamp-go.flash{animation:stampBurst .5s cubic-bezier(.34,1.56,.64,1)}
+.stamp-go svg{width:28px;height:28px;display:block}
+.sg-short{display:none}
+.toast-fixed{position:fixed;left:16px;right:16px;bottom:28px;z-index:70;display:flex;justify-content:center;pointer-events:none}
+.cols-btn{display:none;border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 12px;font-size:12.5px;font-weight:700;color:var(--ink2)}
+.list-links{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.ll{display:flex;align-items:center;gap:14px;border:none;background:transparent;text-align:left;padding:14px 16px;font-size:15px;font-weight:600;color:var(--ink)}
+.ll + .ll{border-top:1px solid var(--line)}
+.ll:hover{background:var(--sand)}
+.ll .ic{color:var(--plum)}
+.ll .ic svg{width:22px;height:22px}
+.ll small{display:block;font-size:12.5px;color:var(--muted);font-weight:500;margin-top:1px}
+.sec-h{font-family:var(--serif);font-weight:400;font-size:24px;margin:10px 0 0}
+.btn-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.pill-btn{border:1.5px solid var(--line);background:var(--card);border-radius:999px;padding:9px 16px;font-size:13.5px;font-weight:700;color:var(--ink2)}
+.pill-btn:hover{border-color:var(--plum);color:var(--plum)}
+.pill-btn.primary{background:var(--plum);border-color:var(--plum);color:var(--paper)}
+.card-box{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px}
+.fb-card{margin-top:0}
+
+@media (max-width:820px){
+  .pnav{display:none}
+  .bnav{display:flex;position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:65;background:var(--plum);border-radius:22px;padding:6px;box-shadow:0 12px 30px rgba(126,42,85,.35)}
+  .bn{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;gap:3px;border:none;background:transparent;color:#F2C6DB;font-size:11px;font-weight:600;padding:7px 0 6px;border-radius:16px;white-space:nowrap}
+  .bn .ic svg{width:23px;height:23px}
+  .bn.on{background:rgba(255,255,255,.18);color:var(--paper)}
+  .page{padding:18px 14px 120px}
+  .m-brand{display:flex;align-items:center;gap:8px;font-family:var(--serif);color:var(--plum);font-size:22px;line-height:1}
+  .plan-bar{top:env(safe-area-inset-top,0px)}
+  .overlay{padding:16px 10px 112px}
+  .toast-fixed{bottom:100px}
+  .tour{bottom:100px}
+  .ph-stamps,.ph-stamps .stamp-row{justify-content:flex-start}
+  .ph-none{display:none}
+}
+@media (max-width:640px){
+  .cols-btn{display:inline-flex}
+  .ltp-sub{display:none}
+  .plan-bar{gap:8px}
+  .stamp-go{margin-left:auto;font-size:17px;padding:7px 15px 7px 8px}
+  .stamp-go svg{width:24px;height:24px}
+  .sg-long{display:none}
+  .sg-short{display:inline}
+  .mlabel{font-size:23px;min-width:0}
+  .sheet h3{font-size:26px}
+  .compact .row{grid-template-columns:16px minmax(0,1fr) 84px 20px}
+  .compact .item-row{padding-block:2px}
+  .compact .item-row .c-h,.compact .group.no-la .item-row .c-h{grid-row:1}
+  .compact .item-row .c-name,.compact .group.no-la .item-row .c-name{grid-column:2;grid-row:1}
+  .compact .item-row .c-bud,.compact .group.no-la .item-row .c-bud{grid-column:3;grid-row:1}
+  .compact .item-row .c-rm{grid-column:4;grid-row:1}
+  .compact .c-loc,.compact .c-date,.compact .c-auto,.compact .c-tgt{display:none}
+  .compact .colhead .c-name{display:block;grid-column:2}
+  .compact .colhead .c-bud,.compact .total-row .c-bud,.compact .foot .c-bud{grid-column:3}
+  .compact .c-label{grid-column:2}
+  .compact .colhead span{font-size:10px;text-align:left}
+  .compact .colhead .c-bud{text-align:right}
+}
+
+/* month summary: two compact rows, label on the left */
+.sum-rows{display:flex;flex-direction:column;gap:0;background:var(--card);border-radius:16px;box-shadow:var(--shadow);padding:6px 18px}
+.sr-row{display:grid;grid-template-columns:130px minmax(0,1fr);gap:14px;align-items:center;padding:12px 0}
+.sr-row + .sr-row{border-top:1px solid var(--line)}
+.sr-head{display:flex;flex-direction:column;align-items:flex-start;gap:2px}
+.sr-head .side-link{padding:0;font-size:12.5px}
+.sr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}
+.st-tile{display:flex;flex-direction:column;gap:3px;background:var(--paper);border:1px solid var(--line);border-radius:11px;padding:8px 12px;min-width:0}
+.st-top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.st-k{font-size:13px;font-weight:600;color:var(--ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.st-v{font-family:var(--serif);font-size:19px;line-height:1.2;font-variant-numeric:tabular-nums;color:var(--ink);white-space:nowrap}
+.st-n{font-size:11.5px;color:var(--muted)}
+.st-tile .bar{height:4px;margin:2px 0 1px}
+.st-tile.none .bar i{background:var(--faint)}
+/* stamped states */
+.stamp-done{display:inline-flex;align-items:center;gap:12px;padding:16px 40px 16px 22px;border-radius:999px;background:var(--good);color:#fff;font-family:var(--serif);font-size:25px;letter-spacing:.02em;box-shadow:0 8px 22px rgba(0,96,42,.3)}
+.stamp-done.flash{animation:stampBurst .5s cubic-bezier(.34,1.56,.64,1)}
+.sd-tick{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center}
+.sd-tick svg{width:18px;height:18px}
+.stamp-sub{max-width:34em;text-align:center}
+.stamp-sub.warn{color:var(--warn);font-weight:600}
+.m-chip{font-size:12.5px;font-weight:700;border-radius:999px;padding:4px 12px}
+.m-chip.ok{background:var(--good-bg);color:var(--good)}
+.m-chip.warn{background:var(--warn-bg);color:var(--warn)}
+@media (max-width:640px){ .sr-row{grid-template-columns:1fr;gap:8px} .sr-head{flex-direction:row;justify-content:space-between;width:100%} .sr-grid{grid-template-columns:1fr 1fr} }
+.plan-bar{justify-content:center}
+.stamp-wrap{margin-top:4px}
+@media (max-width:640px){ .sum-rows{padding:18px 16px} .sr-grid{grid-template-columns:1fr 1fr} .st-v{font-size:21px} }
+.plan-bar .ltp-sub{flex:0 1 auto;min-width:0}
+
+
+
+/* Left to plan in the top bar */
+.pn-ltp{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:6px 12px;font-size:13px;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+.pn-ltp.ok{background:var(--good-bg);color:var(--good)}
+.pn-ltp.bad{background:var(--warn-bg);color:var(--warn)}
+.pn-tick{display:flex}.pn-tick svg{width:12px;height:12px}
+.plan-bar{display:none}
+/* founding places strip above the bar */
+body.has-fbar .pnav{top:calc(56px + env(safe-area-inset-top,0px))}
+body.has-fbar .page{padding-top:150px}
+body.has-fbar .overlay{padding-top:142px}
+.f-bar{z-index:66}
+@media (max-width:820px){
+  .plan-bar{display:flex}
+  .pn-ltp{display:none}
+  body.has-fbar .page{padding-top:64px}
+  body.has-fbar .overlay{padding-top:58px}
+  body.has-fbar .plan-bar{top:calc(42px + env(safe-area-inset-top,0px))}
+}
+
+/* ---------- Budgeted / This Month highlights ---------- */
+.item-row.row-chg .c-bud{background:#FFF6CC;border-color:#EBD27A;font-weight:700}
+.chg-tag{flex-shrink:0;font-size:11px;font-weight:700;color:#7A5800;background:#FFF6CC;border:1px solid #EBD27A;border-radius:999px;padding:2px 8px;white-space:nowrap}
+.colhead .c-tgt,.colhead .c-bud{white-space:nowrap}
+
+/* ---------- tidier planner cards ---------- */
+.group .add-btn{border:none;background:transparent;color:var(--gm);border-radius:8px;padding:5px 8px;font-size:13px;font-weight:600;opacity:.85}
+.group .add-btn:hover{background:rgba(255,255,255,.75);opacity:1}
+.add-row{padding:4px 14px 6px 30px}
+.add-cat{padding:8px}
+.one-cat .cat .total-row{display:none}
+.fb-card{background:#fff;border:1px solid #E9E3EC;box-shadow:none}
+.fb-card-ic{background:#F5ECF1;color:#7E2A55}
+.fb-card-t b{color:#7E2A55}
+.fb-card-btn{background:#fff;border:1.5px solid #7E2A55;color:#7E2A55}
+.fb-card-btn:hover{background:#F5ECF1}
+
+/* ---------- the three bars (numbers sit under Budgeted and This Month) ---------- */
+.tbars{display:flex;flex-direction:column;gap:12px;border-radius:14px}
+.tb{border-radius:14px;overflow:hidden;box-shadow:var(--shadow);background:#fff}
+.tb-row{min-height:54px}
+.tb-l{grid-column:2 / 6;display:flex;align-items:center;gap:10px;min-width:0}
+.tb-l b{font-size:15px;font-weight:700}
+.tb-l small{font-size:12.5px;color:var(--muted)}
+.tb-v{display:flex;flex-direction:column;align-items:flex-end;gap:2px;padding-right:8px;font-variant-numeric:tabular-nums;font-weight:700;font-size:15.5px}
+.tb-v small{font-size:9.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;opacity:.7}
+.tb-total{background:#7E2A55;color:#fff}
+.tb-total .tb-l b{font-size:16px}
+.tb-left .tb-row{position:relative}
+.tb-left .tb-row::before{content:'';position:absolute;left:0;top:0;bottom:0;width:5px;background:#C8C2B2}
+.tb-left.ok .tb-row::before{background:#1E6B47}
+.tb-left.left .tb-row::before{background:#E0B800}
+.tb-left.over .tb-row::before{background:#9A3A30}
+.tb-v.ok{color:#1E6B47}.tb-v.left{color:#8A6400}.tb-v.over{color:#9A3A30}
+.tb-bank .tb-headrow{min-height:44px;background:#EFDCE6}
+.tb-bank .tb-headrow .tb-l b{font-size:15px}
+.tb-bank .tb-headrow .tb-v small{opacity:1;color:#5A5266}
+.tb-edit{border:none;background:none;padding:2px 4px;font-size:12.5px;font-weight:700;color:#7E2A55;text-decoration:underline;text-underline-offset:2px}
+.tb-bank .tb-row:not(.tb-headrow){min-height:44px;border-top:1px solid #F1ECF0}
+.tb-bank .tb-row:not(.tb-headrow) .tb-l{gap:8px;align-items:baseline}
+.tb-bank .tb-v{font-weight:600;font-size:14.5px}
+.tb-acc{font-size:14.5px;font-weight:600}
+.tb-bank .none .tb-acc{color:var(--muted);font-weight:500}
+
+/* ---------- Extras: a card like the planner groups ---------- */
+.xb{border-radius:14px;overflow:hidden;box-shadow:var(--shadow);background:#fff}
+.xb-head{height:56px;display:flex;align-items:center;justify-content:space-between;gap:12px;background:#7E2A55;color:#fff;padding:0 22px}
+.xb-head h2{margin:0;font-family:var(--serif);font-weight:400;font-size:24px}
+.xb-head span{font-size:13px;opacity:.85}
+.xb-body{display:flex;flex-direction:column;padding:12px 22px 4px}
+.xb-pay{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#EEF5F0;color:#1E6B47;border-radius:10px;padding:10px 14px;margin-bottom:4px;font-size:14px;font-weight:600}
+.xb-pay b{font-variant-numeric:tabular-nums;font-size:16px}
+.xb-pay.neg{background:#FBEFED;color:#9A3A30}
+.xb-ok{display:flex;align-items:center;gap:10px;color:#1E6B47;padding:10px 0 12px;font-size:14px;font-weight:600}
+.xb-ok-ic{width:22px;height:22px;border-radius:50%;background:#EEF5F0;display:flex;align-items:center;justify-content:center}
+.xb-ok-ic svg{width:12px;height:12px;display:block}
+.xb-row{display:grid;grid-template-columns:minmax(0,1fr) 110px 90px;gap:12px;align-items:center;padding:11px 0;border-top:1px solid #F1ECF0;font-size:14.5px}
+.xb-pay + .xb-row{border-top:none}
+.xb-n{display:flex;flex-direction:column;gap:2px;min-width:0}
+.xb-n b{font-weight:600}
+.xb-n small{font-size:12.5px;color:var(--muted);line-height:1.4}
+.xb-acc{justify-self:center;font-size:12px;font-weight:600;border:1px solid #E9E3EC;border-radius:999px;padding:3px 10px;background:#FBF9F4;color:#4A4356}
+.xb-v{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.xb-row.neg .xb-v{color:#9A3A30}
+.xb-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#F5ECF1;padding:12px 22px;font-size:14px;font-weight:600;color:#5A5266}
+.xb-foot b{font-size:18px;color:#7E2A55;font-variant-numeric:tabular-nums}
+@media (max-width:720px){
+  .tb-l{grid-column:1 / 3}
+  .compact .tb .c-tgt{display:none}
+  .xb-head{padding:0 16px}.xb-body{padding:10px 16px 4px}.xb-foot{padding:12px 16px}
+  .xb-head span{display:none}
+  .xb-row{grid-template-columns:minmax(0,1fr) auto}
+  .xb-acc{display:none}
+}
+
+/* ---------- currency, bank-day default, undo ---------- */
+.cur-row{display:flex;align-items:center;justify-content:space-between;gap:16px;background:#fff;border:1px solid #E9E3EC;border-radius:12px;padding:12px 14px;margin-bottom:16px}
+.cur-t{display:flex;flex-direction:column;gap:2px}
+.cur-t b{font-size:14.5px}
+.cur-t small{font-size:12.5px;color:var(--muted)}
+.cur-sel{border:1.5px solid #E4DFD3;border-radius:999px;background:#fff;padding:7px 12px;font:inherit;font-size:13.5px;font-weight:600;color:#211C2E}
+.day-select.is-bank{color:var(--muted);font-weight:500;border-style:dashed}
+.undo-toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;z-index:200;display:flex;align-items:center;gap:14px;background:#211C2E;color:#fff;border-radius:999px;padding:8px 8px 8px 18px;font-size:14px;font-weight:600;box-shadow:0 10px 30px rgba(33,28,46,.25);transition:opacity .18s,transform .18s}
+.undo-toast.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.undo-btn{border:none;background:#fff;color:#7E2A55;border-radius:999px;padding:6px 14px;font:inherit;font-size:13px;font-weight:700}
+.undo-btn:hover{background:#F5ECF1}
+
+/* ---------- phase 2: icons, Sent ticks, stamp check, explainers ---------- */
+.link-tag{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;padding:0;border-radius:7px;cursor:pointer}
+.link-tag svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.link-tag:hover{background:#fff;border-color:var(--plum)}
+.group{overflow:visible}
+.group > .group-head{border-radius:14px 14px 0 0}
+.group > .foot{border-radius:0 0 14px 14px}
+.col-q{display:inline-flex;align-items:center;justify-content:flex-end;gap:5px}
+.qtip{position:relative;width:15px;height:15px;flex-shrink:0;border-radius:50%;border:1px solid currentColor;background:transparent;color:inherit;font:inherit;font-size:9.5px;font-weight:700;line-height:1;padding:0;opacity:.6;cursor:help;display:inline-flex;align-items:center;justify-content:center}
+.qtip:hover,.qtip:focus-visible,.qtip.tip-on{opacity:1}
+.qtip::after{content:attr(data-tip);position:absolute;right:-6px;top:calc(100% + 8px);width:240px;white-space:normal;text-align:left;text-transform:none;letter-spacing:normal;font-size:12.5px;font-weight:500;line-height:1.45;background:#211C2E;color:#fff;border-radius:10px;padding:9px 11px;box-shadow:0 8px 24px rgba(33,28,46,.22);opacity:0;pointer-events:none;transform:translateY(-3px);transition:opacity .15s,transform .15s;z-index:30}
+.qtip:hover::after,.qtip:focus-visible::after,.qtip.tip-on::after{opacity:1;transform:translateY(0)}
+.colhead{position:relative;z-index:5}
+.xb-row{grid-template-columns:minmax(0,1fr) 100px 80px 92px}
+.xb-row.sent .xb-v,.xb-row.sent .xb-n b{color:var(--muted)}
+.xb-row.sent .xb-v{text-decoration:line-through;text-decoration-color:rgba(107,100,120,.5)}
+.xb-tick{justify-self:end;display:inline-flex;align-items:center;gap:7px;border:1.5px solid #E4DFD3;background:#fff;border-radius:999px;padding:4px 11px 4px 6px;font:inherit;font-size:12.5px;font-weight:700;color:#4A4356;cursor:pointer}
+.xb-tick:hover{border-color:#7E2A55;color:#7E2A55}
+.xb-box{width:16px;height:16px;border-radius:50%;border:1.5px solid #C8C2B2;background:#fff;display:flex;align-items:center;justify-content:center;color:#fff}
+.xb-box svg{width:10px;height:10px;display:block}
+.xb-tick[aria-pressed="true"]{background:#EEF5F0;border-color:#BFDCC9;color:#1E6B47}
+.xb-tick[aria-pressed="true"] .xb-box{background:#1E6B47;border-color:#1E6B47}
+.xb-foot.all{background:#EEF5F0;color:#1E6B47}
+.xb-done{display:inline-flex;align-items:center;gap:8px;color:#1E6B47 !important}
+.sc-back{position:fixed;inset:0;z-index:300;background:rgba(33,28,46,.45);display:flex;align-items:center;justify-content:center;padding:16px;animation:scIn .15s ease-out}
+@keyframes scIn{from{opacity:0}to{opacity:1}}
+.sc{width:min(460px,100%);background:#FBF9F4;border-radius:18px;padding:26px 26px 22px;box-shadow:0 24px 60px rgba(33,28,46,.3);display:flex;flex-direction:column;gap:14px}
+.sc h2{margin:0;font-family:var(--serif);font-weight:400;font-size:28px;line-height:1.1}
+.sc-sub{margin:-8px 0 0;font-size:13.5px;color:var(--muted)}
+.sc-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.sc-list li{display:flex;gap:11px;align-items:flex-start;background:#fff;border:1px solid #EFE9DA;border-radius:12px;padding:11px 12px}
+.sc-list li > span:last-child{display:flex;flex-direction:column;gap:2px}
+.sc-list b{font-size:14.5px}
+.sc-list small{font-size:12.5px;color:var(--muted)}
+.sc-ic{width:22px;height:22px;flex-shrink:0;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.sc-ic svg{width:12px;height:12px}
+.sc-list .ok .sc-ic{background:#EEF5F0;color:#1E6B47}
+.sc-list .warn .sc-ic{background:#FFF6CC;color:#8A6400}
+.sc-sum{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.sc-sum div{background:#F5ECF1;border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.sc-sum small{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#5A5266}
+.sc-sum b{font-size:17px;color:#7E2A55;font-variant-numeric:tabular-nums}
+.sc-banks{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--muted)}
+.sc-banks b{color:#211C2E;font-weight:600}
+.sc-btns{display:flex;justify-content:flex-end;gap:10px;margin-top:4px}
+.sc-no{border:1.5px solid #E4DFD3;background:#fff;color:#4A4356;border-radius:999px;padding:10px 18px;font:inherit;font-size:14px;font-weight:700}
+.sc-go{border:none;background:#7E2A55;color:#fff;border-radius:999px;padding:10px 22px;font:inherit;font-size:14px;font-weight:700;box-shadow:0 6px 16px rgba(126,42,85,.3)}
+.sc-go:hover{background:#6B2348}
+@media (max-width:720px){ .xb-row{grid-template-columns:minmax(0,1fr) auto} .xb-tick{grid-column:1 / -1;justify-self:start} }
+
+/* ---------- phase 3: folding groups, example card ---------- */
+.group-head.foldable{cursor:pointer;user-select:none}
+.group-head{gap:12px}
+.group-head h2{margin-right:auto}
+.fold-btn{flex-shrink:0;width:30px;height:30px;border-radius:50%;border:none;background:rgba(255,255,255,.16);color:#fff;display:flex;align-items:center;justify-content:center;padding:0;transition:background .15s}
+.fold-btn:hover{background:rgba(255,255,255,.28)}
+.fold-btn svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;transform:rotate(180deg);transition:transform .2s}
+.folded .fold-btn svg{transform:none}
+.group.folded .cat,.group.folded .add-cat{display:none}
+.group.folded > .group-head{border-radius:14px 14px 0 0}
+.group-head h2 + .fold-note{margin-left:-2px}
+.fold-note{font-size:12.5px;font-weight:600;opacity:.75}
+.group-head:has(.fold-note) h2{margin-right:0}
+.group-head:has(.fold-note) .fold-note{margin-right:auto}
+.group-head:has(.fold-chg) .fold-note{margin-right:0}
+.group-head:has(.fold-chg) .fold-chg{margin-right:auto}
+.fold-chg{font-size:11.5px;font-weight:700;color:#7A5800;background:#FFF6CC;border-radius:999px;padding:3px 10px}
+.ex-card{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #E6C9D8;border-left:5px solid #7E2A55;border-radius:14px;padding:14px 16px;box-shadow:var(--shadow)}
+.ex-ic{flex-shrink:0;width:40px;height:40px;border-radius:50%;background:#F5ECF1;color:#7E2A55;display:flex;align-items:center;justify-content:center}
+.ex-ic svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ex-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.ex-t b{font-size:15px}
+.ex-t span{font-size:13.5px;color:var(--muted);line-height:1.45}
+.ex-btns{display:flex;gap:8px;flex-shrink:0}
+.ex-keep{border:1.5px solid #E4DFD3;background:#fff;color:#4A4356;border-radius:999px;padding:8px 14px;font:inherit;font-size:13px;font-weight:700}
+.ex-clear{border:none;background:#7E2A55;color:#fff;border-radius:999px;padding:8px 16px;font:inherit;font-size:13px;font-weight:700}
+.ex-clear:hover{background:#6B2348}
+@media (max-width:720px){ .ex-card{flex-wrap:wrap} .ex-btns{width:100%;justify-content:flex-end} .fold-note{display:none} }
+
+/* ---------- Records table ---------- */
+.rt-wrap{display:flex;flex-direction:column;gap:12px}
+.rt-ctl{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+.rt-seg{display:flex;background:#EAE3EA;border-radius:999px;padding:3px}
+.rt-seg button{border:none;background:none;border-radius:999px;padding:6px 13px;font:inherit;font-size:12.5px;font-weight:700;color:#5A5266}
+.rt-seg button.on{background:#7E2A55;color:#fff}
+.rt-scroll{overflow-x:auto;border-radius:16px;box-shadow:var(--shadow)}
+.rt{background:#fff;min-width:560px}
+.rt-r{display:grid;align-items:center;padding:0 18px;min-height:44px;border-top:1px solid #F1ECF0;font-size:14px;column-gap:8px}
+.rt-r > :not(:first-child){justify-self:end;text-align:right}
+.rt-n{font-variant-numeric:tabular-nums}
+.rt-hd{background:#7E2A55;color:#fff;border-top:none;min-height:54px}
+.rt-month{border:none;background:none;color:#fff;font:inherit;font-size:14px;font-weight:700;padding:4px 6px;border-radius:8px;display:flex;flex-direction:column;align-items:flex-end;cursor:pointer}
+.rt-month small{font-size:10.5px;font-weight:600;opacity:0;transition:opacity .15s}
+.rt-month:hover{background:rgba(255,255,255,.14)}
+.rt-month:hover small{opacity:.8}
+.rt-month.cur{text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:2px}
+.rt-vs{font-size:13px;font-weight:700}
+.rt-grp{background:var(--gl);font-weight:700}
+.rt-gname{display:flex;align-items:center;gap:9px;border:none;background:none;padding:0;font:inherit;font-weight:700;color:#211C2E;cursor:pointer;text-align:left}
+.rt-chev{font-size:11px;color:#6B6478;width:10px}
+.rt-dot{width:10px;height:10px;border-radius:50%;background:var(--g)}
+.rt-it > span:first-child{padding-left:32px;color:#4A4356}
+.rt-chg{display:inline-flex;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700;white-space:nowrap}
+.rt-chg.up{background:#FFF6CC;color:#7A5800}
+.rt-chg.down{background:#EEF5F0;color:#1E6B47}
+.rt-same{color:#A39CAE;font-size:12.5px;font-weight:600}
+.rt-sum{background:#F5ECF1;font-weight:700}
+.rt-sum.left .rt-n.ok{color:#1E6B47}.rt-sum.left .rt-n.left{color:#8A6400}.rt-sum.left .rt-n.over{color:#9A3A30}
+.rt-hint{margin:0;font-size:12.5px;color:var(--muted)}
+.how-sel{border:1px solid #E4DFD3;border-radius:999px;background:#fff;padding:5px 10px;font:inherit;font-size:12.5px;font-weight:600;color:#4A4356}
+
+/* ---------- setup flow ---------- */
+.su-bg{position:fixed;inset:0;z-index:320;background:rgba(33,28,46,.5);display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto}
+.su{width:min(460px,100%);background:#FBF9F4;border-radius:22px;padding:26px 26px 20px;box-shadow:0 24px 60px rgba(33,28,46,.3);display:flex;flex-direction:column;gap:13px;margin:auto}
+.su h2{margin:0;font-family:var(--serif);font-weight:400;font-size:28px;line-height:1.15}
+.su > p{margin:0;font-size:14px;color:var(--muted);line-height:1.5}
+.su-brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-size:22px;color:#7E2A55}
+.su-dots{display:flex;gap:6px}
+.su-dots i{width:24px;height:5px;border-radius:3px;background:#E4DFD3}
+.su-dots i.on{background:#7E2A55}
+.su-choice{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;background:#fff;border:1.5px solid #E4DFD3;border-radius:16px;padding:15px 16px;font:inherit;cursor:pointer}
+.su-choice.on{border-color:#7E2A55;box-shadow:0 0 0 4px #F3E6ED}
+.su-choice:hover{border-color:#7E2A55}
+.su-choice b{font-size:16px}
+.su-choice span{font-size:13.5px;color:var(--muted);line-height:1.45}
+.su-choice em{font-style:normal;font-size:12px;font-weight:700;color:#7E2A55}
+.su-money{display:flex;align-items:center;gap:6px;background:#fff;border:1.5px solid #7E2A55;box-shadow:0 0 0 4px #F3E6ED;border-radius:12px;padding:10px 14px;font-size:22px;font-weight:700}
+.su-money small{font-size:13px;font-weight:500;color:#8A8394;white-space:nowrap}
+.su-in{border:none;background:transparent;font:inherit;outline:none;min-width:0;flex:1}
+.su-in.big{font-size:22px;font-weight:700}
+.su-q{margin:4px 0 0;font-size:13.5px;color:#4A4356}
+.su-opt{display:flex;gap:10px;align-items:flex-start;text-align:left;background:#fff;border:1.5px solid #E4DFD3;border-radius:12px;padding:11px 14px;font:inherit;font-size:13.5px;line-height:1.4;cursor:pointer}
+.su-opt.on{border-color:#7E2A55;background:#FDF8FB}
+.su-opt b{display:block;font-size:14px}
+.su-opt span{color:var(--muted)}
+.su-opt.plain{align-items:center;justify-content:space-between;cursor:default}
+.su-opt.plain span{color:#211C2E;font-weight:600}
+.su-rad{flex-shrink:0;width:18px;height:18px;border-radius:50%;border:2px solid #C8C2B2;margin-top:1px}
+.su-opt.on .su-rad{border:5px solid #7E2A55}
+.su-day{width:auto;min-width:76px}
+.su-accs{display:flex;flex-direction:column;gap:8px}
+.su-acc{background:#fff;border:1px solid #E9E3EC;border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.su-acc.pay{border-color:#E6C9D8}
+.su-acc-top{display:flex;align-items:center;gap:8px}
+.su-acc-top .su-in{font-size:14.5px;font-weight:600;padding:4px 0}
+.su-paytag{flex-shrink:0;background:#7E2A55;color:#fff;border-radius:999px;padding:4px 10px;font-size:11.5px;font-weight:700}
+.su-mk{flex-shrink:0;border:1px dashed #C8C2B2;background:none;border-radius:999px;padding:4px 10px;font:inherit;font-size:11.5px;font-weight:700;color:#6B6478;cursor:pointer}
+.su-mk:hover{border-color:#7E2A55;color:#7E2A55}
+.su-x{border:none;background:none;color:#A39CAE;font-size:13px;cursor:pointer;padding:2px 4px}
+.su-how{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+.su-seg{display:flex;background:#F1ECF0;border-radius:999px;padding:2px}
+.su-seg button{border:none;background:none;border-radius:999px;padding:5px 10px;font:inherit;font-size:12px;font-weight:700;color:#5A5266;cursor:pointer}
+.su-seg button.on{background:#7E2A55;color:#fff}
+.su-add{border:1.5px dashed #C8C2B2;background:none;border-radius:12px;padding:9px;font:inherit;font-size:13.5px;font-weight:700;color:#7E2A55;cursor:pointer}
+.su-note{margin:0;font-size:12.5px;color:var(--muted);line-height:1.5}
+.su-chips{display:flex;flex-wrap:wrap;gap:7px}
+.su-chip{background:#fff;border:1.5px solid #E4DFD3;border-radius:999px;padding:6px 12px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.su-chip.on{border-color:#7E2A55;background:#7E2A55;color:#fff}
+.su-pays{display:flex;flex-direction:column;gap:6px;max-height:220px;overflow-y:auto}
+.su-pay{display:grid;grid-template-columns:1fr 96px 110px;gap:8px;align-items:center;background:#fff;border:1px solid #E9E3EC;border-radius:10px;padding:6px 10px;font-size:13.5px;font-weight:600}
+.su-amt{display:flex;align-items:center;gap:2px;border:1px solid #E4DFD3;border-radius:8px;padding:4px 8px}
+.su-amt .su-in{text-align:right;font-variant-numeric:tabular-nums;width:100%}
+.su-accsel{border:1px solid #E4DFD3;border-radius:8px;background:#fff;padding:5px 6px;font:inherit;font-size:12px;color:#4A4356;min-width:0}
+.su-big{background:#7E2A55;color:#fff;border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:4px}
+.su-big.over{background:#9A3A30}
+.su-big small{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;opacity:.8}
+.su-big b{font-family:var(--serif);font-weight:400;font-size:34px}
+.su-big span{font-size:13.5px;opacity:.9}
+.su-mini{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.su-mini div{background:#fff;border:1px solid #E9E3EC;border-radius:12px;padding:9px 12px;display:flex;flex-direction:column;gap:1px;font-size:12.5px;color:var(--muted)}
+.su-mini b{font-size:16px;color:#211C2E}
+.su-mini small{font-size:11.5px}
+.su-btns{display:flex;justify-content:space-between;align-items:center;margin-top:6px}
+.su-r{display:flex;align-items:center;gap:6px}
+.su-btns .su-back,.su-skip{border:none;background:none;font:inherit;font-size:14px;font-weight:700;color:#6B6478;cursor:pointer;padding:8px 10px}
+.su-next{border:none;background:#7E2A55;color:#fff;border-radius:999px;padding:11px 22px;font:inherit;font-size:14px;font-weight:700;cursor:pointer}
+.su-next:disabled{opacity:.45;cursor:default}
+
+/* ---------- Debt, Savings, Investments refined ---------- */
+.g-hero{position:relative;overflow:hidden;display:flex;justify-content:space-between;align-items:flex-end;gap:20px;background:#7E2A55;color:#fff;border-radius:18px;padding:20px 24px;margin-bottom:18px}
+.g-hero::after{content:'';position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;border:2px dashed rgba(255,255,255,.15);pointer-events:none}
+.g-hero-main{display:flex;flex-direction:column;gap:4px;min-width:0}
+.g-hero-main small{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;opacity:.8}
+.g-hero-main b{font-family:var(--serif);font-weight:400;font-size:40px;line-height:1.05}
+.g-hero-main span{font-size:14px;opacity:.9}
+.g-hero-side{display:flex;flex-direction:column;align-items:flex-end;gap:6px;font-size:13px;text-align:right;flex-shrink:0}
+.g-hero-side em{font-style:normal;background:rgba(255,255,255,.16);border-radius:999px;padding:5px 12px;font-weight:700}
+.debt-group .item-row{min-height:60px}
+.dn{display:flex;flex-direction:column;gap:4px;padding:8px 0;min-width:0}
+.dn-top{display:flex;align-items:center;gap:8px;min-width:0}
+.dn-top .cell{font-weight:600;font-size:15px;padding:3px 6px;flex:1;min-width:0}
+.dn-bar{height:5px;border-radius:3px;background:rgba(126,42,85,.13);overflow:hidden;max-width:300px;margin-left:6px}
+.dn-bar i{display:block;height:100%;background:var(--bc,#7E2A55);border-radius:3px}
+.dn-sub{align-self:flex-start;margin-left:6px;border:none;background:none;padding:0;font:inherit;font-size:12px;color:var(--muted);text-align:left}
+.dn-sub.more{cursor:pointer}
+.dn-sub.more:hover{color:#7E2A55}
+.dn-chev{margin-left:5px;font-size:10px}
+.dn-sub.nudge{background:#FFF6CC;color:#7A5800;border-radius:999px;padding:2px 9px;font-weight:700}
+.add-plan{justify-self:end;border:1.5px dashed #D9BFCC;background:rgba(255,255,255,.6);color:#7E2A55;border-radius:999px;padding:4px 10px;font:inherit;font-size:12.5px;font-weight:700;white-space:nowrap;cursor:pointer}
+.add-plan:hover{border-style:solid;background:#fff}
+.debt-group .d-pay{display:flex;justify-content:flex-end}
+.not-in-plan .dn-top .cell{font-weight:500;color:#4A4356}
+.pct-wrap{background:rgba(255,255,255,.65);border:1px solid #E9DDE4;border-radius:8px;padding:0 8px 0 2px;justify-content:flex-end;color:#211C2E;font-size:14px;font-weight:500}
+.pct-wrap .cell{padding:5px 0 5px 4px;width:100%;min-width:0;text-align:right;border:none}
+.debt-group .colhead{position:relative;z-index:5}
+.debt-group .colhead span{white-space:nowrap}
+.debt-group{overflow:visible}
+.debt-group > .group-head{border-radius:14px 14px 0 0}
+.debt-group > .foot{border-radius:0 0 14px 14px}
+.isa-mark{font-size:10.5px !important;padding:2px 8px !important}
+.isa-mark[aria-pressed="false"]{opacity:0;transition:opacity .15s}
+.item-row:hover .isa-mark[aria-pressed="false"],.isa-mark:focus-visible{opacity:1}
+.pot-detail{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;background:#fff;border-top:1px solid #EFDCE6;padding:14px 22px 16px 40px}
+.pot-detail > div{background:#FBF9F4;border:1px solid #EFE9DA;border-radius:12px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.pot-detail small{font-size:12px;color:var(--muted)}
+.pot-detail b{font-size:16px}
+.pot-detail .pd-tip{grid-column:1 / -1;flex-direction:row;align-items:center;justify-content:space-between;gap:12px;background:#FFF6CC;border-color:#EBD27A;color:#7A5800;font-size:13px;font-weight:600}
+.pd-use{border:none;background:none;color:#7A5800;font:inherit;font-weight:700;cursor:pointer;white-space:nowrap}
+.pd-use:hover{text-decoration:underline}
+.sec-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:18px;align-items:start}
+.sec-grid .dsec.prev{margin:0 !important;border-radius:14px}
+.sec-grid .dsec.prev:has(.prev-toggle[aria-expanded="true"]){grid-column:1 / -1}
+.sec-grid .prev-toggle{gap:12px;padding:14px 16px}
+.sec-ic{width:38px;height:38px;flex-shrink:0;border-radius:12px;background:#F5ECF1;color:#7E2A55;display:flex;align-items:center;justify-content:center}
+.sec-ic svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.sec-grid .pt-text{flex:1;min-width:0}
+.sec-grid .pt-text h4{font-family:inherit !important;font-size:15px !important;font-weight:700;margin:0}
+.sec-grid .pt-text small{font-size:12.5px}
+.sec-grid .pt-text small.st-ok{color:#1E6B47;font-weight:600}
+.sec-grid .pt-arrow{color:#7E2A55}
+@media (max-width:720px){ .g-hero{flex-direction:column;align-items:flex-start} .g-hero-side{align-items:flex-start;text-align:left} .sec-grid{grid-template-columns:1fr} .pot-detail{grid-template-columns:1fr;padding-left:16px} }
+.sec-grid > .dsec.prev:last-child:nth-child(odd){grid-column:1 / -1}
+
+/* ---------- Fresh look ---------- */
+/* one type scale: 40 page titles · 26 wordmark · 22 section titles · 15 sub-heads · 14.5 rows · 11 column labels */
+.pnav{height:58px}
+.pn-brand{font-size:26px;gap:10px}
+.pn-dot2{position:absolute;top:8px;right:8px;width:7px;height:7px;border-radius:50%;background:#FFD43B;box-shadow:0 0 0 2px var(--plum)}
+.pn-i.on .pn-dot2{box-shadow:0 0 0 2px var(--paper)}
+.pn-fpill{display:inline-flex;align-items:center;gap:6px;height:34px;padding:0 13px;border:none;border-radius:999px;background:rgba(255,212,59,.16);color:#FFE58A;font:inherit;font-size:12.5px;font-weight:700;white-space:nowrap;cursor:pointer;transition:background .12s}
+.pn-fpill b{font-family:var(--serif);font-weight:400;font-size:16px;color:#FFD43B}
+.pn-fpill:hover{background:rgba(255,212,59,.26)}
+.pn-fpill .ic svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+@media (min-width:821px){
+  .f-bar{display:none !important}
+  body.has-fbar .pnav{top:calc(14px + env(safe-area-inset-top,0px))}
+  body.has-fbar .page{padding-top:104px}
+  body.has-fbar .overlay{padding-top:96px}
+}
+.group-head{height:56px}
+.group-head h2{font-size:22px;display:flex;align-items:center;gap:12px}
+.g-ic{width:32px;height:32px;flex-shrink:0;border-radius:10px;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center}
+.g-ic svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.cat-head{background:var(--gb);border-top:1px solid var(--gl)}
+.cat-name{color:var(--g);font-weight:700}
+.cat-name::placeholder{color:var(--g);opacity:.5}
+.cat-name:focus{background:#fff}
+.cat-head .cat-share{background:var(--gl);color:var(--g)}
+.cat-head .rm{color:var(--g);opacity:.55}
+.cat-head .rm:hover{opacity:1}
+.foot .c-tgt,.foot .c-bud{font-size:17px}
+.tb-total .tb-v{font-size:17px}
+.xb-head h2{font-size:22px}
+.title{font-size:40px}
+.fp-short{display:none}
+@media (max-width:1180px){ .pn-fpill .fp-long{display:none} .pn-fpill .fp-short{display:inline} .pn-fpill.gift{padding:0 10px} }
+
+@media (max-width:960px){ .pn-fpill .fp-short{display:none} .pn-fpill{padding:0 11px} .pn-mid .pn-i{padding:10px 11px} .pn-brand{font-size:23px} }
+@media (max-width:640px){
+  .inv-group .gain{flex-direction:column !important;align-items:flex-end !important;gap:0 !important;font-size:13px}
+  .debt-group .colhead .qtip{display:none}
+  .debt-group .colhead span{font-size:9.5px}
+  .add-plan{font-size:11px;padding:3px 7px}
+  .g-hero-main b{font-size:34px}
+  .dn-bar{max-width:none}
+}
+@media (max-width:640px){
+  .add-plan{font-size:0;padding:3px 8px}
+  .add-plan::before{content:'+ Add';font-size:11px}
+  .debt-group .foot span{white-space:nowrap}
+}
+
+/* ---------- phone: match the laptop look ---------- */
+@media (max-width:820px){
+  .m-brand{display:flex;align-items:center;gap:9px;background:var(--plum);color:#fff;border-radius:18px;padding:9px 9px 9px 13px;margin:0 0 4px;font-family:var(--serif);font-size:22px;line-height:1;box-shadow:0 10px 26px rgba(126,42,85,.22)}
+  .m-brand .pn-fpill{margin-left:auto;height:32px}
+  .m-brand .pn-fpill .fp-long{display:none}
+  .m-brand .pn-fpill .fp-short{display:inline}
+  .group-head{padding:0 12px 0 14px;gap:8px}
+  .group-head h2{font-size:17.5px;gap:8px;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .group-head .share{white-space:nowrap;font-size:11.5px;padding:3px 8px}
+  .g-ic{width:28px;height:28px;border-radius:9px}
+  .g-ic svg{width:16px;height:16px}
+  .fold-btn{width:28px;height:28px}
+  .tbars .tb-row{display:flex !important;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;min-height:52px}
+  .tbars .tb-l{flex:1;min-width:0}
+  .tbars .tb-l small{display:none}
+  .tb-bank .tb-row:not(.tb-headrow) .tb-l{flex-direction:column;align-items:flex-start;gap:1px}
+  .tb-bank .tb-row:not(.tb-headrow) .tb-l small{display:block;font-size:11.5px}
+  .compact .tbars .c-tgt{display:none}
+  .fb-card{flex-wrap:wrap}
+  .fb-card-t{flex:1 1 calc(100% - 60px)}
+  .fb-card-btn{margin-left:50px}
+  .xb-pay{font-size:13px}
+  .sheet .g-hero{padding:18px}
+}
+@media (max-width:820px){ .m-brand .pn-fpill{font-family:'DM Sans',system-ui,sans-serif;font-size:12.5px} }
+
+/* ---------- What's new ---------- */
+.wn3{display:flex;flex-direction:column;gap:14px}
+.wn3-head{display:flex;flex-direction:column;gap:4px}
+.wn3-ver{align-self:flex-start;background:#7E2A55;color:#fff;border-radius:999px;padding:4px 12px;font-size:12px;font-weight:700;letter-spacing:.03em}
+.wn3-head p{margin:0;font-size:14px;color:var(--muted)}
+.wn3-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.wn3-card{background:#fff;border:1px solid #EEE6EC;border-radius:14px;padding:14px 16px 12px;display:flex;flex-direction:column;gap:8px}
+.wn3-t{display:flex;align-items:center;gap:10px}
+.wn3-t h4{margin:0;font-family:var(--serif);font-weight:400;font-size:20px}
+.wn3-ic{width:34px;height:34px;flex-shrink:0;border-radius:10px;background:#F5ECF1;color:#7E2A55;display:flex;align-items:center;justify-content:center}
+.wn3-ic svg{width:18px;height:18px}
+.wn3-card ul{margin:0;padding:0 0 0 18px;display:flex;flex-direction:column;gap:5px}
+.wn3-card li{font-size:13.5px;line-height:1.45;color:#4A4356}
+.wn3-card li::marker{color:#7E2A55}
+@media (max-width:640px){ .wn3-grid{grid-template-columns:1fr} }
 /* ---------- landing page (signed-out visitors) ---------- */
 #landing{
   --plum:#7E2A55; --plum-deep:#5E1D3F; --plum-soft:#F3E6ED; --plum-ink:#4A1631;
@@ -1334,9 +1932,9 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
         setStatus('', 'All changes saved');
         openPlanner(saved);
       } else {
-        // Brand-new account: start from the example plan and show the tour.
+        // Brand-new account: show the setup screen (set up my plan, or look at the example first).
         setStatus('', 'Welcome — your changes save automatically');
-        openPlanner({ introOpen: true, introStep: 0, founder: founderFrom(prof) });
+        openPlanner({ setupOpen: true, founder: founderFrom(prof) });
       }
     });
   }
@@ -1460,7 +2058,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
       demo.addEventListener('click', function () {
         demoMode = true;
         setStatus('demo', 'Demo mode — changes aren’t saved');
-        openPlanner({ introOpen: true, introStep: 0 });
+        openPlanner({ setupOpen: true });
       });
       card.appendChild(demo);
     }
@@ -1569,7 +2167,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
 
   var state = {};
   var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  var SAVED_KEYS = ['groups','locations','targets','aims','notes','records','recExpanded','debts','debtOrder','debtCustomOrder','debtExtras','savings','savingOrder','savingCustomOrder','savingExtras','savingUsed','investments','investExtras','investUsed','seenWhatsNew','seenPages','founder','milestones','realStamped','efundStarter','efundMain'];
+  var SAVED_KEYS = ['groups','locations','targets','aims','notes','records','recExpanded','debts','debtOrder','debtCustomOrder','debtExtras','savings','savingOrder','savingCustomOrder','savingExtras','savingUsed','investments','investExtras','investUsed','seenWhatsNew','seenPages','founder','milestones','realStamped','efundStarter','efundMain','drafts','valsMonth','currency','sent','folded','isExample','exampleHidden','recMonths','recView','recOpen','setupDone'];
 
   function uid(p) { return p + '_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
 
@@ -1579,16 +2177,15 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     var B = function (id, label, t, b, acc) { return { id: id, label: label, target: t, budgeted: b, account: acc, runs: '', due: '', automated: true }; };
     return [
       { key: 'income', title: 'Income', color: '#7E2A55', categories: [
-        { id: 'cat_income', name: 'Job', items: [I('i1', 'Salary', '1750', '1750'), I('i2', 'Extras', '150', '150')] } ] },
-      { key: 'investSavings', title: 'Investments & Savings', color: '#00602A', categories: [
+        { id: 'cat_income', name: 'Job', items: [I('i1', 'Salary', '1900', '2050')] } ] },
+      { key: 'investSavings', title: 'Investments & Savings', color: '#1E6B47', categories: [
         { id: 'cat_invest', name: 'Investments', items: [Object.assign(B('inv_iv1', 'Stocks & Shares ISA', '173', '173', 'Barclays'), { investmentId: 'iv1' })] },
-        { id: 'cat_savings', name: 'Savings', items: [Object.assign(B('sav_sv1', 'Emergency fund', '40', '40', 'Monzo'), { savingId: 'sv1' }), Object.assign(B('sav_sv2', 'Christmas pot', '15', '15', 'Monzo'), { savingId: 'sv2' })] } ] },
-      { key: 'costs', title: 'Costs', color: '#8A2C24', categories: [
-        { id: 'cat_fixed', name: 'Fixed costs', items: [B('f1', 'Rent', '650', '650', 'Barclays'), B('f2', 'Phone & utilities', '95', '95', 'Monzo'), B('a1', 'Groceries', '220', '220', 'Monzo'), B('a2', 'Transport', '65', '65', 'Monzo')] },
+        { id: 'cat_savings', name: 'Savings', items: [Object.assign(B('sav_sv1', 'Emergency fund', '40', '140', 'Monzo'), { savingId: 'sv1' }), Object.assign(B('sav_sv2', 'Christmas pot', '15', '15', 'Monzo'), { savingId: 'sv2' })] } ] },
+      { key: 'costs', title: 'Costs', color: '#9A3A30', categories: [
+        { id: 'cat_fixed', name: 'Fixed costs', items: [B('f1', 'Rent', '650', '650', 'Barclays'), B('f2', 'Phone & utilities', '95', '95', 'Monzo'), B('a1', 'Groceries', '220', '250', 'Monzo'), B('a2', 'Transport', '65', '65', 'Monzo')] },
         { id: 'cat_subscriptions', name: 'Subscriptions', items: [B('sub1', 'Gym', '25', '25', 'Monzo'), B('sub2', 'Spotify', '11', '11', 'Monzo')] } ] },
-      { key: 'guiltFree', title: 'Guilt-free spending', color: '#00568D', categories: [
+      { key: 'guiltFree', title: 'Guilt-free spending', color: '#245F8C', categories: [
         { id: 'cat_guilt', name: 'Guilt-free spending', items: [B('g1', 'Eating out', '300', '300', 'Monzo'), B('g2', 'Shopping', '156', '156', 'Monzo')] } ] },
-      { key: 'extras', title: 'Extras', color: '#7E2A55', categories: [] },
     ];
   }
   function defaultAims() {
@@ -1628,8 +2225,9 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     // so no example items are added to their real planner. New people get the full example.
     var existingPlan = !!state.groups;
     if (existingPlan) ['debts', 'savings', 'investments'].forEach(function (k) { if (!state[k]) state[k] = []; });
-    if (!state.groups) state.groups = defaultGroups();
-    if (!state.locations) state.locations = [{ id: 'loc1', name: 'Monzo', day: '2' }, { id: 'loc2', name: 'Barclays', day: '1' }];
+    if (!state.groups) { state.groups = defaultGroups(); state.isExample = true; }
+    state.groups.forEach(function (g) { g.color = freshCol(g.color); }); dropOldExtras();
+    if (!state.locations) state.locations = [{ id: 'loc1', name: 'Monzo', day: '2', how: 'auto' }, { id: 'loc2', name: 'Barclays', day: '1', payIn: true }];
     if (!state.targets) state.targets = [
       { id: 't1', label: 'Emergency fund at 1000', doing: false, done: false },
       { id: 't2', label: 'Pay off Debt', doing: true, done: false },
@@ -1721,7 +2319,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
 
   /* ---------- saving + rendering ---------- */
   function save() { if (window.PayStamp && window.PayStamp.onChange) window.PayStamp.onChange(state); }
-  function commit() { syncLinkedItems(); syncDebtExtras(); syncSavingExtras(); syncInvestExtras(); save(); scheduleRender(); }
+  function commit() { syncLinkedItems(); save(); scheduleRender(); }
   function set(patch) { Object.assign(state, patch); commit(); }
 
   // A click that blurs an input used to rebuild the page mid-click, which is
@@ -1782,20 +2380,21 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     var el = document.createElement(tag);
     Object.keys(attrs || {}).forEach(function (k) {
       var v = attrs[k]; if (v == null || v === false) return;
-      if (k === 'text') el.textContent = v;
+      if (k === 'text') el.textContent = curText(v);
       else if (k === 'class') el.className = v;
       else if (k === 'html') el.innerHTML = v;
       else if (k.slice(0, 2) === 'on') el.addEventListener(k.slice(2), v);
       else el.setAttribute(k, v === true ? '' : v);
     });
-    (kids || []).forEach(function (c) { if (c != null) el.append(c); });
+    (kids || []).forEach(function (c) { if (c != null) el.append(curText(c)); });
     return el;
   }
   function field(key, value, onCommit, o) {
     o = o || {};
     var el = h('input', { type: 'text', class: o.cls || 'cell', 'data-k': key, placeholder: o.ph, inputmode: o.num ? 'decimal' : null, 'aria-label': o.label, id: 'f-' + key });
     el.value = value == null ? '' : value;
-    el.addEventListener('change', function () { onCommit(el.value); });
+    if (o.money) { if (el.placeholder === '0') el.placeholder = cur() + '0'; el.dataset.raw = el.value; el.value = moneyShow(el.value); el.addEventListener('focus', function () { if (el.value !== el.dataset.raw) { el.value = el.dataset.raw; setTimeout(function () { if (document.activeElement === el) el.select(); }, 0); } }); el.addEventListener('blur', function () { el.value = moneyShow(el.dataset.raw); }); }
+    el.addEventListener('change', function () { if (o.money) { el.dataset.raw = moneyRaw(el.value); onCommit(el.dataset.raw); } else onCommit(el.value); });
     el.addEventListener('keydown', function (e) { if (e.key === 'Enter') el.blur(); });
     return el;
   }
@@ -2006,30 +2605,33 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     if (t.tagName === 'INPUT' && t.select) t.select();
   }, true);
 
-  function openOverlay(name) { set({ overlay: name, openMenu: null }); }
+  var AS_PAGE = { records: 'history', targets: 'checklist', notes: 'checklist', locations: 'accounts', debt: 'debt', savings: 'savings', investments: 'investments', whatsnew: 'help' };
+  function openOverlay(name) { if (AS_PAGE[name]) { go(AS_PAGE[name]); return; } set({ overlay: name, openMenu: null }); }
   // New pages carry a "New" tag in the menu until they've been opened once.
   function isNewPage(key) { return !(state.seenPages || {})[key]; }
-  function openPage(key) { state.seenPages = Object.assign({}, state.seenPages); state.seenPages[key] = true; openOverlay(key); }
+  function openPage(key) { go(key); }
   function closeOverlay() { if (Date.now() - dragEndedAt < 300) return; set({ overlay: null, exportMsg: null }); }
   // Clicking anywhere outside an open menu closes it.
   document.addEventListener('click', function (e) {
-    if (state.openMenu && !e.target.closest('.menu, .corner')) set({ openMenu: null });
+    if (state.openMenu && !e.target.closest('.dd, .dd-btn')) set({ openMenu: null });
   });
   document.addEventListener('keydown', function (e) {
     if (e.key !== 'Escape') return;
-    if (state.overlay) set({ overlay: null, exportMsg: null }); else if (state.openMenu) set({ openMenu: null });
+    if (state.overlay) set({ overlay: null, exportMsg: null }); else if (state.openMenu) set({ openMenu: null }); else if (curPage() !== 'plan') go('plan');
   });
 
   /* ---------- tour ---------- */
   var TOUR = [
     { title: 'Welcome to PayStamp', body: 'Give every pound of your pay a job, month by month. Here’s a quick look around in 7 steps.', accent: '#7E2A55', id: null },
-    { title: 'Plan your month', body: 'Pick the month, then click any name or amount to edit it. Set where each payment goes, the day it’s paid and whether it’s automated. Drag the ⠿ grip to move things around.', accent: '#00602A', id: 'tour-categories' },
-    { title: 'Check your balance', body: 'Your pay against what you’ve budgeted, and how much goes to each bank. Aim for £0, so every pound has a job.', accent: '#00602A', id: 'tour-balance' },
-    { title: 'Debt, Savings and Investments', body: 'The menu at the top left. Give something a monthly amount and it appears in this planner with a small tag.', accent: '#7E2A55', id: 'tour-left' },
-    { title: 'Stamp your month', body: 'Happy with the numbers? STAMP saves the month to your Records, pays down your debts and adds to your savings.', accent: '#7E2A55', id: 'tour-stamp' },
-    { title: 'Collect stamps', body: 'Hit milestones like a full emergency fund or 3 months in a row and a stamp appears up here. The first 100 users also get a numbered founder stamp.', accent: '#B8860B', id: 'tour-founder' },
-    { title: 'More in the top-right menu', body: 'Targets, Notes, Locations, What’s new and Suggestions. Tell us what you think any time, with the yellow Suggestions button.', accent: '#7E2A55', id: 'tour-menu' },
+    { title: 'Plan your month', body: 'Click any name or amount to change it. Set which bank account each payment comes from, the day it’s paid and whether it’s automated. Drag the ⠿ grip to move things around.', accent: '#1E6B47', id: 'tour-categories' },
+    { title: 'Extras', body: 'When This Month is more than Budgeted, the difference shows here so you know what to send by hand.', accent: '#7E2A55', id: 'tour-extras' },
+    { title: 'Your totals', body: 'Your Budgeted and This Month totals side by side, what’s left to allocate, and how much goes to each bank account.', accent: '#1E6B47', id: 'tour-balance' },
+    { title: 'Debt, Savings and Investments', body: 'They’re on the plum bar (along the bottom on a phone) and open over your planner. Give one a monthly amount and it appears in your plan with a small tag.', accent: '#7E2A55', id: 'tour-goals' },
+    { title: 'Stamp your month', body: 'Happy with the numbers? Stamp saves the month to Records, pays down your debts and adds to your savings.', accent: '#7E2A55', id: 'tour-stamp' },
+    { title: 'Collect stamps', body: 'Hit milestones like a full emergency fund or 3 months in a row and a stamp appears here. The first 100 users also get a numbered founder stamp.', accent: '#B8860B', id: 'tour-founder' },
+    { title: 'Everything else', body: 'Records, Bank accounts and your Checklist are under More. Your account, invites and Help sit behind your badge (all under More on a phone).', accent: '#7E2A55', id: 'tour-setup' },
   ];
+
   function tourGo(i) {
     set({ introStep: i });
     var t = TOUR[i]; if (t && t.id) setTimeout(function () { var el = document.getElementById(t.id); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 60);
@@ -2040,117 +2642,1053 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
   }
   function withHi(el, id) { var x = hi(id); if (x) { el.classList.add('hi'); el.style.setProperty('--hi', x.style.split(':')[1]); } return el; }
 
-  /* ---------- views ---------- */
+  /* ---------- views (v3.3: a plum bar on top on a laptop, at the bottom on a phone.
+     The planner is always underneath; every other section opens over it.) ---------- */
+  var SV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">';
+  var IC = {
+    plan: SV + '<rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>',
+    debt: SV + '<rect x="3" y="6" width="18" height="13" rx="2.5"/><path d="M3 10.5h18M7 15h4"/></svg>',
+    savings: SV + '<path d="M8 3.5h8v3H8z"/><path d="M6.5 6.5h11v10.5a3 3 0 0 1-3 3h-5a3 3 0 0 1-3-3z"/><path d="M10 13h4"/></svg>',
+    investments: SV + '<path d="M4 17l5-5 4 3 7-8"/><path d="M15 7h5v5"/></svg>',
+    history: SV + '<path d="M4 12a8 8 0 1 0 2.4-5.7L4 8.5"/><path d="M4 4v4.5h4.5M12 8v4l3 2"/></svg>',
+    accounts: SV + '<path d="M3 10l9-6 9 6"/><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18"/></svg>',
+    checklist: SV + '<path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/></svg>',
+    help: SV + '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6M12 17h.01"/></svg>',
+    gift: SV + '<rect x="4" y="9" width="16" height="11" rx="1.5"/><path d="M3 9h18M12 9v11"/><path d="M12 9c-1.5-3.5-5.5-3.5-5.5-1.2S9 9 12 9zM12 9c1.5-3.5 5.5-3.5 5.5-1.2S15 9 12 9z"/></svg>',
+    out: SV + '<path d="M15 4h3a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-3"/><path d="M10 16l-4-4 4-4M6 12h10"/></svg>',
+    reset: SV + '<path d="M4 12a8 8 0 1 0 2.4-5.7L4 8.5"/><path d="M4 4v4.5h4.5"/></svg>',
+    more: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>',
+    user: SV + '<circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>',
+    down: SV + '<path d="M6 9l6 6 6-6"/></svg>',
+    chevL: SV + '<path d="M15 6l-6 6 6 6"/></svg>',
+    chevR: SV + '<path d="M9 6l6 6-6 6"/></svg>' };
+  function logoW(size) {
+    return h('span', { class: 'lw', style: 'width:' + size + 'px;height:' + size + 'px', 'aria-hidden': 'true', html: STAMP_IC });
+  }
+  var STAMP_IC = '<svg viewBox="0 0 48 48" aria-hidden="true"><g transform="rotate(-10 24 24)"><circle cx="24" cy="24" r="21.5" fill="none" stroke="#FBF9F4" stroke-width="3"/><circle cx="24" cy="24" r="16.5" fill="none" stroke="#FBF9F4" stroke-width="1.4" stroke-dasharray="2.4 2.2"/><text x="24" y="31.5" text-anchor="middle" font-family="DM Serif Display, Georgia, serif" font-size="22" fill="#FBF9F4">P</text></g></svg>';
+  var MORE_PAGES = ['history', 'accounts', 'checklist'], ME_PAGES = ['account', 'help'];
+  // [title, subtitle, width]
+  var PAGE_INFO = {
+    debt: ['Debt', 'Every debt you’re paying off. Put them in the order you want to tackle them.', 'mid'],
+    savings: ['Savings', 'Everything you’re saving towards, and how much you’ve saved so far.', 'mid'],
+    investments: ['Investments', 'What you’ve put in, what it’s worth now, and how it’s growing.', 'mid'],
+    history: ['Records', 'Every month you stamp is saved here, so you can look back and compare.', 'wide'],
+    accounts: ['Bank accounts', 'The banks and accounts your money goes to. Renaming one updates every item that uses it.'],
+    checklist: ['Checklist & notes', ''],
+    help: ['Help & what’s new', 'What’s changed, a quick tour, and a way to tell us what you think.'],
+    account: ['Your account', 'Your founder stamp and your invite link.'] };
+  function curPage() { return PAGE_INFO[state.page] ? state.page : 'plan'; }
+  // Each section has its own address (#debt, #history…), so the browser's back button closes it.
+  function go(page, fromHistory) {
+    if (page !== 'plan' && !PAGE_INFO[page]) page = 'plan';
+    var same = page === curPage() && !state.overlay;
+    if (page !== curPage()) state.editRow = null;
+    state.page = page; state.overlay = null; state.openMenu = null; state.resetArmed = false;
+    if (page === 'help') state.seenWhatsNew = WN[0].version;
+    if (['debt', 'savings', 'investments'].indexOf(page) > -1) { state.seenPages = Object.assign({}, state.seenPages); state.seenPages[page] = true; }
+    if (!fromHistory && !same) { try { history.pushState(null, '', page === 'plan' ? location.pathname + location.search : '#' + page); } catch (e) {} }
+    commit();
+    if (!same && page !== 'plan') setTimeout(function () { var o = document.querySelector('.page-ov'); if (o) o.scrollTop = 0; }, 0);
+  }
+  // Tapping the section that's already open closes it, back to the planner.
+  function toggle(page) { go(curPage() === page && !state.overlay ? 'plan' : page); }
+  window.addEventListener('popstate', function () { go((location.hash || '').slice(1) || 'plan', true); });
+
+
   function buildApp() {
-    var frag = document.createDocumentFragment();
-    var bar = founderLine(); if (bar) frag.append(bar);
-    document.body.classList.toggle('has-fbar', !!bar);
-    frag.append(buildCorners(), buildPage());
-    if (state.overlay === 'records') frag.append(sheet('Monthly Record', 'Every month you stamp is saved here so you can look back and compare.', recordsBody(), true));
-    if (state.overlay === 'targets') frag.append(sheet('Targets', targetsSub(), targetsBody()));
-    if (state.overlay === 'notes') frag.append(sheet('Notes', 'Quick notes to yourself. They stay put from month to month.', notesBody()));
+    var frag = document.createDocumentFragment(), page = curPage();
+    var fbar = null; document.body.classList.remove('has-fbar');  // founder places now live in the bar (laptop) and the top card (phone)
+    document.body.classList.toggle('ov-open', page !== 'plan' || !!state.overlay);
+    var pageEnter = page !== 'plan' && page !== shown.page; shown.page = page;
+    frag.append(buildPage(), topNav(page), bottomNav(page));
+    if (fbar) frag.append(fbar);
+    if (page !== 'plan') frag.append(pageSheet(page, pageEnter));
+    if (state.overlay === 'more') frag.append(sheet('More', '', moreBody()));
     if (state.overlay === 'invites') frag.append(sheet(state.founder.placesLeft > 0 ? 'Invite friends' : 'Share PayStamp', 'Share your personal link as often as you like.', invitesBody()));
     if (state.overlay === 'newStamps') frag.append(sheet((state.pendingStamps || []).length > 1 ? 'New stamps' : 'New stamp', '', newStampsBody()));
     if (state.overlay === 'founderWelcome') frag.append(sheet('You’re a founder', '', founderWelcomeBody()));
     if (state.overlay === 'founderInfo') frag.append(sheet('What’s a founder?', '', founderInfoBody()));
-    if (state.overlay === 'whatsnew') frag.append(sheet('What’s new', 'What’s changed in the latest PayStamp update.', whatsNewBody()));
     if (state.overlay === 'feedback') frag.append(sheet(state.fbSent ? 'Thank you' : 'Suggestions', state.fbSent ? '' : 'PayStamp is brand new. Got an idea, or found something that isn’t working? Tell us here.', feedbackBody()));
-    if (state.overlay === 'locations') frag.append(sheet('Locations', 'The banks and accounts your money goes to. Renaming one updates every item that uses it.', locationsBody()));
-    if (state.overlay === 'investments') frag.append(sheet('Investments', 'What you’ve put in, what it’s worth now, and how it’s growing.', investmentsBody(), 'mid'));
-    if (state.overlay === 'savings') frag.append(sheet('Savings', 'Everything you’re saving towards, and how much you’ve saved so far.', savingsBody(), 'mid'));
-    if (state.overlay === 'debt') frag.append(sheet('Debt', 'Every debt you’re paying off. Put them in the order you want to tackle them.', debtBody(), 'mid'));
-    if (state.introOpen) frag.append(buildTour());
-    var onFbStep = state.introOpen && TOUR[state.introStep || 0].id === 'tour-feedback';
-    if (!state.overlay && (!state.introOpen || onFbStep)) frag.append(withHi(h('button', { type: 'button', class: 'fb-float', id: 'tour-feedback', 'aria-label': 'Suggestions', onclick: function () { openFeedback('planner'); }, html: FB_ICON + '<span>Suggestions</span>' }), 'tour-feedback'));
+    if (state.introOpen && !state.setupOpen) frag.append(buildTour());
+    if (state.setupOpen) frag.append(buildSetup());
+    if (state.stampFlash) frag.append(h('div', { class: 'toast-fixed' }, [h('div', { class: 'toast', role: 'status', text: '✓ ' + state.stampFlashLabel + ' stamped. You’ll find it in Records.' })]));
     return frag;
   }
-
-  function buildCorners() {
-    var f = document.createDocumentFragment();
-    var bars = function () { return h('span', { class: 'bars' }, [h('i'), h('i'), h('i')]); };
-    f.append(withHi(btn('corner left' + (state.stampFlash ? ' pulse' : ''), 'Open menu', function () { set({ openMenu: state.openMenu === 'left' ? null : 'left' }); }, [bars()], { id: 'tour-left' }), 'tour-left'));
-    var right = btn('corner right', 'Open planner menu', function () { set({ openMenu: state.openMenu === 'right' ? null : 'right' }); }, [bars()], { id: 'tour-menu' });
-    f.append(withHi(right, 'tour-menu'));
-    if (state.openMenu === 'left') {
-      var soon = function (label) { return h('button', { type: 'button', disabled: true, title: label + ' is coming soon' }, [label, h('span', { class: 'count', text: 'Soon' })]); };
-      f.append(h('div', { class: 'menu left' + (shown.menuEnter ? ' enter' : '') }, [
-        h('button', { type: 'button', onclick: function () { openPage('debt'); } }, [h('span', { class: 'mi' }, ['Debt', isNewPage('debt') ? h('span', { class: 'new-tag', text: 'New' }) : null]), h('span', { class: 'count', text: String(state.debts.length) })]),
-        h('button', { type: 'button', onclick: function () { openPage('savings'); } }, [h('span', { class: 'mi' }, ['Savings', isNewPage('savings') ? h('span', { class: 'new-tag', text: 'New' }) : null]), h('span', { class: 'count', text: String(state.savings.length) })]),
-        h('button', { type: 'button', onclick: function () { openPage('investments'); } }, [h('span', { class: 'mi' }, ['Investments', isNewPage('investments') ? h('span', { class: 'new-tag', text: 'New' }) : null]), h('span', { class: 'count', text: String(state.investments.length) })]),
-        h('div', { class: 'sep' }),
-        h('button', { type: 'button', onclick: function () { openOverlay('records'); } }, ['Records', h('span', { class: 'count', text: String(state.records.length) })]) ]));
-    }
-    if (state.openMenu === 'right') {
-      var doneCount = state.targets.filter(function (t) { return t.done; }).length;
-      var kids = [
-        h('button', { type: 'button', onclick: function () { openOverlay('targets'); } }, ['Targets', h('span', { class: 'count', text: doneCount + '/' + state.targets.length })]),
-        h('button', { type: 'button', onclick: function () { openOverlay('notes'); } }, ['Notes', h('span', { class: 'count', text: String(state.notes.length) })]),
-        h('button', { type: 'button', onclick: function () { openOverlay('locations'); } }, ['Locations', h('span', { class: 'count', text: String(state.locations.length) })]),
-        h('button', { type: 'button', onclick: function () { openWhatsNew(); } }, ['What’s new', state.seenWhatsNew !== WN[0].version ? h('span', { class: 'count new-dot', text: 'New' }) : null]),
-        h('button', { type: 'button', onclick: function () { openFeedback(); } }, ['Suggestions']),
-        h('div', { class: 'sep' }),
-        h('button', { type: 'button', onclick: function () { set({ introOpen: true, introStep: 0, openMenu: null }); } }, ['Intro tour']),
-        state.founder.placesLeft > 0 ? h('button', { type: 'button', onclick: function () { openOverlay('founderInfo'); } }, ['What’s a founder?']) : null,
-        h('button', { type: 'button', onclick: function () { openOverlay('invites'); } }, [state.founder.placesLeft > 0 ? 'Invite friends' : 'Share PayStamp']),
-      ];
-      var P = window.PayStamp || {};
-      if (P.preview) {
-        kids.push(h('button', { type: 'button', onclick: function () {
-          if (!state.resetArmed) { set({ resetArmed: true }); return; }
-          SAVED_KEYS.forEach(function (k) { delete state[k]; }); state.resetArmed = false; state.openMenu = null; migrate(); commit();
-        } }, [state.resetArmed ? 'Tap again to reset' : 'Reset example data']));
-      }
-      if (P.signOut) {
-        var email = P.getEmail ? P.getEmail() : '';
-        if (email) kids.push(h('div', { class: 'who', text: email }));
-        kids.push(h('button', { type: 'button', onclick: function () { P.signOut(); } }, ['Sign out']));
-      }
-      f.append(h('div', { class: 'menu right' + (shown.menuEnter ? ' enter' : '') }, kids));
-    } else if (state.resetArmed) state.resetArmed = false;
-    return f;
+  function pageSheet(page, enter) {
+    var info = PAGE_INFO[page], sub = page === 'checklist' ? targetsSub() : info[1];
+    var body = { debt: debtBody2, savings: savingsBody2, investments: investmentsBody2, history: recordsBody,
+      accounts: function () { var b = locationsBody(); b.prepend(currencyRow()); return b; }, checklist: checklistBody, help: helpBody, account: accountBody }[page]();
+    var back = h('div', { class: 'overlay page-ov' + (enter ? ' enter' : ''), role: 'dialog', 'aria-modal': 'true', 'aria-label': info[0],
+      onclick: function (e) { if (e.target === back && Date.now() - dragEndedAt > 300) go('plan'); } });
+    back.append(h('div', { class: 'sheet' + (info[2] ? ' ' + info[2] : '') }, [
+      btn('sheet-close', 'Close ' + info[0] + ' and go back to your planner', function () { go('plan'); }, ['✕']),
+      h('h3', { text: info[0] }), sub ? h('p', { class: 'sub', text: sub }) : null, body ]));
+    return back;
   }
 
-  // A hello with the account's email, so it's clear whose plan is open (handy on a shared device).
-  function greeting() {
-    var P = window.PayStamp || {}, email = P.getEmail ? P.getEmail() : '';
-    if (!email || email.indexOf('@') < 0) return null;
-    var hr = new Date().getHours(), hi = hr < 12 ? 'Good morning' : hr < 18 ? 'Good afternoon' : 'Good evening';
-    return h('div', { class: 'greet' }, [h('strong', { text: hi + ' 👋' }), h('span', {}, ['Signed in as ', h('b', { text: email })])]);
+  /* ---------- the bars ---------- */
+  // The strip right at the top: how many founding places are left, and a way to give one to a friend.
+  function foundingBar() {
+    var F = state.founder;
+    if (!(F.placesLeft > 0) && !F.number) return null;
+    return h('div', { class: 'f-bar', role: 'region', 'aria-label': 'Founding places' }, [
+      F.placesLeft > 0 ? h('button', { type: 'button', class: 'f-left', onclick: function () { openOverlay('founderInfo'); } }, [h('b', { text: String(F.placesLeft) }), h('span', { class: 'fb-long', text: ' founding' }), ' places left']) : null,
+      F.number ? btn('f-gift', F.placesLeft > 0 ? 'Give a friend founder access' : 'Share PayStamp', function () { openOverlay('invites'); }, [F.placesLeft > 0 ? '🎁 Give a friend founder access' : '🎁 Share PayStamp'])
+        : btn('f-gift', 'What’s a founder?', function () { openOverlay('founderInfo'); }, ['What’s a founder?']) ]);
+  }
+  // Left to plan, in the top bar next to PayStamp, so it's always in view.
+  function ltpChip() {
+    var t = totals(), ok = Math.abs(t.zero) < 0.01;
+    return withHi(h('span', { class: 'pn-ltp ' + (ok ? 'ok' : 'bad'), role: 'status', id: 'tour-ltp', title: ok ? 'Every pound has a job' : t.zero > 0 ? 'Give it a job, then stamp' : 'You’ve planned more than you’re paid' },
+      [ok ? h('span', { class: 'pn-tick', html: '<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 7.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>' }) : null,
+       ok ? '£0 left to plan' : t.zero > 0 ? money(t.zero) + ' left to plan' : money(-t.zero) + ' over' ]), 'tour-ltp');
+  }
+  function ddItem(key, icon, label, sub, count, onClick) {
+    return h('button', { type: 'button', class: 'dd-i' + (curPage() === key ? ' on' : ''), onclick: onClick || function () { go(key); } }, [
+      h('span', { class: 'ic', html: IC[icon] }), h('span', { class: 'dd-t' }, [label, sub ? h('small', { text: sub }) : null]),
+      count != null ? h('span', { class: 'cnt', text: String(count) }) : null ]);
+  }
+  function menuToggle(name) { set({ openMenu: state.openMenu === name ? null : name }); }
+  function founderBadge(cls) {
+    var F = state.founder;
+    return F.number ? h('span', { class: cls + ' gold', html: founderStampSVG(F.number) }) : h('span', { class: cls, html: IC.user });
+  }
+  function meItems() {
+    var F = state.founder, P = window.PayStamp || {}, kids = [
+      ddItem('account', 'gift', F.placesLeft > 0 ? 'Invite friends' : 'Share PayStamp', F.placesLeft > 0 ? F.placesLeft + ' founder places left' : 'Your personal link'),
+      ddItem('help', 'help', 'Help & what’s new', state.seenWhatsNew !== WN[0].version ? 'New: ' + WN[0].title : 'Tour, updates and suggestions') ];
+    if (state.isExample) kids.push(ddItem('setup', 'plan', 'Set up my plan', 'Four quick steps', null, function () { set({ openMenu: null, setupOpen: true }); }));
+    if (state.isExample) kids.push(ddItem('clear', 'reset', 'Clear example data', 'Start with your own numbers', null, function () { set({ openMenu: null }); clearExample(); }));
+    if (P.preview) kids.push(ddItem('reset', 'reset', state.resetArmed ? 'Tap again to reset' : 'Reset example data', 'Preview only', null, function () {
+      if (!state.resetArmed) { set({ resetArmed: true, openMenu: 'me' }); return; }
+      SAVED_KEYS.forEach(function (k) { delete state[k]; }); state.resetArmed = false; state.openMenu = null; migrate(); commit();
+    }));
+    if (P.signOut) kids.push(ddItem('signout', 'out', 'Sign out', null, null, function () { P.signOut(); }));
+    return kids;
+  }
+  function topNav(page) {
+    var F = state.founder, P = window.PayStamp || {}, email = P.getEmail ? P.getEmail() : '';
+    var item = function (key, label) {
+      return h('button', { type: 'button', class: 'pn-i' + (page === key ? ' on' : ''), 'aria-current': page === key ? 'page' : null, onclick: function () { toggle(key); } }, [
+        h('span', { class: 'ic', html: IC[key] }), label, isNewPage(key) ? h('i', { class: 'pn-dot2', title: 'New', 'aria-label': 'New' }) : null ]);
+    };
+    var moreOn = MORE_PAGES.indexOf(page) > -1, meOn = ME_PAGES.indexOf(page) > -1;
+    var nav = h('nav', { class: 'pnav', 'aria-label': 'Main' }, [
+      h('button', { type: 'button', class: 'pn-brand', 'aria-label': 'Your planner', title: 'Back to your planner', onclick: function () { go('plan'); } }, [logoW(36), h('span', { text: 'PayStamp' })]),
+      withHi(h('div', { class: 'pn-mid', id: 'tour-goals' }, [item('debt', 'Debt'), item('savings', 'Savings'), item('investments', 'Investments')]), 'tour-goals'),
+      withHi(h('div', { class: 'pn-right', id: 'tour-setup' }, [
+        founderPill(),
+        h('button', { type: 'button', class: 'pn-i dd-btn' + (moreOn || state.openMenu === 'more' ? ' on' : ''), 'aria-expanded': String(state.openMenu === 'more'), onclick: function () { menuToggle('more'); } },
+          ['More', h('span', { class: 'ic dn' + (state.openMenu === 'more' ? ' up' : ''), html: IC.down })]),
+        h('button', { type: 'button', class: 'pn-me dd-btn' + (meOn || state.openMenu === 'me' ? ' on' : ''), 'aria-label': 'Your account', 'aria-expanded': String(state.openMenu === 'me'), onclick: function () { menuToggle('me'); } },
+          [founderBadge('pn-av'), state.seenWhatsNew !== WN[0].version ? h('span', { class: 'pn-dot', 'aria-hidden': 'true' }) : null, h('span', { class: 'ic dn' + (state.openMenu === 'me' ? ' up' : ''), html: IC.down })]) ]), 'tour-setup') ]);
+    if (state.openMenu === 'more') nav.append(h('div', { class: 'dd dd-more' }, [
+      ddItem('history', 'history', 'Records', 'Every month you’ve stamped', state.records.length),
+      ddItem('accounts', 'accounts', 'Bank accounts', 'Where your money goes', state.locations.length),
+      ddItem('checklist', 'checklist', 'Checklist & notes', state.targets.filter(function (t) { return t.done; }).length + ' of ' + state.targets.length + ' done') ]));
+    if (state.openMenu === 'me') nav.append(h('div', { class: 'dd dd-me' }, [
+      h('div', { class: 'dd-head' }, [founderBadge('dd-av'), h('span', {}, [h('b', { class: F.number ? 'fd' : '', text: F.number ? 'Founding Member #' + F.number : 'Your account' }), h('small', { text: email || (F.number ? 'Thanks for being early' : 'Stamp a £0 month to become a founder') })])]) ].concat(meItems())));
+    return nav;
+  }
+  function bottomNav(page) {
+    var moreOn = state.overlay === 'more' || MORE_PAGES.indexOf(page) > -1 || ME_PAGES.indexOf(page) > -1;
+    var bn = function (key, label, on, tour, onClick) {
+      var b = h('button', { type: 'button', class: 'bn' + (on ? ' on' : ''), 'aria-current': on ? 'page' : null, onclick: onClick || function () { toggle(key); } }, [h('span', { class: 'ic', html: IC[key] }), label]);
+      return tour ? withHi(b, tour) : b;
+    };
+    return h('nav', { class: 'bnav', 'aria-label': 'Main' }, [
+      bn('plan', 'This month', page === 'plan' && !moreOn, null, function () { go('plan'); }),
+      bn('debt', 'Debt', page === 'debt', 'tour-goals'),
+      bn('savings', 'Savings', page === 'savings', 'tour-goals'),
+      bn('investments', 'Investments', page === 'investments', 'tour-goals'),
+      bn('more', 'More', moreOn, 'tour-setup', function () { if (state.overlay === 'more') set({ overlay: null }); else set({ overlay: 'more', openMenu: null }); }) ]);
+  }
+
+  /* More (phone): everything that isn't Debt, Savings or Investments. */
+  function moreBody() {
+    var F = state.founder, done = state.targets.filter(function (t) { return t.done; }).length;
+    var ll = function (key, icon, title, sub) {
+      return h('button', { type: 'button', class: 'll', onclick: function () { go(key); } }, [h('span', { class: 'ic', html: IC[icon] }), h('span', {}, [title, h('small', { text: sub })]), h('span', { class: 'chev', html: IC.chevR })]);
+    };
+    var P = window.PayStamp || {};
+    return h('div', { class: 'f-body' }, [
+      h('div', { class: 'list-links' }, [
+        ll('history', 'history', 'Records', state.records.length + (state.records.length === 1 ? ' month' : ' months') + ' stamped'),
+        ll('accounts', 'accounts', 'Bank accounts', state.locations.length + (state.locations.length === 1 ? ' account' : ' accounts') + ' · where your money goes'),
+        ll('checklist', 'checklist', 'Checklist & notes', done + ' of ' + state.targets.length + ' done') ]),
+      h('div', { class: 'list-links' }, [
+        ll('account', 'gift', F.number ? 'Founder #' + F.number + ' · Invite friends' : 'Invite friends', F.placesLeft > 0 ? F.placesLeft + ' founder places left' : 'Your personal link'),
+        ll('help', 'help', 'Help & what’s new', state.seenWhatsNew !== WN[0].version ? 'New: ' + WN[0].title : 'Tour, updates and suggestions') ]),
+      h('div', { class: 'btn-row' }, [
+        P.preview ? btn('pill-btn', 'Reset example data', function () {
+          if (!state.resetArmed) { set({ resetArmed: true }); return; }
+          SAVED_KEYS.forEach(function (k) { delete state[k]; }); state.resetArmed = false; state.overlay = null; migrate(); commit();
+        }, [state.resetArmed ? 'Tap again to reset' : 'Reset example data']) : null,
+        P.signOut ? btn('pill-btn', 'Sign out', function () { P.signOut(); }, ['Sign out']) : null ]) ]);
+  }
+  /* Targets and Notes, together. */
+  function checklistBody() {
+    return h('div', { class: 'f-body' }, [targetsBody(), h('h2', { class: 'sec-h', text: 'Notes' }), notesBody()]);
+  }
+  function helpBody() {
+    return h('div', { class: 'f-body' }, [
+      h('div', { class: 'btn-row' }, [
+        btn('pill-btn primary', 'Take the intro tour', function () { state.page = 'plan'; try { history.pushState(null, '', location.pathname + location.search); } catch (e) {} set({ introOpen: true, introStep: 0 }); setTimeout(function () { window.scrollTo(0, 0); }, 0); }, ['Take the intro tour']),
+        btn('pill-btn', 'Send a suggestion', function () { openFeedback('other'); }, ['Send a suggestion']),
+        state.founder.placesLeft > 0 ? btn('pill-btn', 'What’s a founder?', function () { openOverlay('founderInfo'); }, ['What’s a founder?']) : null ]),
+      h('h2', { class: 'sec-h', text: 'What’s new' }),
+      whatsNewBody2() ]);
+  }
+  function accountBody() {
+    var F = state.founder, P = window.PayStamp || {}, email = P.getEmail ? P.getEmail() : '';
+    var top = F.number
+      ? h('div', { class: 'card-box f-head' }, [h('span', { class: 'f-big-stamp sm', html: founderStampSVG(F.number) }), F.elite ? h('span', { class: 'f-big-stamp sm', html: eliteSealSVG(F.eliteNumber) }) : null,
+          h('div', { class: 'f-head-t' }, [h('b', { text: 'Founding Member #' + F.number }), F.since ? h('span', { text: 'Since ' + F.since }) : null, F.placesLeft > 0 ? h('span', { text: F.placesLeft + ' founding places left' }) : null])])
+      : h('div', { class: 'card-box f-info' }, [h('p', { class: 'f-lead', text: 'Become one of the first 100' }),
+          h('p', { class: 'f-hint', text: 'Plan your own month until it adds up to exactly your pay, then press Stamp. Your founder number comes with your first stamp.' }),
+          h('div', { class: 'btn-row' }, [h('span', { class: 'f-counter', style: 'margin:0' }, [h('b', { text: String(F.placesLeft) }), ' founding places left']), btn('pill-btn', 'What’s a founder?', function () { openOverlay('founderInfo'); }, ['What’s a founder?'])]) ]);
+    return h('div', { class: 'f-body' }, [email ? h('p', { class: 'f-hint', text: 'Signed in as ' + email }) : null, top,
+      h('h2', { class: 'sec-h', text: F.placesLeft > 0 ? 'Give a friend founder access' : 'Share PayStamp' }), invitesBody()]);
+  }
+
+  /* ---------- the planner (always underneath) ---------- */
+  /* Moving between months.
+     A new month starts from your Budgeted amounts, and a stamped month shows what you stamped.
+     If you leave a month with This Month numbers you haven't stamped (or changed since stamping),
+     they're kept as a small draft so they're still there when you come back. Only the 3 most recent
+     drafts are kept; everything older lives in Records once stamped. */
+  function monthVals() {
+    var o = {};
+    state.groups.forEach(function (g) { g.categories.forEach(function (c) { c.items.forEach(function (it) { o[it.id] = amt(it.budgeted); }); }); });
+    return o;
+  }
+  function recVals(month, year) {
+    var rec = state.records.filter(function (r) { return r.month === month && String(r.year) === String(year); })[0];
+    if (!rec) return null;
+    var o = {}; (rec.items || []).forEach(function (x) { o[x.id] = Number(x.value) || 0; }); return o;
+  }
+  // Keeps a draft of the month being left, then loads the month being opened.
+  function switchVals(fromKey, toKey) {
+    var fp = fromKey.split(' '), now = monthVals(), base = recVals(fp[0], fp[1]), drafts = Object.assign({}, state.drafts || {});
+    var same = Object.keys(now).every(function (id) {
+      var f = findItem(id), b = base ? base[id] : amt(f.item.target);
+      return Math.abs((b || 0) - now[id]) < 0.005;
+    }) && (!base || Object.keys(base).length === Object.keys(now).length);
+    if (same) delete drafts[fromKey]; else drafts[fromKey] = { at: Date.now(), vals: now };
+    Object.keys(drafts).sort(function (a, b) { return drafts[b].at - drafts[a].at; }).slice(3).forEach(function (k) { delete drafts[k]; });
+    var tp = toKey.split(' '), draft = drafts[toKey], vals = draft ? draft.vals : recVals(tp[0], tp[1]);
+    state.groups.forEach(function (g) { g.categories.forEach(function (c) { c.items.forEach(function (it) {
+      it.budgeted = vals && vals[it.id] != null ? String(vals[it.id]) : (it.target || '');
+    }); }); });
+    state.drafts = drafts; state.valsMonth = toKey;
+  }
+  function shiftMonth(dir) {
+    var nowYear = new Date().getFullYear(), m = MONTHS.indexOf(state.month || MONTHS[new Date().getMonth()]), y = Number(state.year || nowYear);
+    var from = MONTHS[m] + ' ' + y;
+    m += dir; if (m < 0) { m = 11; y--; } if (m > 11) { m = 0; y++; }
+    switchVals(from, MONTHS[m] + ' ' + y);
+    set({ month: MONTHS[m], year: String(y) });
+  }
+  /* Has this month been stamped, and has anything changed since? Compares each line's planned amount
+     (and the lines themselves) with what was saved in Records when it was stamped. */
+  function stampStatus(month, year) {
+    var rec = state.records.filter(function (r) { return r.month === month && String(r.year) === String(year); })[0];
+    if (!rec) return { state: 'none' };
+    var d = new Date(rec.stampedAt || Date.now());
+    var when = d.getDate() + ' ' + MONTHS[d.getMonth()].slice(0, 3) + ' ' + d.getFullYear();
+    var now = [], then = [];
+    state.groups.forEach(function (g) { g.categories.forEach(function (c) { c.items.forEach(function (it) { now.push(it.id + ':' + amt(it.budgeted)); }); }); });
+    (rec.items || []).forEach(function (it) { then.push(it.id + ':' + (Number(it.value) || 0)); });
+    return { state: now.sort().join('|') === then.sort().join('|') ? 'stamped' : 'changed', when: when };
+  }
+  /* The month summary as two tidy rows: the month's totals, then what goes to each bank account. */
+  function summaryRows(t) {
+    var tile = function (label, value, note, cls) {
+      return h('div', { class: 'st-tile' + (cls ? ' ' + cls : '') }, [h('div', { class: 'st-top' }, [h('span', { class: 'st-k', text: label }), h('span', { class: 'st-v', text: value })]), note ? h('span', { class: 'st-n', text: note }) : null]);
+    };
+    var diff = t.allocated - t.target;
+    var counts = {}, noneCount = 0;
+    state.groups.forEach(function (g) { if (g.key === 'income') return; g.categories.forEach(function (c) { c.items.forEach(function (it) { if (it.account) counts[it.account] = (counts[it.account] || 0) + 1; else noneCount++; }); }); });
+    var banks = [];
+    state.locations.forEach(function (l) { if (l.name) banks.push({ name: l.name, value: t.byLoc[l.name] || 0, count: counts[l.name] || 0, day: l.day }); });
+    Object.keys(t.byLoc).forEach(function (n) { if (!state.locations.some(function (l) { return l.name === n; })) banks.push({ name: n, value: t.byLoc[n], count: counts[n] || 0 }); });
+    if (noneCount) banks.push({ name: 'No account set', value: t.unassigned, count: noneCount, none: true });
+    var max = Math.max.apply(null, [1].concat(banks.map(function (b) { return b.value; })));
+    return withHi(h('section', { class: 'sum-rows', id: 'tour-balance' }, [
+      h('div', { class: 'sr-row' }, [h('div', { class: 'sr-head' }, [h('span', { class: 'eyebrow', text: 'Totals' })]),
+        h('div', { class: 'sr-grid' }, [
+          tile('Take-home pay', money(t.income), null),
+          tile('Last month', money(t.target), null),
+          tile('Planned total', money(t.allocated), Math.abs(diff) < 0.5 ? 'Same as last month' : (diff > 0 ? money(diff) + ' more' : money(-diff) + ' less') + ' than last month') ])]),
+      h('div', { class: 'sr-row' }, [h('div', { class: 'sr-head' }, [h('span', { class: 'eyebrow', text: 'Per bank account' }), btn('side-link', 'Edit bank accounts', function () { go('accounts'); }, ['Edit'])]),
+        h('div', { class: 'sr-grid' }, banks.map(function (b) {
+          return h('div', { class: 'st-tile bank' + (b.none ? ' none' : '') }, [
+            h('div', { class: 'st-top' }, [h('span', { class: 'st-k', text: b.name }), h('span', { class: 'st-v', text: money(b.value) })]),
+            h('div', { class: 'bar' }, [h('i', { style: 'width:' + Math.round(b.value / max * 100) + '%' })]),
+            h('span', { class: 'st-n', text: b.count + (b.count === 1 ? ' item' : ' items') + (b.day ? ' · moves on ' + dayText(b.day) : '') }) ]);
+        })) ]) ]), 'tour-balance');
   }
   function buildPage() {
-    var nowYear = new Date().getFullYear();
-    var month = state.month || MONTHS[new Date().getMonth()], year = state.year || String(nowYear);
-    var years = []; for (var i = -3; i < 9; i++) years.push(String(nowYear + i));
-    var sel = function (id, value, opts, onChange, label) {
-      var s = h('select', { class: 'pill-select', id: id, 'aria-label': label, onchange: function () { onChange(s.value); } }, opts.map(function (o) { return h('option', { value: o, text: o }); }));
-      s.value = value; return s;
-    };
+    var month = state.month || MONTHS[new Date().getMonth()], year = state.year || String(new Date().getFullYear());
+    // Opening PayStamp in a different month from the one your numbers belong to: switch them over.
+    if (!state.valsMonth) { state.valsMonth = month + ' ' + year; save(); }
+    else if (state.valsMonth !== month + ' ' + year) { switchVals(state.valsMonth, month + ' ' + year); save(); }
+    var t = totals(), ok = Math.abs(t.zero) < 0.01;
+    // The Monthly Planner heading, your stamps, then the month with arrows either side.
     var head = h('header', { class: 'head' }, [
-      withHi(h('div', { class: 'brand-row', id: 'tour-founder' }, [h('div', { class: 'brand' }, [logo(46), h('span', { text: 'PayStamp' })]), stampRow()]), 'tour-founder'),
       h('h1', { class: 'title', text: 'Monthly Planner' }),
       h('div', { class: 'rule' }),
-      greeting(),
-      withHi(h('div', { class: 'month-pick', id: 'tour-month' }, [
-        sel('month', month, MONTHS, function (v) { set({ month: v }); }, 'Month'),
-        sel('year', year, years, function (v) { set({ year: v }); }, 'Year') ]), 'tour-month'),
-    ]);
-
-    var t = totals();
-    var content = h('main', { class: 'content' });
-    content.append(head);
-    var wb = whatsNewBanner(); if (wb) content.append(wb);
+      withHi(h('div', { class: 'brand-row', id: 'tour-founder' }, [stampRow() || h('span', { class: 'ph-none', text: 'Stamps you earn will appear here' })]), 'tour-founder'),
+      h('div', { class: 'mnav', id: 'tour-month' }, [
+        btn('mbtn', 'Previous month', function () { shiftMonth(-1); }, [], { html: IC.chevL }),
+        h('span', { class: 'mlabel', 'aria-live': 'polite', text: month + ' ' + year }),
+        btn('mbtn', 'Next month', function () { shiftMonth(1); }, [], { html: IC.chevR }) ]),
+      (function () { var s = stampStatus(month, year).state;
+        return s === 'stamped' ? h('span', { class: 'm-chip ok', text: '✓ Stamped' }) : s === 'changed' ? h('span', { class: 'm-chip warn', text: 'Changed since you stamped it' }) : null; })() ]);
+    // Always in view while you plan: what's left to give a job.
+    var planBar = (h('div', { class: 'plan-bar' }, [
+      btn('cols-btn', state.allCols ? 'Show fewer columns' : 'Show all columns', function () { set({ allCols: !state.allCols }); }, [state.allCols ? 'Fewer columns' : 'All columns']) ]));
+    var content = h('main', { class: 'content' + (state.allCols ? '' : ' compact') });
+    content.append(h('div', { class: 'm-brand' }, [logoW(30), h('span', { text: 'PayStamp' }), founderPill()]), head, planBar);
+    var exc = exampleCard(); if (exc) content.append(exc);
     state.groups.filter(function (g) { return g.key === 'income'; }).forEach(function (g) { content.append(groupCard(g, t)); });
-    content.append(recBox(t));
-    var rest = state.groups.filter(function (g) { return g.key !== 'income'; });
     var restWrap = withHi(h('div', { id: 'tour-categories', style: 'display:flex;flex-direction:column;gap:30px;border-radius:14px' }), 'tour-categories');
-    rest.forEach(function (g) { restWrap.append(groupCard(g, t)); });
-    content.append(restWrap, summaryCard(t), stampBlock());
+    state.groups.filter(function (g) { return g.key !== 'income'; }).forEach(function (g) { restWrap.append(groupCard(g, t)); });
+    // Three states: not stamped yet, stamped (green), or changed since it was stamped (restamp to update Records).
+    var st = stampStatus(month, year), stamp;
+    if (st.state === 'stamped') stamp = withHi(h('div', { class: 'stamp-wrap', id: 'tour-stamp' }, [
+      h('div', { class: 'stamp-done' + (state.stampFlash ? ' flash' : ''), role: 'status' }, [h('span', { class: 'sd-tick', html: '<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 7.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>' }), month + ' stamped']),
+      h('div', { class: 'stamp-sub', text: 'Stamped on ' + st.when + '. You can still change anything above, then restamp to update your Records.' }) ]), 'tour-stamp');
+    else stamp = withHi(h('div', { class: 'stamp-wrap', id: 'tour-stamp' }, [
+      btn('stamp-btn' + (state.stampFlash ? ' flash' : ''), (st.state === 'changed' ? 'Restamp ' : 'Stamp ') + month + ' ' + year + ' into your Records', function () { openStampCheck(st.state === 'changed'); }, [st.state === 'changed' ? 'RESTAMP' : 'STAMP']),
+      h('div', { class: 'stamp-sub' + (st.state === 'changed' ? ' warn' : ''), text: st.state === 'changed'
+        ? 'You’ve changed ' + month + ' since you stamped it on ' + st.when + '. Restamp to update your Records.'
+        : 'Stamp ' + month + ' ' + year + ' into your Records' }) ]), 'tour-stamp');
+    content.append(restWrap, totalBars(t), extrasBox(t), stamp, fbCard('planner'));
     if (window.PayStamp && window.PayStamp.preview) content.append(h('div', { class: 'status' }, [h('i'), 'Preview · changes stay in this browser']));
     return h('div', { class: 'page' }, [content]);
   }
 
+
+  /* ---------- Budgeted, This Month, the total bars and the Extras box ----------
+     Every line has a Budgeted amount (it.target: what the standing order sends, the same every month)
+     and a This Month amount (it.budgeted). Each new month starts from Budgeted.
+     Anything above Budgeted this month is sent by hand, and the Extras box adds it up. */
+  function spendItems() {
+    var out = [];
+    state.groups.forEach(function (g) { if (g.key === 'income') return; g.categories.forEach(function (c) { c.items.forEach(function (it) { out.push({ it: it, g: g }); }); }); });
+    return out;
+  }
+  // Changing Budgeted moves This Month with it when the two were the same.
+  function setBudgeted(it, v) {
+    if (amt(it.budgeted) === amt(it.target)) it.budgeted = v;
+    it.target = v;
+    var ent = linkedEntity(it); if (ent) { ent.monthly = v; it.syncM = v; }
+    commit();
+  }
+  // Highlights This Month when it isn't the Budgeted amount.
+  function decorateRow(row, it, isIncome) {
+    dayDefault(row, it);
+    if (isIncome) return;
+    var d = amt(it.budgeted) - amt(it.target);
+    if (Math.abs(d) < 0.005) return;
+    row.classList.add('row-chg');
+    var tag = h('span', { class: 'chg-tag', title: 'This month only. Budgeted is £' + fmt(amt(it.target)), text: (d > 0 ? '+' : '−') + '£' + fmt(Math.abs(d)) });
+    var nm = row.querySelector('.c-name');
+    if (nm.classList.contains('name-wrap')) { nm.append(tag); return; }
+    var wrap = h('div', { class: 'c-name name-wrap' });
+    nm.classList.remove('c-name'); nm.replaceWith(wrap); wrap.append(nm, tag);
+  }
+  function signed(n) { return (n < 0 ? '−£' : '£') + fmt(Math.abs(n)); }
+  // Three bars lined up with the Budgeted and This Month columns: totals, left to allocate, per bank account.
+  function totalBars(t) {
+    var cell = function (cls, label, value, extra) { return h('span', { class: 'tb-v ' + cls + (extra ? ' ' + extra : '') }, [h('small', { text: label }), value]); };
+    var leftB = t.incomeExpected - t.target, leftT = t.zero;
+    var tone = function (n) { return Math.abs(n) < 0.005 ? 'ok' : n > 0 ? 'left' : 'over'; };
+    var leftNote = Math.abs(leftT) < 0.005 ? 'Every pound has a job' : leftT > 0 ? 'Give the rest a job, so it adds up to £0' : 'You’ve planned more than you’re paid';
+    var byB = {}, byT = {}, days = {}, order = [];
+    state.locations.forEach(function (l) { if (l.name) { order.push(l.name); days[l.name] = l.day; } });
+    spendItems().forEach(function (x) {
+      var k = x.it.account || ''; if (order.indexOf(k) < 0) order.push(k);
+      byB[k] = (byB[k] || 0) + amt(x.it.target); byT[k] = (byT[k] || 0) + amt(x.it.budgeted);
+    });
+    var bank = h('section', { class: 'tb tb-bank' }, [
+      h('div', { class: 'row tb-row tb-headrow' }, [h('span', { class: 'tb-l' }, [h('b', { text: 'Per bank account' }), btn('tb-edit', 'Edit bank accounts', function () { go('accounts'); }, ['Edit'])]),
+        h('span', { class: 'tb-v c-tgt' }, [h('small', { text: 'Budgeted' })]), h('span', { class: 'tb-v c-bud' }, [h('small', { text: 'This Month' })])]) ]);
+    order.forEach(function (k) {
+      if (!k && !byB[k] && !byT[k]) return;
+      bank.append(h('div', { class: 'row tb-row' + (k ? '' : ' none') }, [
+        h('span', { class: 'tb-l' }, [h('span', { class: 'tb-acc', text: k || 'No account set' }), k ? h('small', { text: accNote(k) }) : null]),
+        h('span', { class: 'tb-v c-tgt', text: '£' + fmt(byB[k] || 0) }),
+        h('span', { class: 'tb-v c-bud', text: '£' + fmt(byT[k] || 0) }) ]));
+    });
+    return withHi(h('div', { class: 'tbars', id: 'tour-balance' }, [
+      h('section', { class: 'tb tb-total' }, [h('div', { class: 'row tb-row' }, [
+        h('span', { class: 'tb-l' }, [h('b', { text: 'Total planned' })]),
+        cell('c-tgt', 'Budgeted', '£' + fmt(t.target)), cell('c-bud', 'This Month', '£' + fmt(t.allocated)) ])]),
+      h('section', { class: 'tb tb-left ' + tone(leftT) }, [h('div', { class: 'row tb-row' }, [
+        h('span', { class: 'tb-l' }, [h('b', { text: 'Left to allocate' }), h('small', { text: leftNote })]),
+        cell('c-tgt', 'Budgeted', signed(leftB), tone(leftB)), cell('c-bud', 'This Month', signed(leftT), tone(leftT)) ])]),
+      bank ]), 'tour-balance');
+  }
+  var TICK_SVG = '<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2.5 7.5l3 3 6-7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  /* Sent ticks: state.sent = { 'October 2026': { itemId: amountSent } }. A tick only counts while the
+     amount is unchanged; if This Month changes afterwards, the line asks you to send the difference. */
+  function sentFor(key) { return (state.sent || {})[key] || {}; }
+  function setSent(it, amount) {
+    var key = plannerMonthKey(), all = Object.assign({}, state.sent || {}), m = Object.assign({}, all[key] || {});
+    if (amount == null) delete m[it.id]; else m[it.id] = amount;
+    all[key] = m;
+    Object.keys(all).sort(function (a, b) { return monthIndex(b) - monthIndex(a); }).slice(3).forEach(function (k) { delete all[k]; });
+    set({ sent: all });
+  }
+  function monthIndex(key) { var p = key.split(' '); return Number(p[1]) * 12 + MONTHS.indexOf(p[0]); }
+  // What's still to send by hand this month: [{ it, g, d, sent }]
+  function extrasList() {
+    var sent = sentFor(plannerMonthKey()), out = [];
+    spendItems().forEach(function (x) {
+      var d = amt(x.it.budgeted) - amt(x.it.target);
+      if (Math.abs(d) >= 0.005) out.push({ it: x.it, g: x.g, d: d, sent: sent[x.it.id] });
+    });
+    return out;
+  }
+  function extrasBox(t) {
+    var extraPay = t.income - t.incomeExpected, list = extrasList(), send = 0, done = 0;
+    var body = h('div', { class: 'xb-body' });
+    var box = withHi(h('section', { class: 'xb', id: 'tour-extras' }, [
+      h('div', { class: 'xb-head' }, [h('h2', { text: 'Extras' }), h('span', { text: 'What to send by hand this month' })]), body ]), 'tour-extras');
+    if (Math.abs(extraPay) > 0.005) body.append(h('div', { class: 'xb-pay' + (extraPay < 0 ? ' neg' : '') }, [
+      h('span', { text: (extraPay > 0 ? 'Extra pay this month' : 'Less pay than budgeted') + ' (£' + fmt(t.income) + ' this pay − £' + fmt(t.incomeExpected) + ' budgeted)' }),
+      h('b', { text: signed(extraPay) }) ]));
+    if (!list.length) body.append(h('div', { class: 'xb-ok' }, [h('span', { class: 'xb-ok-ic', html: TICK_SVG }), 'Nothing to send by hand this month. Your standing orders cover everything.']));
+    list.forEach(function (x) {
+      var it = x.it, name = it.label || 'Untitled', u = amt(it.target), d = x.d;
+      if (d < 0) { body.append(xRow(it, name, x.g.title + ' · £' + fmt(-d) + ' less than budgeted. Your standing order will still send £' + fmt(u) + ', so move the difference back by hand.', '−£' + fmt(-d), 'neg', null)); return; }
+      var isSent = x.sent != null && Math.abs(x.sent - d) < 0.005, partly = x.sent != null && !isSent;
+      send += d; if (isSent) done += d;
+      var sub = isSent ? x.g.title + ' · sent' : partly ? x.g.title + ' · you sent £' + fmt(x.sent) + ' before this changed, so send £' + fmt(Math.max(0, d - x.sent)) + ' more' : x.g.title + ' · budgeted £' + fmt(u);
+      body.append(xRow(it, name, sub, '+£' + fmt(d), isSent ? 'sent' : null,
+        btn('xb-tick', (isSent ? 'Mark as not sent: ' : 'Mark as sent: ') + name, function () { setSent(it, isSent ? null : d); }, [h('span', { class: 'xb-box', html: isSent ? TICK_SVG : '' }), isSent ? 'Sent' : 'Sent?'], { 'aria-pressed': String(isSent) })));
+    });
+    if (send > 0) {
+      var all = Math.abs(send - done) < 0.005;
+      box.append(h('div', { class: 'xb-foot' + (all ? ' all' : '') }, [
+        h('span', { text: all ? 'All sent by hand' : done > 0 ? '£' + fmt(done) + ' of £' + fmt(send) + ' sent' : 'To send by hand' }),
+        all ? h('b', { class: 'xb-done' }, [h('span', { class: 'xb-ok-ic', html: TICK_SVG }), '£' + fmt(send)]) : h('b', { text: '£' + fmt(send - done) + (done > 0 ? ' left' : '') }) ]));
+    }
+    return box;
+  }
+  function xRow(it, name, sub, amount, cls, tick) {
+    return h('div', { class: 'xb-row' + (cls ? ' ' + cls : '') }, [
+      h('span', { class: 'xb-n' }, [h('b', { text: name }), h('small', { text: sub })]),
+      it.account ? h('span', { class: 'xb-acc', text: it.account }) : h('span'),
+      h('span', { class: 'xb-v', text: amount }),
+      tick || h('span') ]);
+  }
+
+  /* ---------- the check before stamping ---------- */
+  var checkEl = null;
+  function closeStampCheck() { if (checkEl) { checkEl.remove(); checkEl = null; document.removeEventListener('keydown', checkKey, true); } }
+  function checkKey(e) { if (e.key === 'Escape') { e.stopPropagation(); closeStampCheck(); } }
+  function openStampCheck(restamp) {
+    closeStampCheck();
+    var month = state.month || MONTHS[new Date().getMonth()], year = state.year || String(new Date().getFullYear());
+    var t = totals(), left = t.zero, list = extrasList().filter(function (x) { return x.d > 0; });
+    var send = list.reduce(function (a, x) { return a + x.d; }, 0);
+    var unsent = list.filter(function (x) { return !(x.sent != null && Math.abs(x.sent - x.d) < 0.005); }).reduce(function (a, x) { return a + x.d - (x.sent || 0); }, 0);
+    var line = function (ok, title, note) { return h('li', { class: ok ? 'ok' : 'warn' }, [h('span', { class: 'sc-ic', html: ok ? TICK_SVG : '<svg viewBox="0 0 14 14" aria-hidden="true"><path d="M7 3.5v4.5M7 10.4v.1" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>' }), h('span', {}, [h('b', { text: title }), note ? h('small', { text: note }) : null])]); };
+    var items = [
+      Math.abs(left) < 0.005 ? line(true, 'Every pound has a job', 'Left to allocate is £0.')
+        : left > 0 ? line(false, '£' + fmt(left) + ' hasn’t got a job yet', 'You can still stamp, or give it a job first.')
+        : line(false, 'You’ve planned £' + fmt(-left) + ' more than you’re paid', 'Check your numbers before you stamp.'),
+      send < 0.005 ? line(true, 'Nothing to send by hand', 'Your standing orders cover everything.')
+        : unsent < 0.005 ? line(true, 'All £' + fmt(send) + ' sent by hand', null)
+        : line(false, '£' + fmt(unsent) + ' still to send by hand', 'Tick each one in Extras once it’s sent.') ];
+    var banks = {};
+    spendItems().forEach(function (x) { var k = x.it.account || 'No account set'; banks[k] = (banks[k] || 0) + amt(x.it.budgeted); });
+    var go1 = btn('sc-go', (restamp ? 'Restamp ' : 'Stamp ') + month + ' ' + year, function () { closeStampCheck(); stampMonth(); }, [(restamp ? 'Restamp ' : 'Stamp ') + month]);
+    checkEl = h('div', { class: 'sc-back', onclick: function (e) { if (e.target === checkEl) closeStampCheck(); } }, [
+      h('div', { class: 'sc', role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Before you stamp ' + month }, [
+        h('h2', { text: (restamp ? 'Restamp ' : 'Stamp ') + month + ' ' + year + '?' }),
+        h('p', { class: 'sc-sub', text: 'A quick check before it goes into your Records.' }),
+        h('ul', { class: 'sc-list' }, items),
+        h('div', { class: 'sc-sum' }, [
+          h('div', {}, [h('small', { text: 'This Pay' }), h('b', { text: '£' + fmt(t.income) })]),
+          h('div', {}, [h('small', { text: 'Planned' }), h('b', { text: '£' + fmt(t.allocated) })]),
+          h('div', {}, [h('small', { text: 'By hand' }), h('b', { text: '£' + fmt(send) })]) ]),
+        h('div', { class: 'sc-banks' }, Object.keys(banks).map(function (k) { return h('span', {}, [k + ' ', h('b', { text: '£' + fmt(banks[k]) })]); })),
+        h('div', { class: 'sc-btns' }, [btn('sc-no', 'Not yet', closeStampCheck, ['Not yet']), go1]) ]) ]);
+    document.body.append(checkEl);
+    document.addEventListener('keydown', checkKey, true);
+    setTimeout(function () { go1.focus(); }, 0);
+  }
+
+  /* ---------- column explainers ---------- */
+  var COL_TIPS = {
+    tgt: 'Your plan for every month: where your pay is meant to go. Set it once and match your standing orders to it.',
+    bud: 'Where your money is actually going this month. It starts the same as Budgeted; change it when this month is different.',
+    tgtPay: 'The pay you plan around each month: your usual take-home pay, or your lowest if it changes.',
+    budPay: 'What you’ve actually been paid this month. Anything above Budgeted Pay shows in Extras.' };
+  function colHead(cls, isIncome) {
+    var b = cls === 'c-tgt', label = isIncome ? (b ? 'Budgeted Pay' : 'This Pay') : (b ? 'Budgeted' : 'This Month');
+    var tip = COL_TIPS[(b ? 'tgt' : 'bud') + (isIncome ? 'Pay' : '')];
+    var q = h('button', { type: 'button', class: 'qtip', 'aria-label': 'What is ' + label + '?', 'data-tip': tip, text: '?' });
+    q.addEventListener('click', function () { q.classList.toggle('tip-on'); clearTimeout(q.t); q.t = setTimeout(function () { q.classList.remove('tip-on'); }, 5000); });
+    return h('span', { class: cls + ' col-q' }, [label, q]);
+  }
+  /* Small icons for lines linked to Debt, Savings or Investments. Click to open that page. */
+  function linkIcon(page) { return IC[page.toLowerCase()] || ''; }
+
+  /* ---------- currency symbol ----------
+     Only changes the symbol shown. Nothing is converted. Every '£' the app writes
+     goes through curText() in h(), so one setting changes it everywhere. */
+  var CURS = [['GBP', '£', 'Pound sterling'], ['EUR', '€', 'Euro'], ['USD', '$', 'US dollar'], ['CAD', 'C$', 'Canadian dollar'], ['AUD', 'A$', 'Australian dollar'],
+    ['NZD', 'NZ$', 'New Zealand dollar'], ['ZAR', 'R', 'South African rand'], ['INR', '₹', 'Indian rupee'], ['JPY', '¥', 'Japanese yen'], ['CHF', 'CHF ', 'Swiss franc']];
+  function cur() { var c = CURS.find(function (x) { return x[0] === (state.currency || 'GBP'); }); return c ? c[1] : '£'; }
+  function curText(s) { if (typeof s !== 'string' || s.indexOf('£') < 0) return s; var sym = cur(); return sym === '£' ? s : s.replace(/£/g, sym); }
+  function moneyShow(v) { return v == null || String(v).trim() === '' ? '' : cur() + fmt(amt(v)); }
+  function moneyRaw(s) { return String(s).trim() === '' ? '' : String(Math.round(amt(s) * 100) / 100); }
+  function currencyRow() {
+    var sel = h('select', { class: 'cur-sel', id: 'f-currency', 'aria-label': 'Currency', onchange: function (e) { set({ currency: e.target.value }); } });
+    CURS.forEach(function (c) { var o = document.createElement('option'); o.value = c[0]; o.textContent = c[1].trim() + '  ' + c[2]; sel.append(o); });
+    sel.value = state.currency || 'GBP';
+    var row = h('div', { class: 'cur-row' }, [h('div', { class: 'cur-t' }, [h('b', { text: 'Currency' }), h('small')]), sel]);
+    row.querySelector('small').textContent = 'The symbol shown next to your amounts. It doesn’t convert anything.';
+    return row;
+  }
+
+  /* ---------- Paid on: follows the bank account unless you change it ----------
+     A line with no day of its own shows its bank account's day, in a lighter style.
+     Picking a day sets it for that line only; the bank account's day never changes.
+     Picking "Bank day" goes back to following the account. */
+  function bankDay(it) { var l = state.locations.find(function (x) { return x.name && x.name === it.account; }); return l && l.day ? String(l.day) : ''; }
+  function dayDefault(row, it) {
+    var sel = row.querySelector('.c-date'); if (!sel || sel.tagName !== 'SELECT') return;
+    var bd = bankDay(it); if (!bd) return;
+    sel.options[0].textContent = it.payDay ? 'Bank day' : '–';
+    if (!it.payDay) {
+      sel.value = bd; sel.classList.remove('is-empty'); sel.classList.add('is-bank');
+      sel.title = 'Same day your ' + it.account + ' money moves. Change it here for this line only.';
+    } else if (it.payDay !== bd) sel.title = 'Set for this line only. Pick Bank day to follow ' + it.account + ' again.';
+  }
+
+  /* ---------- undo after removing ---------- */
+  var undoEl = null, undoT = 0;
+  function showUndo(msg, fn) {
+    if (!undoEl) { undoEl = document.createElement('div'); undoEl.className = 'undo-toast'; undoEl.setAttribute('role', 'status'); document.body.append(undoEl); }
+    undoEl.innerHTML = ''; undoEl.append(h('span', { text: msg }), btn('undo-btn', 'Undo', function () { hideUndo(); fn(); }, ['Undo']));
+    undoEl.classList.add('on'); clearTimeout(undoT); undoT = setTimeout(hideUndo, 7000);
+  }
+  function hideUndo() { if (undoEl) undoEl.classList.remove('on'); }
+  function removeItemWithUndo(it) {
+    var f = findItem(it.id); if (!f) return;
+    var ent = linkedEntity(it), prev = ent ? ent.monthly : null, cat = f.c, idx = f.idx;
+    cat.items.splice(idx, 1); if (ent) ent.monthly = '';
+    commit();
+    showUndo('Removed ' + (it.label || 'item'), function () {
+      cat.items.splice(Math.min(idx, cat.items.length), 0, it);
+      if (ent) { ent.monthly = prev; it.syncM = prev; }
+      commit();
+    });
+  }
+  function removeCatWithUndo(g, c) {
+    var idx = g.categories.indexOf(c); if (idx < 0) return;
+    g.categories.splice(idx, 1); commit();
+    showUndo('Removed ' + (c.name || 'category'), function () { g.categories.splice(Math.min(idx, g.categories.length), 0, c); commit(); });
+  }
+
+  /* ---------- fold a group (trial) ----------
+     Each group can be folded down to its header and totals. Folded groups are remembered.
+     A folded group still says if anything in it is different this month. */
+  function foldGroup(card, g) {
+    groupIcon(card, g);
+    var head = card.querySelector('.group-head'); if (!head) return;
+    var folded = !!(state.folded || {})[g.key];
+    var toggle = function () { var f = Object.assign({}, state.folded || {}); if (f[g.key]) delete f[g.key]; else f[g.key] = true; set({ folded: f }); };
+    if (folded) {
+      card.classList.add('folded');
+      var n = 0; g.categories.forEach(function (c) { c.items.forEach(function (it) { if (Math.abs(amt(it.budgeted) - amt(it.target)) >= 0.005) n++; }); });
+      var items = g.categories.reduce(function (a, c) { return a + c.items.length; }, 0);
+      var h2 = head.querySelector('h2');
+      if (h2) h2.after.apply(h2, [h('span', { class: 'fold-note', text: items + (items === 1 ? ' line' : ' lines') }), n && g.key !== 'income' ? h('span', { class: 'fold-chg', text: n + (n === 1 ? ' change' : ' changes') + ' this month' }) : null].filter(Boolean));
+    }
+    var b = h('button', { type: 'button', class: 'fold-btn', 'aria-expanded': String(!folded), 'aria-label': (folded ? 'Open ' : 'Fold ') + g.title, title: folded ? 'Open' : 'Fold away', html: IC.down });
+    b.addEventListener('click', function (e) { e.stopPropagation(); toggle(); });
+    head.append(b);
+    head.classList.add('foldable');
+    head.addEventListener('click', function (e) { if (!e.target.closest('button, input, select, a')) toggle(); });
+  }
+
+  /* ---------- the example plan ----------
+     New people start with an example month. They can clear it (with Undo) from the card at the
+     top of the planner, or from the account menu, and start with their own numbers. */
+  function blankPlan() {
+    var cat = function (id, name, items) { return { id: id, name: name, items: items || [] }; };
+    state.groups = [
+      { key: 'income', title: 'Income', color: '#7E2A55', categories: [cat('cat_income', 'Job', [{ id: uid('it'), label: 'Salary', target: '', budgeted: '', account: '', runs: '', due: '', automated: false }])] },
+      { key: 'investSavings', title: 'Investments & Savings', color: '#1E6B47', categories: [cat('cat_invest', 'Investments'), cat('cat_savings', 'Savings')] },
+      { key: 'costs', title: 'Costs', color: '#9A3A30', categories: [cat('cat_fixed', 'Fixed costs'), cat('cat_subscriptions', 'Subscriptions')] },
+      { key: 'guiltFree', title: 'Guilt-free spending', color: '#245F8C', categories: [cat('cat_guilt', 'Guilt-free spending')] } ];
+    state.debts = []; state.savings = []; state.investments = []; state.locations = [];
+    state.targets = []; state.notes = []; state.records = []; state.drafts = {}; state.sent = {};
+    state.debtExtras = []; state.savingExtras = []; state.savingUsed = []; state.investExtras = []; state.investUsed = [];
+    state.efundStarter = ''; state.efundMain = ''; state.isExample = false; state.exampleHidden = false;
+  }
+  function clearExample() {
+    var snap = {}; SAVED_KEYS.forEach(function (k) { if (state[k] !== undefined) snap[k] = JSON.parse(JSON.stringify(state[k])); });
+    blankPlan();
+    commit(); window.scrollTo(0, 0);
+    showUndo('Example cleared. Your planner is ready for your own numbers.', function () { Object.keys(snap).forEach(function (k) { state[k] = snap[k]; }); commit(); });
+  }
+  function exampleCard() {
+    if (!state.isExample || state.exampleHidden) return null;
+    return h('section', { class: 'ex-card' }, [
+      h('span', { class: 'ex-ic', html: IC.plan }),
+      h('div', { class: 'ex-t' }, [h('b', { text: 'This is an example month' }), h('span', { text: 'Have a look around and try things out. When you’re ready, set up your own plan in four quick steps, or just clear it.' })]),
+      h('div', { class: 'ex-btns' }, [
+        btn('ex-keep', 'Keep the example for now', function () { set({ exampleHidden: true }); }, ['Keep for now']),
+        btn('ex-keep', 'Clear the example', clearExample, ['Clear example']),
+        btn('ex-clear', 'Set up my plan', function () { set({ setupOpen: true }); }, ['Set up my plan']) ]) ]);
+  }
+
+  /* ---------- bank accounts: where pay lands and how money gets around ----------
+     Nothing connects to a real bank. Each account just says whether pay goes in there,
+     and for the others whether money arrives by standing order or is moved by hand. */
+  function accNote(name) {
+    var l = state.locations.find(function (x) { return x.name === name; }); if (!l) return '';
+    var d = l.day ? ' ' + dayText(l.day) : '';
+    if (l.payIn) return 'your pay goes in here' + (l.day ? ', paid on' + d : '');
+    if (l.how === 'hand') return 'you move money here by hand' + (l.day ? ' on' + d : '');
+    return l.day ? 'standing order on' + d : 'standing order';
+  }
+  function locDayLabel(l) { return l.payIn ? 'Paid on' : l.how === 'hand' ? 'Moved on' : 'Moves on'; }
+  function locHow(l) {
+    var sel = h('select', { class: 'how-sel', 'aria-label': 'How money gets into ' + (l.name || 'this account'), onchange: function (e) {
+      var v = e.target.value;
+      if (v === 'pay') { state.locations.forEach(function (x) { x.payIn = false; }); l.payIn = true; }
+      else { l.payIn = false; l.how = v; }
+      commit(); } });
+    [['pay', 'Pay goes in here'], ['auto', 'Standing order'], ['hand', 'I move it by hand']].forEach(function (o) { var e = document.createElement('option'); e.value = o[0]; e.textContent = o[1]; sel.append(e); });
+    sel.value = l.payIn ? 'pay' : (l.how || 'auto');
+    return sel;
+  }
+
+  /* ---------- Records as one neat table ----------
+     Months across the top (newest on the right), groups down the side in their planner colours.
+     Click a group to open its lines, or switch to Every line. The last column shows only what changed. */
+  function recordsTable(recs) {
+    var n = state.recMonths || 3, view = state.recView || 'groups', open = state.recOpen || {};
+    var shown = recs.slice(-n), last = shown[shown.length - 1], prev = shown.length > 1 ? shown[shown.length - 2] : null;
+    var gOrder = [], gInfo = {};
+    var addG = function (title, color) { if (!gInfo[title]) { gInfo[title] = { color: color, items: [], seen: {} }; gOrder.push(title); } return gInfo[title]; };
+    state.groups.forEach(function (g) { addG(g.title, g.color); });
+    shown.forEach(function (r) { (r.items || []).forEach(function (it) {
+      var g = addG(it.groupTitle || 'Other', freshCol(it.color) || '#5A5266');
+      if (!g.seen[it.id]) { g.seen[it.id] = 1; g.items.push({ id: it.id, name: it.name }); }
+      else g.items.forEach(function (x) { if (x.id === it.id) x.name = it.name; });
+    }); });
+    var val = function (r, id) { var f = (r.items || []).find(function (x) { return x.id === id; }); return f ? Number(f.value) || 0 : 0; };
+    var gval = function (r, title) { return (r.items || []).reduce(function (a, x) { return a + ((x.groupTitle || 'Other') === title ? Number(x.value) || 0 : 0); }, 0); };
+    var cols = 'grid-template-columns:minmax(0,1fr) repeat(' + shown.length + ',minmax(96px,130px)) 150px';
+    var chg = function (a, b, income) {
+      if (b == null) return h('span', { class: 'rt-same', text: '' });
+      var d = a - b; if (Math.abs(d) < 0.005) return h('span', { class: 'rt-same', text: 'Same' });
+      var good = income ? d > 0 : d < 0;
+      return h('span', { class: 'rt-chg ' + (good ? 'down' : 'up'), text: (d > 0 ? '+£' : '−£') + fmt(Math.abs(d)) + (income ? ' pay' : '') });
+    };
+    var wrap = h('div', { class: 'rt' });
+    var head = h('div', { class: 'rt-r rt-hd', style: cols }, [h('span')]);
+    shown.forEach(function (r) {
+      var cur = r === last;
+      head.append(btn('rt-month' + (cur ? ' cur' : ''), 'Open ' + r.month + ' ' + r.year + ' in the planner', function () { openRecordMonth(r); },
+        [r.month.slice(0, 3) + ' ' + String(r.year).slice(2), h('small', { text: 'Open' })]));
+    });
+    head.append(h('span', { class: 'rt-vs', text: prev ? 'vs ' + prev.month : '' }));
+    wrap.append(head);
+    gOrder.forEach(function (title) {
+      var g = gInfo[title]; if (!g.items.length) return;
+      var isOpen = view === 'lines' || open[title], income = title === 'Income';
+      var row = h('div', { class: 'rt-r rt-grp', style: cols + ';--g:' + g.color + ';--gl:' + lighten(g.color, .92) }, [
+        h('button', { type: 'button', class: 'rt-gname', 'aria-expanded': String(!!isOpen), onclick: function () { if (view === 'lines') return; var o = Object.assign({}, open); o[title] = !o[title]; set({ recOpen: o }); } },
+          [h('span', { class: 'rt-chev', text: isOpen ? '▾' : '▸' }), h('span', { class: 'rt-dot' }), title]) ]);
+      shown.forEach(function (r) { row.append(h('span', { class: 'rt-n', text: '£' + fmt(gval(r, title)) })); });
+      row.append(chg(gval(last, title), prev ? gval(prev, title) : null, income));
+      wrap.append(row);
+      if (isOpen) g.items.forEach(function (it) {
+        var ir = h('div', { class: 'rt-r rt-it', style: cols }, [h('span', { text: it.name })]);
+        shown.forEach(function (r) { ir.append(h('span', { class: 'rt-n', text: '£' + fmt(val(r, it.id)) })); });
+        ir.append(chg(val(last, it.id), prev ? val(prev, it.id) : null, income));
+        wrap.append(ir);
+      });
+    });
+    var sumRow = function (label, key, cls) {
+      var r = h('div', { class: 'rt-r rt-sum ' + (cls || ''), style: cols }, [h('span', { text: label })]);
+      shown.forEach(function (x) { var v = Number(x[key]) || 0; r.append(h('span', { class: 'rt-n' + (key === 'balance' ? (Math.abs(v) < 0.005 ? ' ok' : v < 0 ? ' over' : ' left') : ''), text: signed(v) })); });
+      var a = Number(last[key]) || 0, b = prev ? Number(prev[key]) || 0 : null;
+      if (key === 'balance') r.append(Math.abs(a) < 0.005 ? h('span', { class: 'rt-same', text: 'Every pound had a job' }) : h('span', { class: 'rt-chg up', text: a > 0 ? '£' + fmt(a) + ' unplanned' : '£' + fmt(-a) + ' over' }));
+      else r.append(chg(a, b, false));
+      return r;
+    };
+    wrap.append(sumRow('Planned', 'allocatedTotal'), sumRow('Left to allocate', 'balance', 'left'));
+    var seg = function (opts, cur, on) { return h('div', { class: 'rt-seg' }, opts.map(function (o) { return btn(o[0] === cur ? 'on' : '', o[1], function () { on(o[0]); }, [o[1]]); })); };
+    var ctl = h('div', { class: 'rt-ctl' }, [
+      seg([['groups', 'Groups'], ['lines', 'Every line']], view, function (v) { set({ recView: v }); }),
+      seg([[3, '3 months'], [6, '6'], [12, '12']], n, function (v) { set({ recMonths: v }); }) ]);
+    return h('div', { class: 'rt-wrap' }, [ctl, h('div', { class: 'rt-scroll' }, [wrap]),
+      h('p', { class: 'rt-hint', text: 'Click a month to open it in your planner. Change anything there and restamp it to update this table.' })]);
+  }
+  function openRecordMonth(r) {
+    var cur = (state.month || MONTHS[new Date().getMonth()]) + ' ' + (state.year || String(new Date().getFullYear())), to = r.month + ' ' + r.year;
+    if (cur !== to) switchVals(cur, to);
+    state.month = r.month; state.year = String(r.year);
+    go('plan'); setTimeout(function () { window.scrollTo(0, 0); }, 0);
+  }
+
+  /* ---------- setup for new people ----------
+     A welcome choice (set up my plan, or look at the example), then four steps:
+     pay, accounts, regular payments, and a summary. Nothing connects to a bank. */
+  var SU_PICKS = [
+    { k: 'rent', name: 'Rent', g: 'costs', c: 'cat_fixed' }, { k: 'mortgage', name: 'Mortgage', g: 'costs', c: 'cat_fixed' },
+    { k: 'council', name: 'Council tax', g: 'costs', c: 'cat_fixed' }, { k: 'energy', name: 'Energy', g: 'costs', c: 'cat_fixed' },
+    { k: 'water', name: 'Water', g: 'costs', c: 'cat_fixed' }, { k: 'phone', name: 'Phone & internet', g: 'costs', c: 'cat_fixed' },
+    { k: 'groceries', name: 'Groceries', g: 'costs', c: 'cat_fixed' }, { k: 'transport', name: 'Transport', g: 'costs', c: 'cat_fixed' },
+    { k: 'gym', name: 'Gym', g: 'costs', c: 'cat_subscriptions' }, { k: 'streaming', name: 'Streaming', g: 'costs', c: 'cat_subscriptions' },
+    { k: 'savings', name: 'Savings', g: 'investSavings', c: 'cat_savings' }, { k: 'pension', name: 'Investing', g: 'investSavings', c: 'cat_invest' },
+    { k: 'fun', name: 'Eating out', g: 'guiltFree', c: 'cat_guilt' } ];
+  function suState() {
+    if (!state.su) state.su = { step: 0, pay: '', varies: 'same', payDay: '', accounts: [{ id: uid('loc'), name: '', payIn: true, how: 'auto', day: '' }], picks: {}, others: [] };
+    return state.su;
+  }
+  function suRender() { scheduleRender(); }
+  function buildSetup() {
+    var S = suState(), step = S.step;
+    var dots = h('div', { class: 'su-dots' }, [1, 2, 3, 4].map(function (i) { return h('i', { class: i <= step ? 'on' : '' }); }));
+    var next = function () { S.step++; suRender(); }, back = function () { S.step--; suRender(); };
+    var inp = function (key, val, on, o) {
+      o = o || {};
+      var el = h('input', { type: 'text', class: 'su-in' + (o.cls ? ' ' + o.cls : ''), 'data-k': 'su-' + key, placeholder: o.ph || '', inputmode: o.num ? 'decimal' : null, 'aria-label': o.label });
+      el.value = val || ''; el.addEventListener('input', function () { on(el.value); if (o.live) o.live(); });
+      return el;
+    };
+    var foot = function (canNext, label, onNext) {
+      return h('div', { class: 'su-btns' }, [step > 0 ? btn('su-back', 'Back', back, ['Back']) : h('span'),
+        h('div', { class: 'su-r' }, [step > 0 ? btn('su-skip', 'Skip setup', skipSetup, ['Skip']) : null,
+          btn('su-next', label, onNext || next, [label], { disabled: !canNext })]) ]);
+    };
+    var card;
+    if (step === 0) card = [
+      h('div', { class: 'su-brand' }, [logo(34), h('span', { text: 'PayStamp' })]),
+      h('h2', { text: 'Let’s give every pound a job' }),
+      h('p', { text: 'Set up your own plan in about three minutes, or look around an example first.' }),
+      btn('su-choice on', 'Set up my plan', next, [h('b', { text: 'Set up my plan' }), h('span', { text: 'Four quick steps: your pay, your accounts, your regular payments, done.' }), h('em', { text: 'Recommended' })]),
+      btn('su-choice', 'Show me an example first', function () { state.su = null; set({ setupOpen: false, introOpen: true, introStep: 0 }); }, [h('b', { text: 'Show me an example first' }), h('span', { text: 'Explore a ready-made month. You can clear it and set up your own any time.' })]) ];
+    else if (step === 1) {
+      var payIn = inp('pay', S.pay, function (v) { S.pay = v; }, { num: true, ph: '0', cls: 'big', label: 'Take-home pay', live: function () { nb.disabled = !(amt(S.pay) > 0); } });
+      var opt = function (v, t, d) { return btn('su-opt' + (S.varies === v ? ' on' : ''), t, function () { S.varies = v; suRender(); }, [h('i', { class: 'su-rad' }), h('div', {}, [h('b', { text: t }), h('span', { text: d })])]); };
+      var f1 = foot(amt(S.pay) > 0, 'Next'), nb = f1.querySelector('.su-next');
+      card = [dots, h('h2', { text: 'What’s your take-home pay?' }), h('p', { text: 'What lands in your bank account each month, after tax.' }),
+        h('label', { class: 'su-money' }, [h('span', { text: cur() }), payIn, h('small', { text: 'a month' })]),
+        h('p', { class: 'su-q', text: 'Does it change from month to month?' }),
+        opt('same', 'It’s about the same', 'Use your usual pay.'),
+        opt('varies', 'It changes', 'Use your lowest month. Anything above it shows in Extras, ready to give a job.'),
+        h('label', { class: 'su-opt plain' }, [h('span', { text: 'Paid on the' }), daySelect('su-payday', S.payDay, function (v) { S.payDay = v; }, 'su-day', 'Payday')]),
+        f1 ];
+    } else if (step === 2) {
+      var list = h('div', { class: 'su-accs' });
+      S.accounts.forEach(function (a, i) {
+        var how = a.payIn ? null : h('div', { class: 'su-how' }, [h('span', { text: 'Money gets here by' }),
+          h('div', { class: 'su-seg' }, [['auto', 'Standing order'], ['hand', 'I move it by hand']].map(function (o) {
+            return btn(a.how === o[0] ? 'on' : '', o[1], function () { a.how = o[0]; suRender(); }, [o[1]]); })),
+          daySelect('su-accday-' + a.id, a.day, function (v) { a.day = v; }, 'su-day', 'Day for ' + (a.name || 'this account')) ]);
+        list.append(h('div', { class: 'su-acc' + (a.payIn ? ' pay' : '') }, [
+          h('div', { class: 'su-acc-top' }, [
+            inp('acc-' + a.id, a.name, function (v) { a.name = v; }, { ph: i === 0 ? 'e.g. Barclays current account' : 'e.g. Monzo', label: 'Account name' }),
+            a.payIn ? h('span', { class: 'su-paytag', text: 'Pay goes in here' }) : btn('su-mk', 'Make this the account your pay goes into', function () { S.accounts.forEach(function (x) { x.payIn = false; }); a.payIn = true; suRender(); }, ['Pay goes in here?']),
+            S.accounts.length > 1 ? btn('su-x', 'Remove this account', function () { S.accounts.splice(i, 1); if (!S.accounts.some(function (x) { return x.payIn; })) S.accounts[0].payIn = true; suRender(); }, ['✕']) : null ]),
+          how ]));
+      });
+      card = [dots, h('h2', { text: 'Which accounts do you use?' }),
+        h('p', { text: 'Add the accounts you keep money in, and say which one your pay goes into. PayStamp never connects to your bank. This just shows where each payment comes from.' }),
+        list,
+        btn('su-add', 'Add another account', function () { S.accounts.push({ id: uid('loc'), name: '', payIn: false, how: 'hand', day: '' }); suRender(); }, ['+ Add another account']),
+        h('p', { class: 'su-note', text: 'Everything stays in one account? Just keep the one. If you move money to another account, say whether a standing order does it or you do it by hand.' }),
+        foot(true, 'Next') ];
+    } else if (step === 3) {
+      var names = S.accounts.map(function (a) { return a.name.trim(); }).filter(Boolean), payAcc = (S.accounts.find(function (a) { return a.payIn; }) || {}).name || '';
+      var chips = h('div', { class: 'su-chips' }, SU_PICKS.map(function (p) {
+        var on = !!S.picks[p.k];
+        return btn('su-chip' + (on ? ' on' : ''), (on ? 'Remove ' : 'Add ') + p.name, function () { if (on) delete S.picks[p.k]; else S.picks[p.k] = { amt: '', acc: payAcc.trim() }; suRender(); }, [p.name]);
+      }));
+      var rows = h('div', { class: 'su-pays' });
+      SU_PICKS.forEach(function (p) {
+        var P = S.picks[p.k]; if (!P) return;
+        var accSel = h('select', { class: 'su-accsel', 'aria-label': 'Account for ' + p.name, onchange: function (e) { P.acc = e.target.value; } },
+          [h('option', { value: '', text: 'No account' })].concat(names.map(function (n) { return h('option', { value: n, text: n }); })));
+        accSel.value = P.acc || '';
+        rows.append(h('div', { class: 'su-pay' }, [h('span', { text: p.name }),
+          h('label', { class: 'su-amt' }, [h('span', { text: cur() }), inp('p-' + p.k, P.amt, function (v) { P.amt = v; }, { num: true, ph: '0', label: 'Amount for ' + p.name })]), accSel]));
+      });
+      card = [dots, h('h2', { text: 'What do you pay every month?' }), h('p', { text: 'Tap to add, then type the amount. Each one goes into the right group, and you can add more in your planner.' }),
+        chips, rows, foot(true, 'Next') ];
+    } else {
+      var pay = amt(S.pay), total = 0, byAcc = {};
+      SU_PICKS.forEach(function (p) { var P = S.picks[p.k]; if (!P) return; var v = amt(P.amt); total += v; var k = P.acc || 'No account'; byAcc[k] = (byAcc[k] || 0) + v; });
+      var left = pay - total;
+      var accLine = function (k) {
+        var a = S.accounts.find(function (x) { return x.name.trim() === k; });
+        var how = !a ? '' : a.payIn ? 'stays where your pay lands' : a.how === 'hand' ? 'you move it by hand' + (a.day ? ' on ' + dayText(a.day) : '') : 'by standing order' + (a.day ? ' on ' + dayText(a.day) : '');
+        return h('div', {}, [h('span', { text: k }), h('b', { text: cur() + fmt(byAcc[k]) }), how ? h('small', { text: how }) : null]);
+      };
+      card = [dots, h('h2', { text: 'Your plan is ready' }), h('p', { text: 'Here’s what’s left once your regular payments are covered.' }),
+        h('div', { class: 'su-big' + (left < 0 ? ' over' : '') }, [h('small', { text: 'Left to allocate' }), h('b', { text: (left < 0 ? '−' : '') + cur() + fmt(Math.abs(left)) }),
+          h('span', { text: left < 0 ? 'That’s more than your pay. You can adjust it in your planner.' : 'Give it a job in your planner: guilt-free spending, savings or paying off debt.' })]),
+        Object.keys(byAcc).length ? h('div', { class: 'su-mini' }, Object.keys(byAcc).map(accLine)) : null,
+        h('p', { class: 'su-note', text: 'Next: in your planner, tick each line in the Automated column once its standing order is set up.' }),
+        foot(true, 'Go to my planner', finishSetup) ];
+    }
+    return h('div', { class: 'su-bg' }, [h('div', { class: 'su', role: 'dialog', 'aria-modal': 'true', 'aria-label': 'Set up PayStamp' }, card)]);
+  }
+  function skipSetup() { state.su = null; set({ setupOpen: false }); }
+  function finishSetup() {
+    var S = suState();
+    blankPlan();
+    state.locations = S.accounts.filter(function (a) { return a.name.trim(); }).map(function (a) { return { id: a.id, name: a.name.trim(), day: a.payIn ? (S.payDay || a.day) : a.day, payIn: !!a.payIn, how: a.how }; });
+    var payAcc = state.locations.find(function (l) { return l.payIn; });
+    var sal = findGroup('income').categories[0].items[0];
+    sal.target = sal.budgeted = String(amt(S.pay)); sal.payDay = S.payDay; sal.account = payAcc ? payAcc.name : '';
+    SU_PICKS.forEach(function (p) {
+      var P = S.picks[p.k]; if (!P) return;
+      var c = findCat(p.c); if (!c) return;
+      c.items.push({ id: uid('it'), label: p.name, target: String(amt(P.amt)), budgeted: String(amt(P.amt)), account: P.acc || '', runs: '', due: '', automated: false });
+    });
+    state.su = null; state.setupOpen = false; state.setupDone = true;
+    commit(); window.scrollTo(0, 0);
+  }
+
+  /* ---------- Debt, Savings and Investments: same layout, refined ----------
+     Each page body is built as before, then tidied here: a headline card at the top, a progress
+     line and a plain sentence under every name, "+ Add to plan" instead of £0, "?" tips instead of
+     the grey paragraph, and the folded sections as a neat grid of cards with icons and a status. */
+  var GOAL_IC = {
+    calc: '<svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2.5"/><path d="M8 7h8M8 12h2M12 12h.01M16 12h.01M8 16h2M12 16h.01M16 16h.01"/></svg>',
+    shield: '<svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z"/><path d="M9 12l2 2 4-4"/></svg>',
+    clock: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>',
+    out: '<svg viewBox="0 0 24 24"><path d="M12 4v11M7.5 10.5L12 15l4.5-4.5"/><path d="M5 19h14"/></svg>' };
+  function goalHero(kicker, big, sub, sideTag, sideText) {
+    return h('section', { class: 'g-hero' }, [
+      h('div', { class: 'g-hero-main' }, [h('small', { text: kicker }), h('b', { text: big }), h('span', { text: sub })]),
+      sideTag || sideText ? h('div', { class: 'g-hero-side' }, [sideTag ? h('em', { text: sideTag }) : null, sideText ? h('span', { text: sideText }) : null]) : null ]);
+  }
+  function qTip(label, tip) {
+    var q = h('button', { type: 'button', class: 'qtip', 'aria-label': 'What is ' + label + '?', 'data-tip': tip, text: '?' });
+    q.addEventListener('click', function () { q.classList.toggle('tip-on'); clearTimeout(q.t); q.t = setTimeout(function () { q.classList.remove('tip-on'); }, 5000); });
+    return q;
+  }
+  function tipHead(body, cls, label, tip) {
+    var s = body.querySelector('.colhead .' + cls); if (!s) return;
+    s.textContent = ''; s.classList.add('col-q'); s.append(label); if (tip) s.append(qTip(label, tip));
+  }
+  function goalRow(row, o) {
+    var nameEl = row.querySelector('.d-name'); if (!nameEl) return;
+    var top;
+    if (nameEl.tagName === 'INPUT') { nameEl.classList.remove('d-name'); top = h('div', { class: 'dn-top' }); nameEl.replaceWith(top); top.append(nameEl); }
+    else { top = nameEl; top.className = 'dn-top'; }
+    var wrap = h('div', { class: 'd-name dn' }); top.replaceWith(wrap); wrap.append(top);
+    if (o.inPlan) top.append(h('button', { type: 'button', class: 'link-tag', 'data-tip': 'In your planner. Click to open it.', 'aria-label': 'In your Monthly Planner', html: IC[o.icon], onclick: function () { go('plan'); } }));
+    wrap.append(h('div', { class: 'dn-bar', style: '--bc:' + (o.color || '#7E2A55') }, [h('i', { style: 'width:' + Math.max(0, Math.min(100, o.pct || 0)).toFixed(1) + '%' })]));
+    var sub = h(o.onSub ? 'button' : 'span', { class: 'dn-sub' + (o.nudge ? ' nudge' : '') + (o.onSub ? ' more' : ''), type: o.onSub ? 'button' : null, onclick: o.onSub || null, 'aria-expanded': o.onSub ? String(!!o.open) : null }, [o.sub]);
+    if (o.onSub) sub.append(h('span', { class: 'dn-chev', text: o.open ? '▴' : '▾' }));
+    wrap.append(sub);
+    var pay = row.querySelector('.d-pay');
+    if (pay && !o.inPlan && !amt(o.monthly) && !(state.pxShow || {})[o.id]) {
+      pay.innerHTML = '';
+      pay.append(btn('add-plan', 'Add ' + (o.name || 'this') + ' to your plan', function () {
+        var s = Object.assign({}, state.pxShow || {}); s[o.id] = true; state.pxShow = s; scheduleRender();
+        setTimeout(function () { var n = document.querySelector('[data-k="' + o.payKey + '"]'); if (n) n.focus(); }, 60);
+      }, ['+ Add to plan']));
+      row.classList.add('not-in-plan');
+    }
+  }
+  function goalSections(body, status) {
+    var secs = Array.prototype.slice.call(body.querySelectorAll(':scope > div > .dsec.prev, :scope > .dsec.prev'));
+    if (!secs.length) return;
+    var grid = h('div', { class: 'sec-grid' }); secs[0].before(grid);
+    secs.forEach(function (s) {
+      grid.append(s);
+      var t = s.querySelector('.prev-toggle'), h4 = t && t.querySelector('h4'); if (!h4) return;
+      var title = h4.textContent, ic = /What if/.test(title) ? 'calc' : /Emergency/.test(title) ? 'shield' : /before/.test(title) ? 'clock' : 'out';
+      if (/What if Calculator/.test(title)) h4.textContent = 'What if';
+      t.prepend(h('span', { class: 'sec-ic', html: GOAL_IC[ic] }));
+      var st = status && status(title), sm = t.querySelector('small');
+      if (st && sm) { sm.textContent = st.text; if (st.cls) sm.className = st.cls; }
+    });
+  }
+  function tidyGoalBody(body) {
+    var hint = body.querySelector('.debt-hint'); if (hint) hint.remove();
+    var ov = body.querySelector('.debt-overall, .inv-sum'); if (ov) ov.remove();
+    return body.firstChild;
+  }
+
+  function debtBody2() {
+    var body = debtBody(), first = tidyGoalBody(body);
+    var cur = state.debts.reduce(function (s, d) { return s + (debtLeft(d) > 0.005 ? Math.max(amt(debtMonthly(d)), amt(d.min)) : 0); }, 0);
+    var leftAll = state.debts.reduce(function (s, d) { return s + debtLeft(d); }, 0), sim = payoffSim(cur);
+    var big, sub;
+    if (!state.debts.length) { big = 'No debts yet'; sub = 'Add one below to see your debt-free date.'; }
+    else if (leftAll <= 0.005) { big = 'Debt-free'; sub = 'Nothing left to pay. Well done.'; }
+    else if (cur <= 0) { big = 'Not set yet'; sub = 'Add monthly payments to see your date.'; }
+    else if (!sim.ok) { big = 'Not on track'; sub = 'Your payments don’t cover the interest yet.'; }
+    else { big = freeDateLabel(sim.months); sub = monthsText(sim.months) + ' · ' + money(leftAll) + ' left at ' + money(cur) + ' a month'; }
+    var firstDebt = state.debts.find(function (d) { return debtLeft(d) > 0.005 && amt(debtMonthly(d)) > 0; });
+    var planned = state.debts.reduce(function (s, d) { return s + amt(debtMonthly(d)); }, 0);
+    body.insertBefore(goalHero('Debt-free by', big, sub, firstDebt ? (firstDebt.name || 'Untitled') + ' goes first' : null, planned ? money(planned) + ' a month in your plan' : null), first);
+    var free = body.querySelector('.dfree'); if (free) free.closest('.dsec').remove();
+    tipHead(body, 'd-bal', 'Balance', 'What you owed when you added it. Payments you stamp in Records come off what’s left.');
+    tipHead(body, 'd-apr', 'APR', 'The yearly interest rate, from your statement or app.');
+    tipHead(body, 'd-min', 'Minimum', null);
+    tipHead(body, 'd-pay', 'Monthly', 'What you pay each month. It goes into your planner under Costs › Debt payments, and counts as paid when you stamp the month.');
+    state.debts.forEach(function (d) {
+      var row = body.querySelector('[data-row-id="' + d.id + '"]'); if (!row) return;
+      var bal = amt(d.balance), paid = Math.min(debtPaid(d).paid, bal), pct = bal ? paid / bal * 100 : 0, left = debtLeft(d), inPlan = !!findItem(debtItemId(d));
+      var pay = Math.max(amt(debtMonthly(d)), amt(d.min)), s = pay ? singleDebtSim(d, pay) : null, sub;
+      var pp = pct >= 0.5 ? Math.round(pct) + '% paid off · ' : '';
+      if (bal && left <= 0.005) sub = 'Paid off';
+      else if (inPlan && s && s.ok && amt(debtMonthly(d))) sub = pp + 'clear by ' + freeDateLabel(s.months);
+      else if (amt(d.min)) sub = pp + 'minimum only';
+      else sub = pp ? pp.slice(0, -3) : 'Add a minimum or monthly payment';
+      goalRow(row, { id: d.id, name: d.name, pct: pct, sub: sub, inPlan: inPlan, icon: 'debt', monthly: debtMonthly(d), payKey: 'dpay-' + d.id });
+    });
+    goalSections(body, function (title) {
+      if (!/What if/.test(title) || cur <= 0 || !sim.ok) return null;
+      var s2 = payoffSim(cur + 50), diff = sim.months - s2.months;
+      return diff > 0 ? { text: 'Paying £50 more a month gets you debt-free ' + monthsText(diff) + ' sooner.' } : null;
+    });
+    return body;
+  }
+  function potMonths(sv) { var m = amt(savingMonthly(sv)), left = potLeft(sv); return m > 0 && left > 0.005 ? Math.ceil(left / m) : null; }
+  function savingsBody2() {
+    var body = savingsBody(), first = tidyGoalBody(body);
+    var goalAll = 0, savedAll = 0, monthly = 0;
+    state.savings.forEach(function (sv) { goalAll += amt(sv.goal); savedAll += savedNow(sv); monthly += amt(savingMonthly(sv)); });
+    var next = null;
+    state.savings.forEach(function (sv) { var m = potMonths(sv); if (m && (!next || m < next.m)) next = { sv: sv, m: m }; });
+    body.insertBefore(goalHero('Saved so far', money(savedAll),
+      (goalAll ? Math.round(Math.min(savedAll, goalAll) / goalAll * 100) + '% of your ' + money(goalAll) + ' goals' : 'Add a goal to each pot') + (monthly ? ' · ' + money(monthly) + ' a month going in' : ''),
+      next ? 'Next goal: ' + (next.sv.name || 'Untitled') : null, next ? 'Ready by ' + freeDateLabel(next.m) : null), first);
+    tipHead(body, 'd-bal', 'Goal', null);
+    tipHead(body, 'd-apr', 'Saved', 'What your stamped months add up to, plus anything saved before PayStamp, minus anything you’ve used.');
+    tipHead(body, 'd-min', 'Interest', null);
+    tipHead(body, 'd-pay', 'Monthly', 'What you put in each month. It goes into your planner under Investments & Savings › Savings.');
+    var open = state.potOpen || {};
+    state.savings.forEach(function (sv) {
+      var row = body.querySelector('[data-row-id="' + sv.id + '"]'); if (!row) return;
+      var g = amt(sv.goal), saved = savedNow(sv), pct = g ? saved / g * 100 : 0, m = potMonths(sv), inPlan = !!findItem(savingItemId(sv)), sub;
+      if (g && saved >= g) sub = 'Goal reached';
+      else if (!g) sub = 'Add a goal to track it';
+      else if (m) sub = Math.round(pct) + '% · ready by ' + freeDateLabel(m);
+      else sub = Math.round(pct) + '% · add a monthly amount to see when';
+      var isOpen = !!open[sv.id] && g > 0;
+      goalRow(row, { id: sv.id, name: sv.name, pct: pct, sub: sub, inPlan: inPlan, icon: 'savings', color: '#1E6B47', monthly: savingMonthly(sv), payKey: 'spay-' + sv.id, open: isOpen,
+        onSub: g ? function () { var o = Object.assign({}, state.potOpen || {}); o[sv.id] = !o[sv.id]; set({ potOpen: o }); } : null });
+      if (isOpen) row.after(potDetail(sv));
+    });
+    goalSections(body, function (title) {
+      if (/used/.test(title) && !(state.savingUsed || []).length) return { text: 'Nothing taken out' };
+      if (/Emergency/.test(title)) { var ef = state.savings.find(function (x) { return x.id === state.efundStarter; }); if (ef && savedNow(ef) >= 1000) return { text: 'Starter £1,000 reached', cls: 'st-ok' }; }
+      return null;
+    });
+    return body;
+  }
+  function potDetail(sv) {
+    var left = potLeft(sv), m = potMonths(sv), mon = amt(savingMonthly(sv));
+    var now = new Date(), toDec = 11 - now.getMonth() + 1, need = toDec > 0 ? Math.ceil(left / toDec) : 0;
+    var tip = null;
+    if (left > 0.005 && toDec > 0 && need > mon) tip = h('div', { class: 'pd-tip' }, [
+      h('span', { text: 'Want it by December ' + now.getFullYear() + '? That’s ' + money(need) + ' a month for ' + toDec + (toDec === 1 ? ' month.' : ' months.') }),
+      btn('pd-use', 'Use ' + money(need) + ' a month', function () { sv.monthly = String(need); commit(); }, ['Use this amount ›']) ]);
+    return h('div', { class: 'pot-detail' }, [
+      h('div', {}, [h('small', { text: 'To go' }), h('b', { text: money(left) })]),
+      h('div', {}, [h('small', { text: 'Ready by' }), h('b', { text: m ? freeDateLabel(m) : left <= 0.005 ? 'Done' : 'Add a monthly amount' })]),
+      h('div', {}, [h('small', { text: 'Each month' }), h('b', { text: mon ? money(mon) : 'Not set' })]),
+      tip ]);
+  }
+  function investmentsBody2() {
+    var body = investmentsBody(), first = tidyGoalBody(body);
+    var inAll = 0, valAll = 0, monthly = 0, top = null;
+    state.investments.forEach(function (iv) { inAll += invested(iv); valAll += invValue(iv); var mo = amt(invMonthly(iv)); monthly += mo; if (mo && (!top || mo > amt(invMonthly(top)))) top = iv; });
+    var g = valAll - inAll, gp = inAll ? g / inAll * 100 : 0;
+    body.insertBefore(goalHero('Worth now', money(valAll),
+      'You put in ' + money(inAll) + ' · ' + (g >= 0 ? 'up ' : 'down ') + money(Math.abs(g)) + ' (' + (g >= 0 ? '+' : '−') + Math.abs(gp).toFixed(1) + '%)',
+      monthly ? money(monthly) + ' a month going in' : null, top ? (top.name || 'Untitled') : null), first);
+    tipHead(body, 'd-bal', 'Put in', 'What your stamped months add up to, plus anything invested before PayStamp, minus anything sold or withdrawn.');
+    tipHead(body, 'd-apr', 'Worth now', 'Type what your provider’s app shows whenever you check. Money you put in afterwards is added on top.');
+    tipHead(body, 'd-min', 'Growth', null);
+    tipHead(body, 'd-pay', 'Monthly', 'What you put in each month. It goes into your planner under Investments & Savings › Investments.');
+    state.investments.forEach(function (iv) {
+      var row = body.querySelector('[data-row-id="' + iv.id + '"]'); if (!row) return;
+      var val = invValue(iv), pct = valAll ? val / valAll * 100 : 0, inPlan = !!findItem(invItemId(iv)), sub, nudge = false;
+      if (!iv.checkedAt) sub = Math.round(pct) + '% of your investments';
+      else {
+        var days = Math.floor((Date.now() - iv.checkedAt) / 864e5);
+        sub = days < 1 ? 'Updated today' : days < 45 ? 'Updated ' + days + (days === 1 ? ' day ago' : ' days ago') : 'Last updated ' + Math.round(days / 30) + ' months ago · update Worth now';
+        nudge = days >= 45;
+      }
+      var isa = row.querySelector('.isa-mark');
+      if (isa) { isa.textContent = iv.isa ? 'ISA' : '+ ISA'; isa.title = iv.isa ? 'Counts towards your yearly ISA allowance. Click to unmark.' : 'Mark as an ISA'; }
+      goalRow(row, { id: iv.id, name: iv.name, pct: pct, sub: sub, nudge: nudge, inPlan: inPlan, icon: 'investments', color: '#1E6B47', monthly: invMonthly(iv), payKey: 'ipay-' + iv.id });
+    });
+    goalSections(body, function (title) {
+      if (/Sold/.test(title) && !(state.investUsed || []).length) return { text: 'Nothing taken out' };
+      return null;
+    });
+    return body;
+  }
+
+  /* ---------- Fresh look ----------
+     Founder places live in the bar as a small pill; group headers get an icon;
+     group colours are softened to sit with the plum (older saved plans are mapped too). */
+  function founderPill() {
+    var F = state.founder;
+    if (F.number) return btn('pn-fpill gift', F.placesLeft > 0 ? 'Give a friend founder access' : 'Share PayStamp', function () { openOverlay('invites'); },
+      [h('span', { class: 'ic', html: IC.gift }), h('span', { class: 'fp-long', text: F.placesLeft > 0 ? 'Give founder access' : 'Share PayStamp' })]);
+    if (!(F.placesLeft > 0)) return null;
+    return btn('pn-fpill', F.placesLeft + ' founder places left. What’s a founder?', function () { openOverlay('founderInfo'); },
+      [h('b', { text: String(F.placesLeft) }), h('span', { class: 'fp-long', text: ' founder places left' }), h('span', { class: 'fp-short', text: ' places left' })]);
+  }
+  /* Tidy-up for plans saved before v3.3: the old Extras group filled itself from the
+     Debt, Savings and Investments extras. Those automatic lines go; anything typed in by
+     hand stays. The group goes only if nothing is left in it. */
+  function dropOldExtras() {
+    state.debtExtras = []; state.savingExtras = []; state.investExtras = [];
+    state.groups.forEach(function (g) { g.categories.forEach(function (c) {
+      c.items = c.items.filter(function (it) { return !(it.extraId || it.saveExtraId || it.investExtraId || /^(dbx|svx|ivx)_/.test(it.id)); });
+    }); g.categories = g.categories.filter(function (c) { return !(/^cat_(debt|save|inv)_extras$/.test(c.id) && !c.items.length); }); });
+    state.groups = state.groups.filter(function (g) { return !(g.key === 'extras' && !g.categories.some(function (c) { return c.items.length; })); });
+  }
+  var FRESH_COL = { '#00602a': '#1E6B47', '#8a2c24': '#9A3A30', '#00568d': '#245F8C' };
+  function freshCol(c) { return FRESH_COL[(c || '').toLowerCase()] || c; }
+  var GROUP_IC = {
+    income: '<svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2.5"/><path d="M16 12.5h2"/><path d="M3 9.5h15a2 2 0 0 0 2-2V6"/></svg>',
+    investSavings: '<svg viewBox="0 0 24 24"><path d="M8 3.5h8v3H8z"/><path d="M6.5 6.5h11v10.5a3 3 0 0 1-3 3h-5a3 3 0 0 1-3-3z"/><path d="M10 13h4"/></svg>',
+    costs: '<svg viewBox="0 0 24 24"><path d="M4 11l8-6 8 6"/><path d="M6 10v9h12v-9"/><path d="M10 19v-5h4v5"/></svg>',
+    guiltFree: '<svg viewBox="0 0 24 24"><path d="M5 8h14l-1 11.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 6 19.5z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>' };
+  function groupIcon(card, g) {
+    var h2 = card.querySelector('.group-head h2'); if (!h2 || !GROUP_IC[g.key] || h2.querySelector('.g-ic')) return;
+    h2.prepend(h('span', { class: 'g-ic', html: GROUP_IC[g.key] }));
+  }
+
+  /* ---------- What's new: everything in PayStamp 3 ---------- */
+  function whatsNewBody2() {
+    return h('div', { class: 'wn3' }, [
+      h('div', { class: 'wn3-head' }, [h('span', { class: 'wn3-ver', text: 'PayStamp 3' }), h('p', { text: 'Everything added since the original planner, in one place.' })]),
+      h('div', { class: 'wn3-grid' }, WN_SECTIONS.map(function (s) {
+        return h('section', { class: 'wn3-card' }, [
+          h('div', { class: 'wn3-t' }, [h('span', { class: 'wn3-ic', html: IC[s.icon] }), h('h4', { text: s.title })]),
+          h('ul', {}, s.items.map(function (t) { return h('li', { text: t }); })) ]);
+      })) ]);
+  }
   function groupCard(g, t) {
-    var card = h('section', { class: 'group' + (g.key === 'income' ? ' no-la' : ''), style: '--g:' + g.color + ';--gm:' + g.color + ';--gl:' + lighten(g.color, .86) + ';--gl2:' + lighten(g.color, .6) + ';--gb:' + lighten(g.color, .93) });
+    var card = h('section', { class: 'group' + (g.key === 'income' ? ' no-la' : '') + (g.categories.length === 1 ? ' one-cat' : ''), style: '--g:' + g.color + ';--gm:' + g.color + ';--gl:' + lighten(g.color, .86) + ';--gl2:' + lighten(g.color, .6) + ';--gb:' + lighten(g.color, .93) });
     var budget = groupSum(g, 'budgeted');
     card.append(h('div', { class: 'group-head' }, [h('h2', { text: g.title }),
       g.key === 'income' ? null : h('span', { class: 'share', title: 'Share of take-home pay', text: pct(budget, t.income) + ' of pay' })]));
@@ -2160,8 +3698,9 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     }, ['+ Add category'])]));
     card.append(h('div', { class: 'row foot' }, [
       h('span', { class: 'c-label', text: 'Total' }),
-      h('span', { class: 'c-tgt', text: fmt(groupSum(g, 'target')) }),
-      h('span', { class: 'c-bud', text: fmt(budget) }) ]));
+      h('span', { class: 'c-tgt', text: '£' + fmt(groupSum(g, 'target')) }),
+      h('span', { class: 'c-bud', text: '£' + fmt(budget) }) ]));
+    foldGroup(card, g);
     return card;
   }
 
@@ -2170,10 +3709,10 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     blk.append(h('div', { class: 'cat-head' }, [
       field('cat-' + c.id, c.name, function (v) { c.name = v; commit(); }, { cls: 'cat-name', ph: 'Category name', label: 'Category name' }),
       g.key !== 'income' ? h('span', { class: 'cat-share', title: 'Share of take-home pay', text: pct(catSum(c, 'budgeted'), totals().income) + ' of pay' }) : null,
-      btn('rm', 'Remove category ' + (c.name || ''), function () { g.categories = g.categories.filter(function (x) { return x !== c; }); commit(); }, ['✕']) ]));
+      btn('rm', 'Remove category ' + (c.name || ''), function () { removeCatWithUndo(g, c); }, ['✕']) ]));
     blk.append(h('div', { class: 'row colhead' }, [
-      h('span', { class: 'c-name', text: 'Item' }), h('span', { class: 'c-loc', text: 'Location' }), h('span', { class: 'c-date', text: 'Paid on' }), h('span', { class: 'c-auto', text: 'Automated' }),
-      h('span', { class: 'c-tgt', text: g.key === 'income' ? 'Expected' : 'Last Month' }), h('span', { class: 'c-bud', text: g.key === 'income' ? 'Actual pay' : 'Budgeted' }) ]));
+      h('span', { class: 'c-name', text: 'Item' }), h('span', { class: 'c-loc', text: 'Paid from' }), h('span', { class: 'c-date', text: 'Paid on' }), h('span', { class: 'c-auto', text: 'Automated' }),
+      colHead('c-tgt', g.key === 'income'), colHead('c-bud', g.key === 'income') ]));
     var list = h('div', { class: 'item-list', 'data-drop-kind': 'item', 'data-list-id': c.id }, [h('div', { class: 'empty-hint', text: 'No items yet. Drag one here or add a new one.' })]);
     c.items.forEach(function (it) { list.append(itemRow(it, g.key === 'income')); });
     blk.append(list);
@@ -2185,8 +3724,8 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     }, ['+ Add item'])]));
     blk.append(h('div', { class: 'row total-row' }, [
       h('span', { class: 'c-label', text: 'Total' }),
-      h('span', { class: 'c-tgt', text: fmt(catSum(c, 'target')) }),
-      h('span', { class: 'c-bud', text: fmt(catSum(c, 'budgeted')) }) ]));
+      h('span', { class: 'c-tgt', text: '£' + fmt(catSum(c, 'target')) }),
+      h('span', { class: 'c-bud', text: '£' + fmt(catSum(c, 'budgeted')) }) ]));
     return blk;
   }
 
@@ -2197,7 +3736,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     grip.addEventListener('keydown', function (e) { itemKeyMove(e, it.id); });
     var names = state.locations.map(function (l) { return l.name; }).filter(Boolean);
     if (it.account && names.indexOf(it.account) < 0) names.push(it.account);
-    var loc = h('select', { class: 'loc-select c-loc' + (it.account ? '' : ' is-empty'), 'data-k': 'loc-' + it.id, id: 'loc-' + it.id, 'aria-label': 'Location for ' + (it.label || 'item'),
+    var loc = h('select', { class: 'loc-select c-loc' + (it.account ? '' : ' is-empty'), 'data-k': 'loc-' + it.id, id: 'loc-' + it.id, 'aria-label': 'Bank account for ' + (it.label || 'item'),
       onchange: function (e) { it.account = e.target.value; commit(); } },
       [h('option', { value: '', text: 'None' })].concat(names.map(function (n) { return h('option', { value: n, text: n }); })));
     loc.value = it.account || '';
@@ -2209,21 +3748,22 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
       loc,
       daySelect('day-' + it.id, it.payDay, function (v) { it.payDay = v; commit(); }, 'c-date', 'Payment date for ' + (it.label || 'item')),
       auto,
-      field('tgt-' + it.id, it.target, function (v) { it.target = v; commit(); }, { cls: 'cell num c-tgt', ph: '0', num: true, label: (isIncome ? 'Expected pay for ' : 'Last month for ') + (it.label || 'item') }),
-      field('bud-' + it.id, it.budgeted, function (v) { it.budgeted = v; if (it.investExtraId) { var ix = findInvestExtra(it.investExtraId); if (ix) ix.amount = v; } else if (it.investmentId) { var iv = findInvestment(it.investmentId); if (iv) iv.monthly = v; } else if (it.saveExtraId) { var sx = findSavingExtra(it.saveExtraId); if (sx) sx.amount = v; } else if (it.savingId) { var sv = findSaving(it.savingId); if (sv) sv.monthly = v; } else if (it.extraId) { var xx = findExtra(it.extraId); if (xx) xx.amount = v; } else if (it.debtId) { var dd = findDebt(it.debtId); if (dd) dd.monthly = v; } commit(); }, { cls: 'cell num c-bud', ph: '0', num: true, label: (isIncome ? 'Actual pay for ' : 'Budgeted for ') + (it.label || 'item') }),
-      btn('rm c-rm', 'Remove ' + (it.label || 'item'), function () { if (it.extraId) state.debtExtras = state.debtExtras.filter(function (y) { return y.id !== it.extraId; }); if (it.saveExtraId) state.savingExtras = state.savingExtras.filter(function (y) { return y.id !== it.saveExtraId; }); if (it.investExtraId) state.investExtras = state.investExtras.filter(function (y) { return y.id !== it.investExtraId; }); var ent = linkedEntity(it); if (ent) ent.monthly = ''; var f = findItem(it.id); f.c.items.splice(f.idx, 1); commit(); }, ['✕']));
+      field('tgt-' + it.id, it.target, function (v) { setBudgeted(it, v); }, { cls: 'cell num c-tgt', ph: '0', num: true, money: true, label: (isIncome ? 'Budgeted pay for ' : 'Budgeted for ') + (it.label || 'item') }),
+      field('bud-' + it.id, it.budgeted, function (v) { it.budgeted = v; commit(); }, { cls: 'cell num c-bud', ph: '0', num: true, money: true, label: (isIncome ? 'This pay for ' : 'This month for ') + (it.label || 'item') }),
+      btn('rm c-rm', 'Remove ' + (it.label || 'item'), function () { if (it.extraId) state.debtExtras = state.debtExtras.filter(function (y) { return y.id !== it.extraId; }); if (it.saveExtraId) state.savingExtras = state.savingExtras.filter(function (y) { return y.id !== it.saveExtraId; }); if (it.investExtraId) state.investExtras = state.investExtras.filter(function (y) { return y.id !== it.investExtraId; }); removeItemWithUndo(it); }, ['✕']));
+    decorateRow(row, it, isIncome);
     return row;
   }
 
   function recBox(t) {
     var expanded = state.recExpanded !== false;
     var box = withHi(h('section', { class: 'rec', id: 'tour-recommended' }), 'tour-recommended');
-    box.append(h('div', { class: 'rec-top' }, [h('span', { text: 'Recommended percentages' }),
+    box.append(h('div', { class: 'rec-top' }, [h('span', { text: 'Your split · how this month compares with the guidelines' }),
       btn('', expanded ? 'Collapse' : 'Expand', function () { set({ recExpanded: !expanded }); }, [expanded ? '▾' : '▸'])]));
     if (!expanded) return box;
     var table = h('div', { class: 'rec-table' });
     table.append(h('div', { class: 'rec-row headr' }, [h('span'), h('span', { text: 'Recommended' }), h('span', { text: 'My aim' }),
-      h('span', { text: 'Aim value' }), h('span', { text: 'Current value' }), h('span', { class: 'center', text: 'Reached' }), h('span')]));
+      h('span', { text: 'Aim in £' }), h('span', { text: 'This month' }), h('span', { class: 'center', text: 'Reached' }), h('span')]));
     var linkOpts = [];
     state.groups.forEach(function (g) {
       if (g.key === 'income') return;
@@ -2270,10 +3810,10 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
       h('div', { class: 'line target-line' }, [h('span', { class: 'k' }, ['Last month total']), h('span', { class: 'v', text: money(t.target) })]),
       h('div', { class: 'divider' }),
       h('div', { class: 'line' }, [h('span', { class: 'k', text: 'Take-home pay' }), h('span', { class: 'v', text: money(t.income) })]),
-      h('div', { class: 'line' }, [h('span', { class: 'k', text: 'Budgeted total' }), h('span', { class: 'v', text: money(t.allocated) })]),
-      h('div', { class: 'balance ' + (ok ? 'ok' : 'bad') }, [h('span', { class: 'k' }, ['Zero-based balance', h('small', { text: msg })]), h('span', { class: 'v', text: money(t.zero) })]),
+      h('div', { class: 'line' }, [h('span', { class: 'k', text: 'Planned total' }), h('span', { class: 'v', text: money(t.allocated) })]),
+      h('div', { class: 'balance ' + (ok ? 'ok' : 'bad') }, [h('span', { class: 'k' }, ['Left to plan', h('small', { text: msg })]), h('span', { class: 'v', text: money(t.zero) })]),
     ]);
-    var side = h('div', { class: 'sum-side' }, [h('div', { class: 'eyebrow', text: 'Total per location' })]);
+    var side = h('div', { class: 'sum-side' }, [h('div', { class: 'eyebrow', text: 'Per bank account' })]);
     var max = Math.max.apply(null, [1].concat(Object.values(t.byLoc), [t.unassigned]));
     var line = function (name, value, count, none, day) {
       return h('div', { class: 'loc-line' + (none ? ' none' : '') }, [
@@ -2284,8 +3824,8 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     state.groups.forEach(function (g) { if (g.key === 'income') return; g.categories.forEach(function (c) { c.items.forEach(function (it) { if (it.account) counts[it.account] = (counts[it.account] || 0) + 1; else noneCount++; }); }); });
     state.locations.forEach(function (l) { if (l.name) side.append(line(l.name, t.byLoc[l.name] || 0, counts[l.name] || 0, false, l.day)); });
     Object.keys(t.byLoc).forEach(function (n) { if (!state.locations.some(function (l) { return l.name === n; })) side.append(line(n, t.byLoc[n], counts[n] || 0)); });
-    if (noneCount) side.append(line('No location', t.unassigned, noneCount, true));
-    side.append(btn('side-link', 'Edit locations', function () { openOverlay('locations'); }, ['Edit locations →']));
+    if (noneCount) side.append(line('No account set', t.unassigned, noneCount, true));
+    side.append(btn('side-link', 'Edit bank accounts', function () { go('accounts'); }, ['Edit bank accounts →']));
     return withHi(h('section', { class: 'summary', id: 'tour-balance' }, [main, side]), 'tour-balance');
   }
 
@@ -2569,7 +4109,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
   }
   function targetsSub() {
     var done = state.targets.filter(function (x) { return x.done; }).length, doing = state.targets.filter(function (x) { return x.doing && !x.done; }).length;
-    return 'Money goals to work towards. ' + done + ' done, ' + doing + ' in progress.';
+    return 'Things you’re working towards, and notes to yourself. ' + done + ' done, ' + doing + ' in progress.';
   }
   function targetsBody() {
     var list = h('div', { class: 'sheet-list', 'data-drop-kind': 'target', 'data-list-id': 'targets' });
@@ -2582,13 +4122,13 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
         if (ni < 0 || ni >= state.targets.length) return; moveInList(state.targets, tg.id, ni); commit();
       });
       list.append(h('div', { class: 'sheet-row', 'data-row-id': tg.id }, [grip,
-        field('tg-' + tg.id, tg.label, function (v) { tg.label = v; commit(); }, { ph: 'e.g. Emergency fund at 1000', label: 'Target' }),
+        field('tg-' + tg.id, tg.label, function (v) { tg.label = v; commit(); }, { ph: 'e.g. Emergency fund at 1000', label: 'Checklist item' }),
         btn('toggle doing', 'Doing', function () { tg.doing = !tg.doing; commit(); }, ['Doing'], { 'aria-pressed': String(!!tg.doing) }),
         btn('toggle done', 'Done', function () { tg.done = !tg.done; commit(); }, ['Done'], { 'aria-pressed': String(!!tg.done) }),
         btn('rm', 'Remove target', function () { state.targets = state.targets.filter(function (x) { return x !== tg; }); commit(); }, ['✕']) ]));
     });
-    return h('div', {}, [list, btn('sheet-add', 'Add target', function () { state.targets.push({ id: uid('tgt'), label: '', doing: false, done: false }); commit(); }, ['+ Add target']),
-      h('div', { class: 'hint', text: 'Drag the grip to put your targets in order.' })]);
+    return h('div', {}, [list, btn('sheet-add', 'Add to checklist', function () { state.targets.push({ id: uid('tgt'), label: '', doing: false, done: false }); commit(); }, ['+ Add to checklist']),
+      h('div', { class: 'hint', text: 'Drag the grip to put your checklist in order.' })]);
   }
   function notesBody() {
     var list = h('div', { class: 'sheet-list' });
@@ -2604,17 +4144,17 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     var t = totals(), list = h('div', { class: 'sheet-list' });
     state.locations.forEach(function (l) {
       list.append(h('div', { class: 'sheet-row' }, [
-        field('locname-' + l.id, l.name, function (v) { setLocationName(l, v.trim()); }, { ph: 'Bank or account name', label: 'Location name' }),
-        h('label', { class: 'loc-day', for: 'locday-' + l.id }, [h('span', { text: 'Moves on' }), daySelect('locday-' + l.id, l.day, function (v) { l.day = v; commit(); }, '', 'Day money moves into ' + (l.name || 'this location'))]),
-        h('span', { class: 'loc-total', text: money(t.byLoc[l.name] || 0) }),
-        btn('rm', 'Remove location', function () { removeLocation(l); }, ['✕']) ]));
+        field('locname-' + l.id, l.name, function (v) { setLocationName(l, v.trim()); }, { ph: 'Bank or account name', label: 'Bank account name' }),
+        h('label', { class: 'loc-day', for: 'locday-' + l.id }, [h('span', { text: locDayLabel(l) }), daySelect('locday-' + l.id, l.day, function (v) { l.day = v; commit(); }, '', 'Day money moves into ' + (l.name || 'this location'))]),
+        locHow(l), h('span', { class: 'loc-total', text: money(t.byLoc[l.name] || 0) }),
+        btn('rm', 'Remove bank account', function () { removeLocation(l); }, ['✕']) ]));
     });
-    return h('div', {}, [list, btn('sheet-add', 'Add location', function () { state.locations.push({ id: uid('loc'), name: '' }); commit(); }, ['+ Add location']),
-      h('div', { class: 'hint', text: 'Set the day your money moves into each account automatically. Removing a location clears it from any items that used it.' })]);
+    return h('div', {}, [list, btn('sheet-add', 'Add bank account', function () { state.locations.push({ id: uid('loc'), name: '' }); commit(); }, ['+ Add bank account']),
+      h('div', { class: 'hint', text: 'Say which account your pay goes into, and how money gets to the others: by standing order, or moved by hand. PayStamp never connects to your bank. Removing an account clears it from any items that used it.' })]);
   }
   function recordsBody() {
     var recs = state.records.slice().sort(function (a, b) { return a.year !== b.year ? a.year - b.year : MONTHS.indexOf(a.month) - MONTHS.indexOf(b.month); });
-    if (!recs.length) return h('div', {}, [h('div', { class: 'empty', text: 'No months stamped yet. Hit STAMP at the bottom of the planner once you’re happy with a month’s numbers.' }), fbCard('records')]);
+    if (!recs.length) return h('div', {}, [h('div', { class: 'empty', text: 'No months stamped yet. Press Stamp at the top of your Monthly Planner once you’re happy with the numbers.' }), fbCard('records')]);
     var order = [], seen = {};
     state.groups.forEach(function (g) { g.categories.forEach(function (c) { c.items.forEach(function (it) { if (!seen[it.id]) { seen[it.id] = 1; order.push({ id: it.id, name: it.label || 'Untitled', color: g.color }); } }); }); });
     recs.forEach(function (r) { (r.items || []).forEach(function (it) { if (!seen[it.id]) { seen[it.id] = 1; order.push({ id: it.id, name: it.name, color: it.color || '#5A5266' }); } }); });
@@ -2623,10 +4163,10 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     grid.append(h('div', { class: 'rg-row rg-head', style: cols }, [h('div', { text: 'Item' })].concat(recs.map(function (r) { return h('div', { text: r.month + ' ' + r.year }); }))));
     order.forEach(function (o) {
       grid.append(h('div', { class: 'rg-row', style: cols + ';border-top:1px solid var(--line)' }, [h('div', {}, [h('span', { class: 'dot', style: 'background:' + o.color }), h('span', { style: 'font-weight:600', text: o.name })])]
-        .concat(recs.map(function (r) { var f = (r.items || []).find(function (x) { return x.id === o.id; }); return h('div', { text: fmt(f ? f.value : 0) }); }))));
+        .concat(recs.map(function (r) { var f = (r.items || []).find(function (x) { return x.id === o.id; }); return h('div', { text: '£' + fmt(f ? f.value : 0) }); }))));
     });
     [['Income', 'incomeTotal', '2px solid var(--ink)'], ['Allocated', 'allocatedTotal', '1px solid var(--line)'], ['Balance', 'balance', '1px solid var(--line)']].forEach(function (x) {
-      grid.append(h('div', { class: 'rg-row', style: cols + ';border-top:' + x[2] + ';font-weight:700' }, [h('div', { text: x[0] })].concat(recs.map(function (r) { return h('div', { text: fmt(r[x[1]]) }); }))));
+      grid.append(h('div', { class: 'rg-row', style: cols + ';border-top:' + x[2] + ';font-weight:700' }, [h('div', { text: x[0] })].concat(recs.map(function (r) { return h('div', { text: '£' + fmt(r[x[1]]) }); }))));
     });
     var ey = exportYear(), ys = recordYears();
     var yearSel = h('select', { class: 'pill-select year-pick', id: 'export-year', 'aria-label': 'Year to save', onchange: function (e) { set({ exportYear: e.target.value, exportMsg: null }); } },
@@ -2638,7 +4178,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
       canPickFile() ? btn('export-alt', 'Save to a different file', function () { saveRecordsToExcel(true); }, ['Save to a different file']) : null,
       h('span', { class: 'export-note', text: 'Each year gets its own file: ' + xlsxName(ey) }) ]);
     var msg = state.exportMsg ? h('div', { class: 'export-msg ' + state.exportMsg.kind, role: 'status', text: state.exportMsg.text }) : null;
-    return h('div', {}, [bar, msg, h('div', { class: 'rec-grid-wrap' }, [grid]), fbCard('records')]);
+    return h('div', {}, [bar, msg, recordsTable(recs), fbCard('records')]);
   }
 
   function buildTour() {
@@ -2752,15 +4292,15 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     }, ['+ Add debt'])]));
     card.append(h('div', { class: 'drow foot' }, [
       h('span', { class: 'd-name', text: 'Total' }),
-      h('span', { class: 'd-bal', text: fmt(total) }),
-      h('span', { class: 'd-min', text: fmt(sumItems(state.debts, 'min')) }),
-      h('span', { class: 'd-pay', text: fmt(state.debts.reduce(function (s, d) { return s + amt(debtMonthly(d)); }, 0)) }) ]));
+      h('span', { class: 'd-bal', text: '£' + fmt(total) }),
+      h('span', { class: 'd-min', text: '£' + fmt(sumItems(state.debts, 'min')) }),
+      h('span', { class: 'd-pay', text: '£' + fmt(state.debts.reduce(function (s, d) { return s + amt(debtMonthly(d)); }, 0)) }) ]));
     // Every debt is paid at least its minimum, even if its monthly payment isn't set yet.
     var curMonthly = state.debts.reduce(function (s, d) { return s + (debtLeft(d) > 0.005 ? Math.max(amt(debtMonthly(d)), amt(d.min)) : 0); }, 0);
     var leftAll = state.debts.reduce(function (s, d) { return s + debtLeft(d); }, 0);
     return h('div', {}, [orderPicker(), card, h('div', { class: 'debt-hint' }, [
       'Any debt with a ', h('b', { text: 'Monthly payment' }), ' shows in your Monthly Planner under Costs › Debt payments. When you stamp a month, what you budgeted for it there counts as paid. Restamping a month replaces it, so it’s never counted twice.' ]),
-      extrasSection(), freeSection(curMonthly, leftAll), whatIfSection(curMonthly, leftAll), fbCard('debt') ]);
+      freeSection(curMonthly, leftAll), whatIfSection(curMonthly, leftAll), fbCard('debt') ]);
   }
 
   function debtRow(d) {
@@ -2776,7 +4316,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     });
     var nm = d.name || 'debt', linked = findItem(debtItemId(d));
     var num = function (key, prop, label, onSet, value) {
-      return field(key + '-' + d.id, value !== undefined ? value : d[prop], function (v) { var old = d[prop]; d[prop] = v; if (onSet) onSet(old, v); commit(); }, { cls: 'cell num', ph: '0', num: true, label: label + ' for ' + nm });
+      return field(key + '-' + d.id, value !== undefined ? value : d[prop], function (v) { var old = d[prop]; d[prop] = v; if (onSet) onSet(old, v); commit(); }, { cls: 'cell num', ph: '0', num: true, money: !/APR|Interest/.test(label), label: label + ' for ' + nm });
     };
     var sw = h('button', { type: 'button', class: 'sw d-sw', role: 'switch', 'aria-checked': String(!!linked), 'aria-label': 'Show ' + nm + ' in the Monthly Planner',
       title: linked ? 'In your Monthly Planner (Costs › Debt payments)' : 'Add to your Monthly Planner',
@@ -2849,7 +4389,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
         btn('rm', 'Remove this extra payment', function () { state.debtExtras = state.debtExtras.filter(function (y) { return y !== x; }); commit(); }, ['✕']) ]));
     });
     return h('section', { class: 'dsec' }, [
-      h('div', { class: 'dsec-head' }, [h('h4', { text: 'Extra payments' }), h('p', { text: 'Paying a bit more this month? It goes into Extras in your planner for ' + plannerMonthKey() + '.' })]),
+      h('div', { class: 'dsec-head' }, [h('h4', { text: 'Extra payments' }), h('p', { text: 'Paying a bit more this month? It goes into Extras in your Monthly Planner for ' + plannerMonthKey() + '.' })]),
       h('div', { class: 'xbar' }, [sel, h('label', { class: 'xamt', for: 'f-x-amt' }, [h('span', { text: '£' }), amtIn]), btn('xadd', 'Add to planner', add, ['Add to planner'])]),
       list.children.length ? list : null ]);
   }
@@ -3021,14 +4561,14 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     }, ['+ Add savings'])]));
     card.append(h('div', { class: 'drow foot' }, [
       h('span', { class: 'd-name', text: 'Total' }),
-      h('span', { class: 'd-bal', text: fmt(goalAll) }),
-      h('span', { class: 'd-apr', text: fmt(state.savings.reduce(function (s2, sv) { return s2 + savedNow(sv); }, 0)) }),
-      h('span', { class: 'd-pay', text: fmt(state.savings.reduce(function (s2, sv) { return s2 + amt(savingMonthly(sv)); }, 0)) }) ]));
+      h('span', { class: 'd-bal', text: '£' + fmt(goalAll) }),
+      h('span', { class: 'd-apr', text: '£' + fmt(state.savings.reduce(function (s2, sv) { return s2 + savedNow(sv); }, 0)) }),
+      h('span', { class: 'd-pay', text: '£' + fmt(state.savings.reduce(function (s2, sv) { return s2 + amt(savingMonthly(sv)); }, 0)) }) ]));
     var cur = state.savings.reduce(function (s2, sv) { return s2 + (potLeft(sv) > 0.005 ? amt(savingMonthly(sv)) : 0); }, 0);
     var toGo = state.savings.reduce(function (s2, sv) { return s2 + potLeft(sv); }, 0);
     return h('div', {}, [card, h('div', { class: 'debt-hint' }, [
-      'Anything with a ', h('b', { text: 'Monthly saving' }), ' shows in your Monthly Planner under Investments & Savings › Savings. ', h('b', { text: 'Saved' }), ' is what your stamped Records show, plus anything you saved before PayStamp, minus anything you’ve used. Restamping a month replaces it, so it’s never counted twice.' ]),
-      savingExtrasSection(), efundSection(), previousSavingsSection(), savingsUsedSection(), saveWhatIf(cur), fbCard('savings') ]);
+      'Anything with a ', h('b', { text: 'Monthly saving' }), ' shows in your Monthly Planner under Investments & Savings › Savings. ', h('b', { text: 'Saved' }), ' is what your stamped months in Records show, plus anything you saved before PayStamp, minus anything you’ve used. Restamping a month replaces it, so it’s never counted twice.' ]),
+      efundSection(), previousSavingsSection(), savingsUsedSection(), saveWhatIf(cur), fbCard('savings') ]);
   }
 
   function savingRow(sv) {
@@ -3044,7 +4584,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     });
     var nm = sv.name || 'savings', linked = findItem(savingItemId(sv));
     var num = function (key, prop, label, onSet, value) {
-      return field(key + '-' + sv.id, value !== undefined ? value : sv[prop], function (v) { var old = sv[prop]; sv[prop] = v; if (onSet) onSet(old, v); commit(); }, { cls: 'cell num', ph: '0', num: true, label: label + ' for ' + nm });
+      return field(key + '-' + sv.id, value !== undefined ? value : sv[prop], function (v) { var old = sv[prop]; sv[prop] = v; if (onSet) onSet(old, v); commit(); }, { cls: 'cell num', ph: '0', num: true, money: !/APR|Interest/.test(label), label: label + ' for ' + nm });
     };
     var sw = h('button', { type: 'button', class: 'sw d-sw', role: 'switch', 'aria-checked': String(!!linked), 'aria-label': 'Show ' + nm + ' in the Monthly Planner',
       title: linked ? 'In your Monthly Planner (Investments & Savings › Savings)' : 'Add to your Monthly Planner',
@@ -3052,7 +4592,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     row.append(grip,
       field('sname-' + sv.id, sv.name, function (v) { sv.name = v; var f = findItem(savingItemId(sv)); if (f) f.item.label = v || 'Savings'; commit(); }, { cls: 'cell d-name', ph: 'e.g. Emergency fund', label: 'Savings name' }),
       h('div', { class: 'd-bal' }, [num('sgoal', 'goal', 'Goal')]),
-      h('span', { class: 'd-apr ro-num', title: savedTip(sv), text: fmt(savedNow(sv)) }),
+      h('span', { class: 'd-apr ro-num', title: savedTip(sv), text: '£' + fmt(savedNow(sv)) }),
       h('div', { class: 'd-min pct-wrap' }, [num('saer', 'aer', 'Interest rate'), '%']),
       h('div', { class: 'd-pay' }, [num('spay', 'monthly', 'Monthly saving', function (old, v) {
         var f = findItem(savingItemId(sv)); if (!f) return;
@@ -3137,7 +4677,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
         btn('rm', 'Remove this extra saving', function () { state.savingExtras = state.savingExtras.filter(function (y) { return y !== x; }); commit(); }, ['✕']) ]));
     });
     return h('section', { class: 'dsec' }, [
-      h('div', { class: 'dsec-head' }, [h('h4', { text: 'Extra savings' }), h('p', { text: 'Putting a bit more away this month? It goes into Extras in your planner for ' + plannerMonthKey() + '.' })]),
+      h('div', { class: 'dsec-head' }, [h('h4', { text: 'Extra savings' }), h('p', { text: 'Putting a bit more away this month? It goes into Extras in your Monthly Planner for ' + plannerMonthKey() + '.' })]),
       h('div', { class: 'xbar' }, [sel, h('label', { class: 'xamt', for: 'f-sx-amt' }, [h('span', { text: '£' }), amtIn]), btn('xadd', 'Add to planner', add, ['Add to planner'])]),
       list.children.length ? list : null ]);
   }
@@ -3289,13 +4829,13 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     }, ['+ Add investment'])]));
     card.append(h('div', { class: 'drow foot' }, [
       h('span', { class: 'd-name', text: 'Total' }),
-      h('span', { class: 'd-bal', text: fmt(inAll) }),
-      h('span', { class: 'd-apr', text: fmt(valAll) }),
-      h('span', { class: 'd-min', text: (up ? '+' : '−') + fmt(Math.abs(gAll)) }),
-      h('span', { class: 'd-pay', text: fmt(state.investments.reduce(function (t, iv) { return t + amt(invMonthly(iv)); }, 0)) }) ]));
+      h('span', { class: 'd-bal', text: '£' + fmt(inAll) }),
+      h('span', { class: 'd-apr', text: '£' + fmt(valAll) }),
+      h('span', { class: 'd-min', text: (up ? '+£' : '−£') + fmt(Math.abs(gAll)) }),
+      h('span', { class: 'd-pay', text: '£' + fmt(state.investments.reduce(function (t, iv) { return t + amt(invMonthly(iv)); }, 0)) }) ]));
     return h('div', {}, [card, h('div', { class: 'debt-hint' }, [
-      h('b', { text: 'Put in' }), ' is what your stamped Records show, plus anything invested before PayStamp, minus anything sold or withdrawn. Type ', h('b', { text: 'Worth now' }), ' from your provider’s app whenever you check it; money you put in afterwards is added on top. Anything with a ', h('b', { text: 'Monthly' }), ' amount shows in your planner under Investments & Savings › Investments.' ]),
-      invExtrasSection(), invBeforeSection(), invOutSection(), invWhatIf(), fbCard('investments') ]);
+      h('b', { text: 'Put in' }), ' is what your stamped months in Records show, plus anything invested before PayStamp, minus anything sold or withdrawn. Type ', h('b', { text: 'Worth now' }), ' from your provider’s app whenever you check it; money you put in afterwards is added on top. Anything with a ', h('b', { text: 'Monthly' }), ' amount shows in your Monthly Planner under Investments & Savings › Investments.' ]),
+      invBeforeSection(), invOutSection(), invWhatIf(), fbCard('investments') ]);
   }
 
   function invRow(iv) {
@@ -3319,14 +4859,14 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
         field('iname-' + iv.id, iv.name, function (v) { iv.name = v; var f = findItem(invItemId(iv)); if (f) f.item.label = v || 'Investment'; commit(); }, { cls: 'cell', ph: 'e.g. Stocks & Shares ISA', label: 'Investment name' }),
         h('button', { type: 'button', class: 'isa-mark', 'aria-pressed': String(!!iv.isa), title: iv.isa ? 'Marked as a Stocks & Shares ISA' : 'Mark as a Stocks & Shares ISA',
           onclick: function () { iv.isa = !iv.isa; commit(); } }, [iv.isa ? '✓ S&S ISA' : '+ S&S ISA']) ]),
-      h('span', { class: 'd-bal ro-num', title: 'Before PayStamp ' + money(amt(iv.before)) + ' + stamped months ' + money(invStamped(iv)) + (out ? ' − sold/withdrawn ' + money(out) : ''), text: fmt(inv) }),
-      h('div', { class: 'd-apr worth-cell', 'data-tip': worthTip(iv) }, [field('ival-' + iv.id, iv.value === '' ? '' : String(r2(val)), function (v) { iv.value = v; iv.valueBase = String(invested(iv)); iv.checkedAt = Date.now(); commit(); }, { cls: 'cell num', ph: fmt(inv), num: true, label: 'Worth now for ' + nm }), staleDot(iv)]),
+      h('span', { class: 'd-bal ro-num', title: 'Before PayStamp ' + money(amt(iv.before)) + ' + stamped months ' + money(invStamped(iv)) + (out ? ' − sold/withdrawn ' + money(out) : ''), text: '£' + fmt(inv) }),
+      h('div', { class: 'd-apr worth-cell', 'data-tip': worthTip(iv) }, [field('ival-' + iv.id, iv.value === '' ? '' : String(r2(val)), function (v) { iv.value = v; iv.valueBase = String(invested(iv)); iv.checkedAt = Date.now(); commit(); }, { cls: 'cell num', ph: moneyShow(inv), num: true, money: true, label: 'Worth now for ' + nm }), staleDot(iv)]),
       gainEl('d-min', val - inv, inv),
       h('div', { class: 'd-pay' }, [field('ipay-' + iv.id, invMonthly(iv), function (v) {
         iv.monthly = v; var f = findItem(invItemId(iv));
         if (f) { if (!f.item.target || f.item.target === f.item.budgeted) f.item.target = v; f.item.budgeted = v; }
         commit();
-      }, { cls: 'cell num', ph: '0', num: true, label: 'Monthly for ' + nm })]),
+      }, { cls: 'cell num', ph: '0', num: true, money: true, label: 'Monthly for ' + nm })]),
       btn('rm d-rm', 'Remove ' + nm, function () {
         removeInvFromPlanner(iv);
         state.investments = state.investments.filter(function (x) { return x !== iv; });
@@ -3442,7 +4982,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
         btn('rm', 'Remove this extra investment', function () { state.investExtras = state.investExtras.filter(function (y) { return y !== x; }); commit(); }, ['✕']) ]));
     });
     return h('section', { class: 'dsec' }, [
-      h('div', { class: 'dsec-head' }, [h('h4', { text: 'Extra investments' }), h('p', { text: 'Putting a bit more in this month? It goes into Extras in your planner for ' + plannerMonthKey() + '.' })]),
+      h('div', { class: 'dsec-head' }, [h('h4', { text: 'Extra investments' }), h('p', { text: 'Putting a bit more in this month? It goes into Extras in your Monthly Planner for ' + plannerMonthKey() + '.' })]),
       h('div', { class: 'xbar' }, [sel, h('label', { class: 'xamt', for: 'f-ix-amt' }, [h('span', { text: '£' }), amtIn]), btn('xadd', 'Add to planner', add, ['Add to planner'])]),
       list.children.length ? list : null ]);
   }
@@ -3460,7 +5000,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     [[state.debts, debtItemId, addDebtToPlanner], [state.savings, savingItemId, addSavingToPlanner], [state.investments, invItemId, addInvToPlanner]].forEach(function (k) {
       (k[0] || []).forEach(function (e) {
         var f = findItem(k[1](e)), m = e.monthly || '';
-        if (f) { if (f.item.budgeted !== m) { if (!f.item.target || f.item.target === f.item.budgeted) f.item.target = m; f.item.budgeted = m; } }
+        if (f) { var it = f.item; if (it.syncM === undefined) it.syncM = m; if (it.syncM !== m) { if (amt(it.budgeted) === amt(it.target)) it.budgeted = m; it.target = m; it.syncM = m; } }
         else if (amt(m) > 0) k[2](e);
       });
     });
@@ -3468,8 +5008,8 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
   function linkTag(it) {
     var page = it.debtId ? 'Debt' : it.savingId ? 'Savings' : it.investmentId ? 'Investments' : null;
     if (!page) return null;
-    var tag = h('button', { type: 'button', class: 'link-tag', 'data-tip': 'Linked to your ' + page + ' page. Changing it here changes it there too.', 'aria-label': 'Linked to your ' + page + ' page', text: page });
-    tag.addEventListener('click', function () { tag.classList.toggle('tip-on'); setTimeout(function () { tag.classList.remove('tip-on'); }, 2500); });
+    var tag = h('button', { type: 'button', class: 'link-tag', 'data-tip': 'Linked to your ' + page + ' page. Click to open it.', 'aria-label': 'Open your ' + page + ' page', html: linkIcon(page) });
+    tag.addEventListener('click', function () { go(page.toLowerCase()); });
     return tag;
   }
 
@@ -3495,7 +5035,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
   function openFeedback(area) {
     state.fbFrom = state.overlay; state.fbSent = false; state.fbErr = null;
     if (!state.fbDraft) state.fbDraft = { kind: 'suggestion', message: '', contactOk: true };
-    state.fbDraft.area = area || (['debt', 'savings', 'investments', 'records'].indexOf(state.overlay) > -1 ? state.overlay : 'planner');
+    state.fbDraft.area = area || (['debt', 'savings', 'investments'].indexOf(curPage()) > -1 ? curPage() : curPage() === 'history' ? 'records' : 'planner');
     set({ overlay: 'feedback', openMenu: null });
     setTimeout(function () { var t = document.getElementById('f-fb-text'); if (t) t.focus(); }, 60);
   }
@@ -3546,29 +5086,41 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
 
   /* ---------- what's new ----------
      Newest first. Add an entry at the top for each release; the banner shows until it's seen. */
+  /* What's new: one simple list of everything added in PayStamp 3, grouped by area.
+     WN[0].version is what the "New" banner checks, so bump it with each release. */
   var WN = [
-    { version: '3.2', date: '5 October 2026', title: 'Savings goal plans and a better What if', items: [
-      'Savings: the What if Calculator now works out what to save each month. Type a goal and a time, or pick one of your savings, then make it your monthly saving in one tap.',
-      'Debt: the What if Calculator is folded away until you open it. Test one debt or all of them, and add as many what ifs as you like to compare.',
-      'Planner: the Target column is now called Last Month.',
-      'Tab, and the up and down arrow keys, move straight down a column.',
-      'Passwords: show what you’ve typed, and type a new password twice to check it.' ] },
-    { version: '3.0', date: '3 October 2026', title: 'Debt, Savings and Investments', items: [
-      'New Debt, Savings and Investments pages, in the menu at the top left. They link straight into your planner.',
-      'Stamping a month now pays down your debts and adds to your savings and investments.',
-      'Debt-free date, Snowball or Avalanche ordering, and What if Calculators to plan ahead.',
-      'Collect milestone stamps, and the first 100 users become numbered founders.',
-      'Payment dates, transfer days for each bank, and percentages on every category.',
-      'Send us ideas or report a problem with the yellow Suggestions button.' ] },
-    { version: '2.1', date: '27 September 2026', title: 'A home page for PayStamp', items: [
-      'A new home page explaining how PayStamp works, for anyone who isn’t signed in yet.',
-      'People already signed in go straight to their planner.' ] },
-    { version: '2.0', date: 'September 2026', title: 'The redesigned planner', items: [
-      'Edit any name or amount with one click.',
-      'Drag items to reorder them or move them to another category.',
-      'Targets, Notes and Locations moved into the menu at the top right.',
-      'Save your Records to Excel, one file per year.' ] } ];
-  function openWhatsNew() { state.seenWhatsNew = WN[0].version; openOverlay('whatsnew'); }
+    { version: '3.3', date: '7 October 2026', title: 'Everything new in PayStamp 3', items: [] } ];
+  var WN_SECTIONS = [
+    { icon: 'debt', title: 'Debt', items: [
+      'Every debt in one place: balance, interest, minimum and what you pay each month.',
+      'Your debt-free date, worked out from your plan and updated each time you stamp.',
+      'Pay off in your own order, smallest first (Snowball) or highest interest first (Avalanche).',
+      'What if Calculator: see how much sooner you’re debt-free if you pay a bit more.' ] },
+    { icon: 'savings', title: 'Savings', items: [
+      'Pots for everything you’re saving towards, each with a goal and an interest rate.',
+      'A ready-by date for each pot. Tap one to see what’s left and how to get there sooner.',
+      'Emergency fund tracking, with a starter £1,000 milestone.',
+      'What if Calculator: what to save each month to reach a goal by a date.' ] },
+    { icon: 'investments', title: 'Investments', items: [
+      'What you’ve put in, what it’s worth now and how much it’s grown.',
+      'Mark your ISAs, and get a nudge when a value needs updating.',
+      'What if Calculator: see what an investment could grow to.' ] },
+    { icon: 'plan', title: 'Monthly Planner', items: [
+      'Budgeted and This Month for every line: your plan, and what’s actually happening.',
+      'The Extras box works out what to send by hand, with a Sent tick for each.',
+      'Totals, what’s left to allocate and how much goes to each bank account.',
+      'Debt, Savings and Investments link straight into your plan.',
+      'Amounts shown as money, your own currency symbol, payment days and Undo.' ] },
+    { icon: 'history', title: 'Stamping and Records', items: [
+      'A quick check before you stamp, and stamped months turn green.',
+      'Records as one table, month by month, showing what changed.',
+      'Save your Records to Excel, one file per year.',
+      'Collect milestone stamps, and the first 100 people become numbered founders.' ] },
+    { icon: 'help', title: 'Getting started', items: [
+      'Set up your own plan in four quick steps, or explore an example month first.',
+      'One simple menu: Debt, Savings and Investments along the top, everything else under More.',
+      'Send ideas or report a problem from Suggestions on any page.' ] } ];
+  function openWhatsNew() { go('help'); }
   function whatsNewBanner() {
     if (state.seenWhatsNew === WN[0].version || state.introOpen) return null;
     return h('div', { class: 'wn-banner', role: 'status' }, [
@@ -3612,7 +5164,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
       if (base[it.id] == null || base[it.id] !== (it.label || '') + '|' + amt(it.budgeted)) changes++;
     }); }); });
     Object.keys(base).forEach(function (id) { if (!seen[id]) changes++; });
-    return { ok: t.income > 0 && Math.abs(t.income - 1900) > 0.005 && changes >= 3 && Math.abs(t.zero) < 0.01 };
+    return { ok: t.income > 0 && Math.abs(t.income - 1900) > 0.005 && Math.abs(t.income - 2050) > 0.005 && changes >= 3 && Math.abs(t.zero) < 0.01 };
   }
   function claimFounder(label) {
     var F = state.founder, P = window.PayStamp || {};
@@ -3782,7 +5334,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     var done = function () { state.pendingStamps = []; set({ overlay: null }); };
     return h('div', { class: 'f-welcome' }, [
       h('div', { class: 'ns-row' }, keys.map(function (k) { return h('div', { class: 'ns-item' }, [h('span', { class: 'f-big-stamp ns', html: stampSVG(k) }), h('b', { text: STAMP[k].name })]); })),
-      h('p', { text: keys.length > 1 ? 'They’ve been added to the top of your planner, next to PayStamp.' : 'It’s been added to the top of your planner, next to PayStamp.' }),
+      h('p', { text: keys.length > 1 ? 'They’ve been added to the top of your Monthly Planner.' : 'It’s been added to the top of your Monthly Planner.' }),
       h('div', { class: 'sheet-actions' }, [btn('fb-send', 'Done', done, ['Done'])]) ]);
   }
 
@@ -3815,7 +5367,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
         h('li', { text: 'Founders get perks as PayStamp grows.' }),
         h('li', {}, ['Invite 3 people who become founders, and you become an ', h('b', { text: 'Elite Founder' }), '. Elite places are rare, and they close when the 100 are gone.']) ]),
       F.number ? h('p', { class: 'f-you', text: 'You’re Founding Member #' + F.number + (F.elite ? ' and Elite Founding Member #' + F.eliteNumber : '') + '.' })
-        : h('p', { class: 'f-hint', text: 'To get your number: plan your own month until the balance shows £0, then press Stamp.' }),
+        : h('p', { class: 'f-hint', text: 'To get your number: plan your own month until it adds up to exactly your pay, then press Stamp.' }),
       h('div', { class: 'f-counter' }, [h('b', { text: String(F.placesLeft) }), ' founding places left']),
       h('div', { class: 'sheet-actions' }, [btn('fb-send', 'Invite friends', function () { openOverlay('invites'); }, ['Invite friends'])]) ]);
   }
@@ -3830,7 +5382,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
       h('span', { class: 'f-big-stamp', html: founderStampSVG(F.number) }),
       h('h4', { text: 'Founding Member #' + F.number }),
       F.since ? h('p', { class: 'f-hint', text: 'Since ' + F.since }) : null,
-      h('p', { text: 'You’re one of PayStamp’s first 100 users. Your stamp now sits next to PayStamp at the top of your planner.' }),
+      h('p', { text: 'You’re one of PayStamp’s first 100 users. Your stamp now sits at the top of your Monthly Planner.' }),
       h('div', { class: 'sheet-actions' }, [btn('fb-send', 'Done', function () { set({ overlay: (state.pendingStamps || []).length ? 'newStamps' : null }); }, ['Done']), btn('btn-t', 'What’s a founder?', function () { openOverlay('founderInfo'); }, ['What’s a founder?'])]) ]);
   }
   var qrLoad = null;
@@ -3983,6 +5535,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     syncSavingExtras();
     syncInvestExtras();
     if (dropExampleStamps()) save();
+    var hp = (location.hash || '').slice(1); if (PAGE_INFO[hp]) state.page = hp;
     render();
   }
   window.PlannerApp = { start: start, savedKeys: SAVED_KEYS };
