@@ -3,7 +3,7 @@
    The last copy is kept so PayStamp still opens without signal. Your plan itself always
    loads from your account; nothing about it is stored here.
    Requests to other sites (Supabase, fonts) are left alone. */
-var CACHE = 'paystamp-app-3.4';
+var CACHE = 'paystamp-app-3.4.1';
 var SHELL = ['/', '/manifest.webmanifest', '/icon-192.png', '/icon-512.png', '/apple-touch-icon.png'];
 
 self.addEventListener('install', function (e) {

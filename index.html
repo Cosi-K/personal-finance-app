@@ -280,7 +280,10 @@ body.dragging,body.dragging *{cursor:grabbing!important;user-select:none!importa
   .page{padding-top:28px}
   .head{padding-inline:50px}
   .group-head{padding:0 16px}.group-head h2{font-size:22px}
-  .row{grid-template-columns:16px minmax(0,1fr) 46px 32px 56px 56px 20px;column-gap:5px;padding:0 6px 0 4px}
+  .row{grid-template-columns:16px minmax(0,1fr) 48px 28px 66px 66px 18px;column-gap:4px;padding:0 6px 0 4px}
+  .item-row .c-tgt,.item-row .c-bud{font-size:13px;padding-inline:4px}
+  .colhead .qtip{display:none}.colhead .c-auto{visibility:hidden}.colhead span{font-size:8.5px;letter-spacing:.02em}
+  .group.inc-loc .item-row .c-date{grid-column:3 / 5;justify-self:stretch}.group.inc-loc .item-row .pay-btn{font-size:11.5px;padding:4px 6px;overflow:hidden;text-overflow:ellipsis}
   .c-loc{grid-column:2}.c-date{grid-column:3}.c-auto{grid-column:4}.c-tgt{grid-column:5}.c-bud{grid-column:6}.c-rm{grid-column:7}
   .item-row{padding-block:4px 6px;row-gap:2px}
   .item-row .c-h{grid-row:1 / span 2}
@@ -1587,6 +1590,13 @@ body.has-fbar .overlay{padding-top:142px}
 @media (max-width:640px){.cp-goals .cp-card-grid.cp-3>:first-child{grid-column:1 / -1}}
 .cp-inv-tot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;font-size:13.5px;color:#4A4356;padding:2px 4px}
 .cp-card-grid.cp-3 .cp-of{display:flex;gap:6px;min-width:0}.cp-card-grid.cp-3 .cp-of .cp-bt{min-width:0;flex:1}
+.pay-btn{border:1px dashed #CFC7B8;background:#fff;border-radius:999px;padding:5px 10px;font:inherit;font-size:12.5px;font-weight:700;color:#4A4356;cursor:pointer;white-space:nowrap;justify-self:center}.pay-btn:hover{border-color:#7E2A55;color:#7E2A55}.pay-btn.empty{color:#9A3A30;border-color:#E2A39B}
+.loc-pays{display:flex;gap:6px;flex-wrap:wrap}
+.pay-sum{display:flex;flex-direction:column;gap:6px}.pay-sum-row{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 12px}.pay-sum-row>div{flex:1;display:flex;flex-direction:column;gap:2px;min-width:0}.pay-sum-row small{font-size:12.5px;color:#6B6478}.pay-sum-row .cp-tag{margin-left:6px}
+.pl-main{margin-top:6px;align-items:flex-start}.pl-main span{font-size:13.5px;line-height:1.45}
+@media (max-width:370px){.row{grid-template-columns:16px minmax(0,1fr) 46px 26px 58px 58px 16px}.item-row .c-tgt,.item-row .c-bud{font-size:12.5px}}
+.cp-calc-mode{margin:2px 0 4px}.cp-calc-row>.cp-field:has(.cp-by){grid-column:1 / -1;flex:1 1 100%}.cp-by select{min-width:90px;max-width:160px}.cp-by{display:flex;gap:6px}.cp-by select{flex:1;min-width:0}
+.cp-email-fixed{cursor:default;background:#FBF8EE}.cp-email-fixed .cp-auto-box{background:#1E6B47;border-color:#1E6B47;color:#fff}.cp-email-list.off .cp-email:not(.on){opacity:.85}
 .cp-email-main{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px}.cp-email-main>div{flex:1;display:flex;flex-direction:column;gap:2px;min-width:0}.cp-email-main small{font-size:13px;color:#6B6478;line-height:1.45}.cp-email-main .sw{flex:none}.cp-email-main .sw[aria-checked="true"]{background:#1E6B47}
 .fb-slim{display:flex;align-items:center;gap:12px;width:100%;margin-top:18px;border:1px solid var(--line);background:#fff;border-radius:14px;padding:10px 14px;font:inherit;text-align:left;color:var(--ink2);cursor:pointer}
 .fb-slim .fb-card-ic{width:30px;height:30px;background:#F5ECF1;color:#7E2A55}.fb-slim .fb-card-ic svg{width:16px;height:16px}
@@ -1659,7 +1669,7 @@ body.has-fbar .overlay{padding-top:142px}
 @media (max-width:560px){.cp-debt-row{grid-template-columns:1fr 1fr}}
 .debt-budget{display:flex;flex-direction:column;gap:6px}
 .debt-budget .cp-sub{font-size:13px;color:var(--muted);line-height:1.45}
-.debt-budget-sec{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px}
+.dsec.debt-budget-sec{margin:16px 0 18px;}.debt-budget-sec{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 18px}
 .d-auto{display:inline-flex;align-items:center;justify-content:flex-end;color:var(--ink2);font-weight:600;background:var(--sand);border-radius:8px;padding:6px 10px}
 .plan-steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
 .plan-steps li{display:flex;gap:10px;align-items:flex-start;background:var(--paper);border:1px solid #EFE9DA;border-radius:12px;padding:10px 12px}
@@ -3239,8 +3249,9 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
   function payDateIn(r, y, m) {
     var last = new Date(y, m + 1, 0).getDate(), d;
     if (r.mode === 'date') {
-      if (!state.payday) return null;
-      d = new Date(y, m, state.payday === 'last' ? last : Math.min(Number(state.payday), last));
+      var pd = r.day !== undefined ? r.day : state.payday;
+      if (!pd) return null;
+      d = new Date(y, m, pd === 'last' ? last : Math.min(Number(pd), last));
       return r.weekendBefore ? backToFriday(d) : d;
     }
     if (r.mode === 'weekday') {
@@ -3250,8 +3261,8 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     }
     return null;
   }
-  function nextPayDate() {
-    var r = payRule(), t = today0();
+  function nextPayDate(rule) {
+    var r = rule || payRule(), t = today0();
     if (r.mode === 'varies') return null;
     if (r.mode === 'repeat') {
       var a = parseYmd(r.anchor), step = Number(r.every) || 14; if (!a) return null;
@@ -3278,17 +3289,42 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     if (r.mode === 'date') return 'Payday in ' + n + ' days';
     return (r.mode === 'repeat' ? 'Next pay ' : 'Payday ') + shortDate(d);
   }
-  function payRuleText() {
-    var r = payRule();
+  function payRuleText(rule) {
+    var r = rule || payRule(), pd = r.day !== undefined ? r.day : state.payday;
     if (r.mode === 'varies') return 'It varies';
     if (r.mode === 'repeat') return 'Every ' + ({ 7: 'week', 14: '2 weeks', 28: '4 weeks' }[r.every] || '2 weeks');
     if (r.mode === 'weekday') return (r.nth === 'last' || !r.nth ? 'Last ' : ordinal(r.nth) + ' ') + (r.dow === 'work' ? 'working day' : DOW[r.dow == null ? 4 : r.dow]) + ' of the month';
-    return state.payday ? 'The ' + (state.payday === 'last' ? 'last day' : ordinal(state.payday)) + ' of the month' : '';
+    return pd ? 'The ' + (pd === 'last' ? 'last day' : ordinal(pd)) + ' of the month' : '';
+  }
+  /* ---------- v3.4.1: each pay line has its own payday ----------
+     A pay line's rule lives on the line (it.payRule; the date for "same date" is it.payDay, the
+     planner's Paid on). The main pay (ticked, or else the biggest) drives the countdown, the payday
+     banner and the payday email: it is copied to state.payRule / state.payday, which the rest of
+     PayStamp already reads. Accounts with no pay line simply have no payday. */
+  function payLines() { var g = findGroup('income'); return g ? g.categories.reduce(function (a, c) { return a.concat(c.items); }, []) : []; }
+  function mainPayLine() {
+    var ls = payLines(); if (!ls.length) return null;
+    return ls.filter(function (it) { return it.mainPay; })[0] || ls.reduce(function (b, it) { return amt(it.target || it.budgeted) > amt(b.target || b.budgeted) ? it : b; }, ls[0]);
+  }
+  function lineRule(it) { return Object.assign({ mode: 'date', weekendBefore: true }, it.payRule || {}, { day: it.payDay || '' }); }
+  function lineRuleShort(it) {
+    var r = lineRule(it);
+    if (r.mode === 'varies') return 'Varies';
+    if (r.mode === 'repeat') return 'Every ' + ({ 7: 'week', 14: '2 wks', 28: '4 wks' }[r.every] || '2 wks');
+    if (r.mode === 'weekday') return (r.nth === 'last' || !r.nth ? 'Last ' : ordinal(r.nth) + ' ') + (r.dow === 'work' ? 'work day' : DOW[r.dow == null ? 4 : r.dow].slice(0, 3));
+    return r.day ? (r.day === 'last' ? 'Last day' : ordinal(r.day)) : '';
+  }
+  function syncPaydays() {
+    var main = mainPayLine(); if (!main) return;
+    if (!main.payRule) { var old = Object.assign({}, state.payRule || { mode: 'date', weekendBefore: true }); delete old.day; main.payRule = old; if (!main.payDay && state.payday) main.payDay = state.payday; }
+    var r = Object.assign({}, main.payRule); delete r.day;
+    if (JSON.stringify(r) !== JSON.stringify(state.payRule)) state.payRule = r;
+    if ((main.payDay || '') !== (state.payday || '')) state.payday = main.payDay || '';
   }
   // "It varies": add a payment to This Pay on the main income line, straight from the greeting.
   function addPayment(v) {
     var n = amt(v); if (!(n > 0)) return;
-    var inc = findGroup('income'), it = inc && inc.categories[0] && inc.categories[0].items[0];
+    var it = mainPayLine();
     if (!it) return;
     var before = it.budgeted;
     it.budgeted = String(Math.round((amt(it.budgeted) + n) * 100) / 100);
@@ -3313,15 +3349,16 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
       !name || (!pt && !varies) ? btn('hello-add', 'Add your name and payday', function () { go('account'); }, [!name && !pt && !varies ? 'Add your name and payday' : !name ? 'Add your name' : 'Add your payday']) : null ]);
   }
   // Your details › How are you paid?
-  function payRuleEditor() {
-    var r = payRule(), mode = r.mode;
+  function payRuleEditor(it) {
+    var r = lineRule(it), mode = r.mode, k = 'pr-' + it.id;
+    var setRule = function (patch) { var base = Object.assign({ mode: 'date', weekendBefore: true }, it.payRule || {}); it.payRule = Object.assign(base, patch); delete it.payRule.day; commit(); };
     var opts = [['date', 'Same date every month', 'Like the 25th, or the last day of the month'], ['weekday', 'A set day in the month', 'Like the last Thursday, or the last working day'],
       ['repeat', 'Every week, 2 weeks or 4 weeks', 'Shifts, agency work, some hourly jobs'], ['varies', 'It varies', 'Self-employed, or paid at different times']];
-    var choices = h('div', { class: 'pr-opts', role: 'radiogroup', 'aria-label': 'How are you paid?' }, opts.map(function (o) {
+    var choices = h('div', { class: 'pr-opts', role: 'radiogroup', 'aria-label': 'How is ' + (it.label || 'this pay') + ' paid?' }, opts.map(function (o) {
       return h('button', { type: 'button', class: 'su-opt' + (mode === o[0] ? ' on' : ''), role: 'radio', 'aria-checked': String(mode === o[0]), onclick: function () {
         var patch = { mode: o[0] };
-        if (o[0] === 'repeat' && !r.anchor) { var nx = nextPayDate(); patch.anchor = ymd(nx || today0()); patch.every = r.every || 14; }
-        setPayRule(patch);
+        if (o[0] === 'repeat' && !r.anchor) { var nx = nextPayDate(r); patch.anchor = ymd(nx || today0()); patch.every = r.every || 14; }
+        setRule(patch);
       } }, [h('i', { class: 'su-rad' }), h('div', {}, [h('b', { text: o[1] }), h('span', { text: o[2] })])]);
     }));
     var sel = function (id, label, val, list, on) {
@@ -3330,24 +3367,53 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
       e.value = String(val); return e;
     };
     var detail;
-    if (mode === 'date') detail = h('label', { class: 'pr-line', for: 'me-payday' }, ['Paid on the', daySelect('me-payday', state.payday, function (v) { set({ payday: v }); }, 'pr-sel', 'Payday'), 'of the month']);
+    if (mode === 'date') detail = h('label', { class: 'pr-line', for: k + '-day' }, ['Paid on the', daySelect(k + '-day', it.payDay, function (v) { it.payDay = v; commit(); }, 'pr-sel', 'Payday'), 'of the month']);
     else if (mode === 'weekday') detail = h('div', { class: 'pr-line' }, ['Paid on the',
-      sel('pr-nth', 'Which one', r.nth || 'last', [['last', 'last'], ['1', 'first'], ['2', 'second'], ['3', 'third'], ['4', 'fourth']], function (v) { setPayRule({ nth: v }); }),
-      sel('pr-dow', 'Day', r.dow == null ? 4 : r.dow, [['work', 'working day'], [1, 'Monday'], [2, 'Tuesday'], [3, 'Wednesday'], [4, 'Thursday'], [5, 'Friday'], [6, 'Saturday'], [0, 'Sunday']], function (v) { setPayRule({ dow: v === 'work' ? 'work' : Number(v) }); }),
+      sel(k + '-nth', 'Which one', r.nth || 'last', [['last', 'last'], ['1', 'first'], ['2', 'second'], ['3', 'third'], ['4', 'fourth']], function (v) { setRule({ nth: v }); }),
+      sel(k + '-dow', 'Day', r.dow == null ? 4 : r.dow, [['work', 'working day'], [1, 'Monday'], [2, 'Tuesday'], [3, 'Wednesday'], [4, 'Thursday'], [5, 'Friday'], [6, 'Saturday'], [0, 'Sunday']], function (v) { setRule({ dow: v === 'work' ? 'work' : Number(v) }); }),
       'of the month']);
     else if (mode === 'repeat') {
-      var dIn = h('input', { type: 'date', class: 'pr-sel', id: 'pr-anchor', 'data-k': 'pr-anchor', 'aria-label': 'A recent or upcoming payday', onchange: function (e) { if (parseYmd(e.target.value)) setPayRule({ anchor: e.target.value }); } });
+      var dIn = h('input', { type: 'date', class: 'pr-sel', id: k + '-anchor', 'data-k': k + '-anchor', 'aria-label': 'A recent or upcoming payday', onchange: function (e) { if (parseYmd(e.target.value)) setRule({ anchor: e.target.value }); } });
       dIn.value = r.anchor || '';
       detail = h('div', { class: 'pr-stack' }, [
-        h('div', { class: 'pr-line' }, ['Every', sel('pr-every', 'How often', r.every || 14, [[7, 'week'], [14, '2 weeks'], [28, '4 weeks']], function (v) { setPayRule({ every: Number(v) }); })]),
-        h('label', { class: 'pr-line', for: 'pr-anchor' }, ['One of your paydays', dIn]) ]);
+        h('div', { class: 'pr-line' }, ['Every', sel(k + '-every', 'How often', r.every || 14, [[7, 'week'], [14, '2 weeks'], [28, '4 weeks']], function (v) { setRule({ every: Number(v) }); })]),
+        h('label', { class: 'pr-line', for: k + '-anchor' }, ['One of your paydays', dIn]) ]);
     } else detail = h('p', { class: 'pr-note' }, ['No countdown. When money comes in, tap ', h('b', { text: '+ Add a payment' }), ' at the top of your planner and it’s added to This Pay.']);
-    var wk = mode === 'date' || mode === 'repeat' ? h('label', { class: 'pr-wk', for: 'pr-weekend' }, [
-      h('input', { type: 'checkbox', id: 'pr-weekend', checked: r.weekendBefore !== false ? true : null, onchange: function (e) { setPayRule({ weekendBefore: e.target.checked }); } }),
+    var wk = mode === 'date' || mode === 'repeat' ? h('label', { class: 'pr-wk', for: k + '-weekend' }, [
+      h('input', { type: 'checkbox', id: k + '-weekend', checked: r.weekendBefore !== false ? true : null, onchange: function (e) { setRule({ weekendBefore: e.target.checked }); } }),
       h('span', { text: 'If it lands on a weekend, I’m paid the Friday before' }) ]) : null;
-    var nx = nextPayDate();
-    return h('div', { class: 'pr' }, [h('span', { class: 'pr-k', text: 'How are you paid?' }), choices,
-      h('div', { class: 'pr-box' }, [detail, wk, nx ? h('p', { class: 'pr-next' }, ['Next payday: ', h('b', { text: shortDate(nx) + (daysToPayday() ? ' (in ' + daysToPayday() + (daysToPayday() === 1 ? ' day)' : ' days)') : ' (today)') })]) : null])]);
+    var nx = nextPayDate(r), dn = nx ? Math.round((nx - today0()) / 86400000) : null;
+    return h('div', { class: 'pr' }, [choices,
+      h('div', { class: 'pr-box' }, [detail, wk, nx ? h('p', { class: 'pr-next' }, ['Next payday: ', h('b', { text: shortDate(nx) + (dn ? ' (in ' + dn + (dn === 1 ? ' day)' : ' days)') : ' (today)') })]) : null])]);
+  }
+  // The sheet that opens from a pay line's Paid on in the planner.
+  function payLineBody() {
+    var it = payLines().find(function (x) { return x.id === state.payLineId; });
+    if (!it) return h('p', { text: 'That pay line has gone.' });
+    var main = mainPayLine() === it, names = (state.locations || []).filter(function (l) { return l.name && !l.cardId; }).map(function (l) { return l.name; });
+    var acc = h('select', { class: 'pr-sel', id: 'pl-acc', 'aria-label': 'Paid into', onchange: function (e) { it.account = e.target.value; commit(); } },
+      [h('option', { value: '', text: 'Not set' })].concat(names.map(function (n) { return h('option', { value: n, text: n }); })));
+    acc.value = it.account || '';
+    return h('div', { class: 'f-body' }, [
+      h('label', { class: 'pr-line', for: 'pl-acc' }, ['Paid into', acc]),
+      payRuleEditor(it),
+      h('label', { class: 'pr-wk pl-main', for: 'pl-main' }, [
+        h('input', { type: 'checkbox', id: 'pl-main', checked: main ? true : null, disabled: main && payLines().length === 1 ? true : null, onchange: function (e) { payLines().forEach(function (x) { delete x.mainPay; }); if (e.target.checked) it.mainPay = true; commit(); } }),
+        h('span', {}, [h('b', { text: 'This is my main pay. ' }), 'It sets your payday countdown, the payday banner and when your payday email is sent.'])]),
+      h('div', { class: 'sheet-actions' }, [btn('fb-send', 'Done', function () { set({ overlay: null }); }, ['Done'])]) ]);
+  }
+  // Your details: a summary of every pay line's payday, each one changed from the planner.
+  function paySummary() {
+    var ls = payLines().filter(function (it) { return it.label || amt(it.target) || amt(it.budgeted); }), main = mainPayLine();
+    return h('div', { class: 'pr' }, [h('span', { class: 'pr-k', text: 'How you’re paid' }),
+      h('div', { class: 'pay-sum' }, ls.length ? ls.map(function (it) {
+        var nx = nextPayDate(lineRule(it));
+        return h('div', { class: 'pay-sum-row' }, [
+          h('div', {}, [h('b', {}, [it.label || 'Pay', it === main && ls.length > 1 ? h('small', { class: 'cp-tag', text: 'Main' }) : null]),
+            h('small', { text: [it.account, payRuleText(lineRule(it)), nx ? 'next ' + shortDate(nx) : ''].filter(Boolean).join(' · ') || 'Payday not set yet' })]),
+          btn('cp-inline', 'Change ' + (it.label || 'this pay'), function () { set({ overlay: 'payLine', payLineId: it.id }); }, ['Change']) ]);
+      }) : [h('small', { class: 'cp-sub', text: 'Add your pay to Income in your planner first.' })]),
+      h('small', { class: 'cp-sub', text: 'Each pay line in your planner has its own payday. Tap its Paid on to change it.' }) ]);
   }
 
   /* ---------- v3.4: links to your bank, savings and investment websites ----------
@@ -3596,6 +3662,8 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
 
 
   function buildApp() {
+    // Open on the month you were last working on (it's saved with your plan as valsMonth), not always this calendar month.
+    if (!state.month && state.valsMonth) { var vm = String(state.valsMonth).split(' '); if (MONTHS.indexOf(vm[0]) > -1 && /^\d{4}$/.test(vm[1] || '')) { state.month = vm[0]; state.year = vm[1]; } }
     if (typeof syncTopicTargets === 'function' && state.targets) syncTopicTargets();
     if (typeof syncDebtPlan === 'function') syncDebtPlan();
     if (typeof syncSavingsLinks === 'function') syncSavingsLinks();
@@ -3603,6 +3671,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     if (typeof syncSafetyCats === 'function') syncSafetyCats();
     if (typeof syncCardLocs === 'function') syncCardLocs();
     if (typeof syncPayIns === 'function') syncPayIns();
+    if (typeof syncPaydays === 'function') syncPaydays();
     if (typeof syncEmailDigest === 'function') syncEmailDigest();
     var frag = document.createDocumentFragment(), page = curPage();
     var fbar = null; document.body.classList.remove('has-fbar');  // founder places now live in the bar (laptop) and the top card (phone)
@@ -3615,6 +3684,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     if (state.overlay === 'invites') frag.append(sheet(state.founder.placesLeft > 0 ? 'Invite friends' : 'Share PayStamp', 'Share your personal link as often as you like.', invitesBody()));
     if (state.overlay === 'newStamps') frag.append(sheet((state.pendingStamps || []).length > 1 ? 'New stamps' : 'New stamp', '', newStampsBody()));
     if (state.overlay === 'share' && state.shareSpec) frag.append(sheet(shareTitle(state.shareSpec), '', shareBody(), 'share-sheet'));
+    if (state.overlay === 'payLine') { var plIt = payLines().find(function (x) { return x.id === state.payLineId; }); frag.append(sheet('When is ' + ((plIt && plIt.label) || 'this pay') + ' paid?', 'Each pay line has its own payday.', payLineBody())); }
     if (state.overlay === 'founderWelcome') frag.append(sheet('You’re a founder', '', founderWelcomeBody()));
     if (state.overlay === 'founderInfo') frag.append(sheet('What’s a founder?', '', founderInfoBody()));
     if (state.overlay === 'feedback') frag.append(sheet(state.fbSent ? 'Thank you' : 'Shape PayStamp', state.fbSent ? '' : 'PayStamp is brand new. Got an idea, or found something that isn’t working? Tell us here.', feedbackBody()));
@@ -3780,7 +3850,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
       h('div', { class: 'me-grid one' }, [
         h('label', { for: 'f-me-name' }, ['Your first name', field('me-name', userName(), setUserName, { cls: 'tf', ph: 'e.g. Sam', label: 'Your first name' })]) ]),
       h('p', { class: 'me-note', text: 'Shown on your planner and on invites you send.' }),
-      payRuleEditor() ]);
+      paySummary() ]);
     return h('div', { class: 'f-body' }, [email ? h('p', { class: 'f-hint', text: 'Signed in as ' + email }) : null,
       h('h2', { class: 'sec-h', style: 'margin-top:0', text: 'Your details' }), details, top,
       h('h2', { class: 'sec-h', text: F.placesLeft > 0 ? 'Give a friend founder access' : 'Share PayStamp' }), invitesBody(),
@@ -4281,6 +4351,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     if (f.net < -0.005) return 'Pay in ' + moneyAs(f.pay, c) + ' · ' + moneyAs(-f.net, c) + ' spare to move on' + (main && main !== name ? ' to ' + main : ' to your other accounts');
     return 'Pay in ' + moneyAs(f.pay, c) + ' · all used here';
   }
+  function payIntoLines(name) { return payLines().filter(function (it) { return (it.account || mainPayName()) === name && (amt(it.target) || amt(it.budgeted) || it.label); }); }
   function locDayLabel(l) { return l.payIn && !(l.name !== mainPayName() && accFlow(l.name).net > 0.005) ? 'Paid on' : l.how === 'hand' ? 'Moved on' : 'Moves on'; }
   function locHow(l) {
     var sel = h('select', { class: 'how-sel', 'aria-label': 'How money gets into ' + (l.name || 'this account'), onchange: function (e) {
@@ -4793,7 +4864,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
       linkTag(it) ? h('div', { class: 'c-name name-wrap' }, [field('lbl-' + it.id, it.label, function (v) { it.label = v; commit(); }, { cls: 'cell', ph: 'Item name', label: 'Item name' }), linkTag(it)])
         : field('lbl-' + it.id, it.label, function (v) { it.label = v; commit(); }, { cls: 'cell c-name', ph: 'Item name', label: 'Item name' }),
       loc,
-      daySelect('day-' + it.id, it.payDay, function (v) { it.payDay = v; commit(); }, 'c-date', 'Payment date for ' + (it.label || 'item')),
+      isIncome ? h('button', { type: 'button', class: 'c-date pay-btn' + (lineRuleShort(it) ? '' : ' empty'), 'data-k': 'day-' + it.id, 'aria-label': 'Payday for ' + (it.label || 'this pay') + ': ' + (lineRuleShort(it) || 'not set'), onclick: function () { set({ overlay: 'payLine', payLineId: it.id }); } }, [lineRuleShort(it) || 'Set']) : daySelect('day-' + it.id, it.payDay, function (v) { it.payDay = v; commit(); }, 'c-date', 'Payment date for ' + (it.label || 'item')),
       auto,
       field('tgt-' + it.id, it.target, function (v) { setBudgeted(it, v); }, { cls: 'cell num c-tgt', ph: '0', num: true, money: true, label: (isIncome ? 'Budgeted pay for ' : 'Budgeted for ') + (it.label || 'item') }),
       field('bud-' + it.id, it.budgeted, function (v) { it.budgeted = v; commit(); }, { cls: 'cell num c-bud', ph: '0', num: true, money: true, label: (isIncome ? 'This pay for ' : 'This month for ') + (it.label || 'item') }),
@@ -5223,7 +5294,8 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
           btn('rm', 'Remove bank account', function () { removeLocation(l); }, ['✕']) ]),
         h('div', { class: 'loc-bot' }, [
           locHow(l),
-          h('label', { class: 'loc-day', for: 'locday-' + l.id }, [h('span', { text: locDayLabel(l) }), daySelect('locday-' + l.id, l.day, function (v) { l.day = v; commit(); }, '', 'Day money moves into ' + (l.name || 'this location'))]),
+          payIntoLines(l.name).length ? h('span', { class: 'loc-pays' }, payIntoLines(l.name).map(function (it) { return btn('pay-btn', 'Payday for ' + (it.label || 'pay'), function () { set({ overlay: 'payLine', payLineId: it.id }); }, [(it.label || 'Pay') + ': ' + (lineRuleShort(it) || 'set payday')]); }))
+            : h('label', { class: 'loc-day', for: 'locday-' + l.id }, [h('span', { text: l.how === 'hand' ? 'Moved on' : 'Moves on' }), daySelect('locday-' + l.id, l.day, function (v) { l.day = v; commit(); }, '', 'Day money moves into ' + (l.name || 'this location'))]),
           multiCur() ? (function () { var cs = h('select', { class: 'cur-sel loc-cur', 'aria-label': 'Currency for ' + (l.name || 'this account'), onchange: function (e) { l.cur = e.target.value === homeCode() ? '' : e.target.value; commit(); } });
             CURS.forEach(function (c) { var o = document.createElement('option'); o.value = c[0]; o.textContent = c[1].trim() + ' ' + c[0]; cs.append(o); }); cs.value = l.cur || homeCode(); return cs; })() : null ]) ]));
     });
@@ -5980,22 +6052,12 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
             h('label', { class: 'cp-field', for: 'f-svg-' + sv.id }, [h('span', { text: 'Target' }), field('svg-' + sv.id, sv.goal || '', function (v) { sv.goal = v; commit(); }, { cls: 'cp-in', num: true, money: true, ph: '£0', label: 'Target for ' + (sv.name || 'pot') })]),
             h('div', { class: 'cp-field' }, [h('span', { text: 'Monthly' }), h('span', { class: 'cp-under', text: mo ? money(mo) : '–' })]),
             h('label', { class: 'cp-field', for: 'f-sva-' + sv.id }, [h('span', { text: 'Interest %' }), field('sva-' + sv.id, sv.aer || '', function (v) { sv.aer = v; commit(); }, { cls: 'cp-in', num: true, ph: '0', label: 'Interest % for ' + (sv.name || 'pot') })]),
-            h('label', { class: 'cp-field', for: 'f-svby-' + sv.id }, [h('span', { text: 'Ready by' }), (function () {
-              var inp = h('input', { type: 'month', class: 'cp-in cp-month', id: 'f-svby-' + sv.id, min: byFromIndex(monthIndexNow()), 'aria-label': 'Ready by for ' + (sv.name || 'pot'), onchange: function (e) {
-                var bi = byIndex(e.target.value), n = bi == null ? 0 : bi - monthIndexNow() + 1; // this month's payment counts, same as the Savings page
-                if (!g || n <= 0) { scheduleRender(); return; }
-                var need = Math.max(0, Math.ceil(potLeft(sv) / n * 100) / 100);
-                var old = sv.monthly, f0 = findItem(savingItemId(sv)), oldB = f0 && f0.item.budgeted, oldT = f0 && f0.item.target;
-                useMonthly(sv, String(need)); if (!f0) addSavingToPlanner(sv); commit();
-                showUndo((sv.name || 'Pot') + ' is now ' + money(need) + ' a month, ready by ' + byLabel(bi), function () { sv.monthly = old; var f1 = findItem(savingItemId(sv)); if (f1 && f0) { f1.item.budgeted = oldB; f1.item.target = oldT; } else if (f1 && !f0) removeSavingFromPlanner(sv); commit(); });
-              } });
-              inp.value = m != null && m > 0 && !(g && sNow >= g) ? byFromIndex(monthIndexNow() + m - 1) : '';
-              return inp; })()]) ]),
+            h('div', { class: 'cp-field' }, [h('span', { text: 'Ready by' }), h('span', { class: 'cp-under', text: m != null && m > 0 && !(g && sNow >= g) ? byLabel(monthIndexNow() + m - 1) : '–' })]) ]),
           (function () {
             if (g && sNow >= g) return h('small', { class: 'cp-ok-line', text: 'Goal reached ✓' });
             if (!g) return h('small', { class: 'cp-sub', text: 'Add a target to see when it’ll be ready.' });
-            if (m != null) return h('small', { class: 'cp-sub', text: 'Worked out from ' + money(mo) + ' a month. Need it sooner or later? Change the date and the monthly amount changes to match.' });
-            return h('small', { class: 'cp-sub', text: 'Pick a Ready by date and PayStamp sets the monthly amount for you.' });
+            if (m != null) return h('small', { class: 'cp-sub', text: 'Worked out from ' + money(mo) + ' a month. To change it, change the monthly amount in your planner or on the Savings page.' });
+            return h('small', { class: 'cp-sub', text: 'Add a monthly amount on the Savings page to see when it’ll be ready.' });
           })() ]);
 
       })));
@@ -6017,17 +6079,28 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
       });
       kids.push(h('div', { class: 'btn-row' }, [btn('sheet-add', 'Add an account to compare', function () { var x = { id: uid('sc'), name: '', rate: '', url: '' }; SC.push(x); commit(); setTimeout(function () { var e = document.getElementById('f-sc-name-' + x.id); if (e) e.focus(); }, 0); }, ['+ Add an account to compare'])]));
       var calc = state.cpCalc || (state.cpCalc = { name: '', goal: '400', months: '12' });
-      var per = amt(calc.months) > 0 ? amt(calc.goal) / amt(calc.months) : 0;
+      // Months, or a date to be ready by (month and year, up to 10 years ahead). This month's payment counts.
+      var nowI = monthIndexNow(), byI = calc.byM != null && calc.byY ? Number(calc.byY) * 12 + Number(calc.byM) : null;
+      var calcMonths = calc.mode === 'date' ? (byI != null ? byI - nowI + 1 : 0) : amt(calc.months);
+      var per = calcMonths > 0 ? amt(calc.goal) / calcMonths : 0;
+      var modeBtn = function (v, t) { var on = calc.mode === v || (!calc.mode && v === 'months'); return btn('', t, function () { calc.mode = v; if (v === 'date' && calc.byM == null) { var d = nowI + (amt(calc.months) || 12) - 1; calc.byM = d % 12; calc.byY = String(Math.floor(d / 12)); } scheduleRender(); }, [t], { 'aria-pressed': String(on) }); };
+      var whenField = calc.mode === 'date'
+        ? h('div', { class: 'cp-field' }, [h('span', { text: 'Ready by' }), h('div', { class: 'cp-by' }, [
+            (function () { var sel = h('select', { class: 'cp-day', 'aria-label': 'Month', onchange: function (e) { calc.byM = Number(e.target.value); scheduleRender(); } }, MONTHS.map(function (mn, i) { return h('option', { value: String(i), text: mn.slice(0, 3) }); })); sel.value = String(calc.byM); return sel; })(),
+            (function () { var y0 = Math.floor(nowI / 12), sel = h('select', { class: 'cp-day', 'aria-label': 'Year', onchange: function (e) { calc.byY = e.target.value; scheduleRender(); } }, Array.from({ length: 11 }, function (_, i) { return h('option', { value: String(y0 + i), text: String(y0 + i) }); })); sel.value = String(calc.byY); return sel; })() ])])
+        : h('label', { class: 'cp-field', for: 'f-cpc-months' }, [h('span', { text: 'Months' }), field('cpc-months', calc.months, function (v) { calc.months = v; scheduleRender(); }, { cls: 'cp-in', num: true, label: 'Number of months' })]);
       kids.push(h('div', { class: 'cp-calc' }, [h('h4', { class: 'cp-k', text: 'Savings goal calculator' }),
+        h('div', { class: 'seg-o cp-kind cp-calc-mode' }, [modeBtn('months', 'In a number of months'), modeBtn('date', 'By a date')]),
         h('div', { class: 'cp-calc-row' }, [
           h('label', { class: 'cp-field', for: 'f-cpc-name' }, [h('span', { text: 'What for' }), field('cpc-name', calc.name, function (v) { calc.name = v; scheduleRender(); }, { cls: 'cp-in', ph: 'e.g. Summer holiday', label: 'What the pot is for' })]),
           h('label', { class: 'cp-field', for: 'f-cpc-goal' }, [h('span', { text: 'Target' }), field('cpc-goal', calc.goal, function (v) { calc.goal = v; scheduleRender(); }, { cls: 'cp-in', num: true, money: true, label: 'Target amount' })]),
-          h('label', { class: 'cp-field', for: 'f-cpc-months' }, [h('span', { text: 'Months' }), field('cpc-months', calc.months, function (v) { calc.months = v; scheduleRender(); }, { cls: 'cp-in', num: true, label: 'Number of months' })]) ]),
+          whenField ]),
+        calc.mode === 'date' && calcMonths <= 0 ? h('small', { class: 'cp-warn-line', text: 'That date has passed. Pick a later one.' }) : calc.mode === 'date' ? h('small', { class: 'cp-sub', text: calcMonths + (calcMonths === 1 ? ' month' : ' months') + ' of saving, counting this month.' }) : null,
         h('div', { class: 'cp-act' }, [h('span', {}, [h('b', { text: money(Math.round(per * 100) / 100) }), ' a month']),
           btn('pill-btn primary', 'Create this pot and add it to your plan', function () {
             if (!(per > 0)) return;
             var sv = { id: uid('sv'), name: (calc.name || '').trim() || 'New pot', goal: String(amt(calc.goal)), saved: '0', aer: '', monthly: String(Math.round(per * 100) / 100) };
-            state.savings.push(sv); addSavingToPlanner(sv); state.cpCalc = { name: '', goal: '400', months: '12' }; commit();
+            state.savings.push(sv); addSavingToPlanner(sv); state.cpCalc = { name: '', goal: '400', months: '12', mode: calc.mode }; commit();
             showUndo('Added ' + sv.name + ' to Savings and your plan', function () { removeSavingFromPlanner(sv); state.savings = state.savings.filter(function (x) { return x !== sv; }); commit(); });
           }, ['Create pot'], { disabled: per > 0 ? null : true }) ]) ]));
     }
@@ -6119,6 +6192,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
       };
       var dateL = function (label, id, value, onChange) { return h('label', { class: 'cp-day-l' }, [h('small', { text: label }), daySelect(id, value, onChange, 'cp-day', label)]); };
       var mainName = mainPayName() || 'your main bank';
+      var payDayL = function (l) { var ls = payIntoLines(l.name); return h('div', { class: 'cp-day-l' }, [h('small', { text: 'Payday' })].concat(ls.length ? ls.map(function (it) { return btn('pay-btn', 'Payday for ' + (it.label || 'pay'), function () { set({ overlay: 'payLine', payLineId: it.id }); }, [lineRuleShort(it) || 'Set']); }) : [h('span', { class: 'cp-sub', text: '–' })])); };
       // 1. banks
       kids.push(h('div', { class: 'cp-k-row' }, [h('h4', { class: 'cp-k', text: '1. Money moving between your banks' }), btn('cp-inline', 'Edit bank accounts', function () { go('accounts'); }, ['Edit'])]));
       if (!locs.length) kids.push(h('p', { class: 'cp-p', text: 'No banks yet. Add your first one below.' }));
@@ -6131,8 +6205,8 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
           return;
         }
         var fl = accFlow(l.name), lc = locCur(l);
-        if (l.payIn && l.name === mainName) kids.push(row(l.name, ['Main bank · pay in ', h('b', { text: moneyAs(fl.pay, lc) }), fl.net < -0.005 ? ' · ' + moneyAs(-fl.net, lc) + ' moves on to your other accounts' : ''], dateL('Payday', 'cpa-loc-' + l.id, l.day, function (v) { l.day = v; commit(); }), null));
-        else if (l.payIn && fl.net <= 0.005) kids.push(row(l.name, ['Pay goes in here too (', h('b', { text: moneyAs(fl.pay, lc) }), ')' + (fl.net < -0.005 ? ' · ' + moneyAs(-fl.net, lc) + ' spare, so you could move it to ' + mainName : ' · covers everything paid from here')], dateL('Payday', 'cpa-loc-' + l.id, l.day, function (v) { l.day = v; commit(); }), null));
+        if (l.payIn && l.name === mainName) kids.push(row(l.name, ['Main bank · pay in ', h('b', { text: moneyAs(fl.pay, lc) }), fl.net < -0.005 ? ' · ' + moneyAs(-fl.net, lc) + ' moves on to your other accounts' : ''], payDayL(l), null));
+        else if (l.payIn && fl.net <= 0.005) kids.push(row(l.name, ['Pay goes in here too (', h('b', { text: moneyAs(fl.pay, lc) }), ')' + (fl.net < -0.005 ? ' · ' + moneyAs(-fl.net, lc) + ' spare, so you could move it to ' + mainName : ' · covers everything paid from here')], payDayL(l), null));
         else kids.push(row(l.name, (l.payIn ? ['Pay in ' + moneyAs(fl.pay, lc) + ' · move in '] : ['Move in ']).concat([h('b', { text: moneyAs(Math.max(0, fl.net), lc) }), ' from ' + mainName]), dateL('Moves on', 'cpa-loc-' + l.id, l.day, function (v) { l.day = v; commit(); }),
           { on: l.how !== 'hand', flip: function () { l.how = l.how === 'hand' ? 'auto' : 'hand'; } }));
       });
@@ -6400,17 +6474,18 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
         h('div', {}, [h('b', { text: 'Send me an email on payday' }),
           h('small', { text: 'One short email ' + (pd ? 'on payday' : 'on the 1st') + (email ? ' to ' + email : '') + ', reminding you to enter your pay, check your plan and stamp your month.' })]),
         h('button', { type: 'button', class: 'sw', role: 'switch', 'aria-checked': String(on), 'aria-label': 'Send me an email on payday', onclick: function () { E.on = !on; commit(); } }, [h('i')]) ]),
-      on ? h('small', { class: 'cp-sub', text: 'Add to it if you like:' }) : null,
-      on ? h('div', { class: 'cp-email-list' }, EMAIL_OPTS.map(function (o) {
+      h('div', { class: 'cp-email cp-email-fixed' + (on ? ' on' : '') }, [h('span', { class: 'cp-auto-box', html: TICK_SVG }), h('span', {}, [h('b', { text: 'It’s payday! (always included)' }), h('small', { text: 'A happy reminder: enter your pay, check your plan, then stamp your month.' })])]),
+      h('small', { class: 'cp-sub', text: on ? 'What’s in it. Tick anything you’d like added:' : 'What it can include. Tick any of these and the email turns on:' }),
+      h('div', { class: 'cp-email-list' + (on ? '' : ' off') }, EMAIL_OPTS.map(function (o) {
         var t = !!E[o[0]];
-        return btn('cp-email' + (t ? ' on' : ''), (t ? 'Remove: ' : 'Add: ') + o[1], function () { E[o[0]] = !t; commit(); }, [h('span', { class: 'cp-auto-box', html: t ? TICK_SVG : '' }), h('span', {}, [h('b', { text: o[1] }), h('small', { text: o[2] })])], { 'aria-pressed': String(t) });
-      })) : null,
-      on ? h('div', { class: 'cp-act' }, [h('span', { text: state.emailTestMsg || 'Want to see what it looks like?' }),
+        return btn('cp-email' + (t ? ' on' : ''), (t ? 'Remove: ' : 'Add: ') + o[1], function () { E[o[0]] = !t; if (!t) E.on = true; commit(); }, [h('span', { class: 'cp-auto-box', html: t ? TICK_SVG : '' }), h('span', {}, [h('b', { text: o[1] }), h('small', { text: o[2] })])], { 'aria-pressed': String(t) });
+      })),
+      h('div', { class: 'cp-act' }, [h('span', { text: state.emailTestMsg || (on ? 'Want to see what it looks like?' : 'Not sure yet? See what it looks like first.') }),
         btn('pill-btn', 'Send me a test email', function () {
           if (!P.sendTestEmail) { set({ emailTestMsg: 'Test emails send from the live site.' }); return; }
           set({ emailTestMsg: 'Sending…' });
           P.sendTestEmail().then(function () { set({ emailTestMsg: 'Sent! Check your inbox in a minute.' }); }, function (e) { set({ emailTestMsg: 'Couldn’t send: ' + ((e && e.message) || 'try again later') }); });
-        }, ['Send me a test email'])]) : null ]);
+        }, ['Send me a test email'])]) ]);
   }
   function openFeedbackKind(kind) { if (!state.fbDraft) state.fbDraft = { kind: kind, message: '', contactOk: true }; else state.fbDraft.kind = kind; openFeedback('other'); }
   function compassBody() {
