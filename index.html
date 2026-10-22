@@ -1499,7 +1499,7 @@ body.has-fbar .overlay{padding-top:142px}
 .fbq-f{display:flex;align-items:center;justify-content:space-between;gap:10px}.fbq-f small{font-size:11.5px;color:var(--muted)}
 @media (max-width:640px){.fbq{right:12px;bottom:calc(84px + env(safe-area-inset-bottom))}.fbq-b:not(.on){width:44px;padding:0;justify-content:center}.fbq-b:not(.on) .fbq-bl{display:none}}
 @media print{.fbq{display:none}}
-.ad-qas{display:flex;flex-direction:column;gap:8px}.ad-qa{display:flex;flex-direction:column;gap:1px;border-top:1px dashed #E4DFD3;padding-top:6px}.ad-qa small{font-size:12px;color:var(--muted)}.ad-qa b{font-size:14px}.ad-qa.old small{font-style:italic}
+.pa-qas{display:flex;flex-direction:column;gap:8px}.pa-qa{display:flex;flex-direction:column;gap:1px;border-top:1px dashed #E4DFD3;padding-top:6px}.pa-qa small{font-size:12px;color:var(--muted)}.pa-qa b{font-size:14px}.pa-qa.old small{font-style:italic}
 .cp-checkups{display:flex;flex-direction:column;gap:10px}.ck-pace-l{max-width:280px}.ck-due{display:flex;flex-direction:column;gap:6px}.ck-due-l{display:flex;flex-wrap:wrap;gap:6px}
 .ck-chip{display:inline-flex;align-items:center;gap:8px;border:1px solid #CFE3D6;background:#F3F8F4;border-radius:999px;padding:5px 12px 5px 5px;font:inherit;font-size:13.5px;font-weight:600;color:var(--ink);cursor:pointer}.ck-chip small{font-size:12px;color:var(--good);font-weight:700}.ck-chip.done{opacity:.75}
 .ck-cards{display:flex;flex-direction:column;gap:14px}
@@ -1880,9 +1880,9 @@ body.has-fbar .overlay{padding-top:142px}
 .dq-ends{grid-column:1 / -1;display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
 .dq-text{min-height:80px}
 .dq-text.sm{min-height:56px}
-.ad-tally{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) 70px;gap:10px;align-items:center;font-size:13.5px}
-.ad-tally b{text-align:right;font-variant-numeric:tabular-nums}
-.ad-quote{background:var(--paper);border-radius:10px;padding:8px 10px;font-size:14px}
+.pa-tally{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) 70px;gap:10px;align-items:center;font-size:13.5px}
+.pa-tally b{text-align:right;font-variant-numeric:tabular-nums}
+.pa-quote{background:var(--paper);border-radius:10px;padding:8px 10px;font-size:14px}
 @media (max-width:640px){
   .cp-svg{width:72px;height:72px}
   .cp-hero{padding:18px;gap:14px}.cp-hero b{font-size:25px}
@@ -1892,7 +1892,7 @@ body.has-fbar .overlay{padding-top:142px}
   .cp-sink-row{grid-template-columns:minmax(0,1fr) 90px 24px}
   .cp-sink-m{display:none}
   .dq-scale{grid-template-columns:repeat(6,minmax(0,1fr))}
-  .ad-tally{grid-template-columns:minmax(0,1fr) 64px}.ad-tally .cp-bar{grid-column:1 / -1;grid-row:2}
+  .pa-tally{grid-template-columns:minmax(0,1fr) 64px}.pa-tally .cp-bar{grid-column:1 / -1;grid-row:2}
 }
 .cpm-over.alt{background:var(--plum-soft);color:var(--plum)}
 .cpm-over.alt small{color:var(--muted)}
@@ -1964,41 +1964,41 @@ body.has-fbar .overlay{padding-top:142px}
 .btn-danger{border:none;border-radius:999px;background:var(--warn);color:#fff;font-size:13.5px;font-weight:700;padding:10px 18px}
 .btn-danger[disabled]{opacity:.4;cursor:default}
 .btn-danger-ghost{border:1.5px solid #E7C3BE;border-radius:999px;background:#fff;color:var(--warn);font-size:13.5px;font-weight:700;padding:9px 16px}
-.ad-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
-.ad-stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
-.ad-stat b{font-family:var(--serif);font-weight:400;font-size:28px;line-height:1.1;color:var(--ink)}
-.ad-stat small{font-size:12px;color:var(--muted);font-weight:600}
-.ad-stat.hot b{color:var(--plum)}
-.ad-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}
-.ad-list{display:flex;flex-direction:column;gap:10px}
-.ad-fb{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
-.ad-fb.new{border-color:rgba(126,42,85,.45);box-shadow:0 0 0 3px var(--plum-soft)}
-.ad-top{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font-size:12.5px;color:var(--muted)}
-.ad-kind{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;border-radius:999px;padding:2px 9px;background:var(--plum-soft);color:var(--plum)}
-.ad-kind.bug{background:var(--warn-bg);color:var(--warn)}.ad-bar-r{display:inline-flex;gap:8px;align-items:center}.ad-kind.fbk{background:var(--good-bg);color:var(--good)}
-.ad-id{font-size:12px;font-weight:700;color:var(--ink2);font-variant-numeric:tabular-nums}
-.ad-fseg{flex-wrap:wrap}
-.ad-sts{display:flex;flex-wrap:wrap;gap:6px;margin-left:auto}
-.ad-sb{font:inherit;font-size:12.5px;font-weight:600;border:1px solid var(--line);background:var(--card);color:var(--ink2);border-radius:999px;padding:5px 11px;cursor:pointer;min-height:30px}
-.ad-sb:hover{border-color:var(--ink2)}
-.ad-sb[aria-pressed="true"]{color:#fff;border-color:transparent}
-.ad-sb.s-new[aria-pressed="true"]{background:var(--plum)}
-.ad-sb.s-noted[aria-pressed="true"]{background:#5B6B8C}
-.ad-sb.s-planned[aria-pressed="true"]{background:#B07A1E}
-.ad-sb.s-done[aria-pressed="true"]{background:var(--good)}
-.ad-sb.s-not_now[aria-pressed="true"]{background:var(--ink2)}
-.ad-fb.st-done,.ad-fb.st-not_now{opacity:.72}
-.ad-fb.st-done .ad-msg{text-decoration:line-through;text-decoration-color:rgba(0,0,0,.3)}
-@media (max-width:600px){.ad-fseg{flex-wrap:nowrap;overflow-x:auto;max-width:100%}.ad-fseg button{white-space:nowrap;padding-left:10px;padding-right:10px}.ad-sts{gap:4px;margin-left:0}.ad-sb{font-size:12px;padding:4px 8px;min-height:28px}}
-.ad-msg{margin:0;font-size:14.5px;line-height:1.5;color:var(--ink);white-space:pre-wrap;overflow-wrap:anywhere}
-.ad-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;font-size:12.5px;color:var(--muted)}
-.ad-foot a{color:var(--plum);font-weight:700}
-.ad-st{border:1.5px solid var(--line);border-radius:999px;background:#fff;padding:5px 10px;font:inherit;font-size:12.5px;font-weight:700;color:var(--ink2)}
-.ad-tbl{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.ad-tr{display:grid;grid-template-columns:52px minmax(0,1fr) 120px 70px;gap:10px;align-items:center;padding:10px 14px;border-top:1px solid var(--line);font-size:13.5px}
-.ad-tr:first-child{border-top:none;background:var(--plum-soft);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#5A5266}
-.ad-tr span:nth-child(2){overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-@media (max-width:640px){ .ad-tr{grid-template-columns:40px minmax(0,1fr) 60px} .ad-tr span:nth-child(3){display:none} }
+.pa-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.pa-stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:flex;flex-direction:column;gap:2px}
+.pa-stat b{font-family:var(--serif);font-weight:400;font-size:28px;line-height:1.1;color:var(--ink)}
+.pa-stat small{font-size:12px;color:var(--muted);font-weight:600}
+.pa-stat.hot b{color:var(--plum)}
+.pa-bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}
+.pa-list{display:flex;flex-direction:column;gap:10px}
+.pa-fb{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.pa-fb.new{border-color:rgba(126,42,85,.45);box-shadow:0 0 0 3px var(--plum-soft)}
+.pa-top{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font-size:12.5px;color:var(--muted)}
+.pa-kind{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;border-radius:999px;padding:2px 9px;background:var(--plum-soft);color:var(--plum)}
+.pa-kind.bug{background:var(--warn-bg);color:var(--warn)}.pa-bar-r{display:inline-flex;gap:8px;align-items:center}.pa-kind.fbk{background:var(--good-bg);color:var(--good)}
+.pa-id{font-size:12px;font-weight:700;color:var(--ink2);font-variant-numeric:tabular-nums}
+.pa-fseg{flex-wrap:wrap}
+.pa-sts{display:flex;flex-wrap:wrap;gap:6px;margin-left:auto}
+.pa-sb{font:inherit;font-size:12.5px;font-weight:600;border:1px solid var(--line);background:var(--card);color:var(--ink2);border-radius:999px;padding:5px 11px;cursor:pointer;min-height:30px}
+.pa-sb:hover{border-color:var(--ink2)}
+.pa-sb[aria-pressed="true"]{color:#fff;border-color:transparent}
+.pa-sb.s-new[aria-pressed="true"]{background:var(--plum)}
+.pa-sb.s-noted[aria-pressed="true"]{background:#5B6B8C}
+.pa-sb.s-planned[aria-pressed="true"]{background:#B07A1E}
+.pa-sb.s-done[aria-pressed="true"]{background:var(--good)}
+.pa-sb.s-not_now[aria-pressed="true"]{background:var(--ink2)}
+.pa-fb.st-done,.pa-fb.st-not_now{opacity:.72}
+.pa-fb.st-done .pa-msg{text-decoration:line-through;text-decoration-color:rgba(0,0,0,.3)}
+@media (max-width:600px){.pa-fseg{flex-wrap:nowrap;overflow-x:auto;max-width:100%}.pa-fseg button{white-space:nowrap;padding-left:10px;padding-right:10px}.pa-sts{gap:4px;margin-left:0}.pa-sb{font-size:12px;padding:4px 8px;min-height:28px}}
+.pa-msg{margin:0;font-size:14.5px;line-height:1.5;color:var(--ink);white-space:pre-wrap;overflow-wrap:anywhere}
+.pa-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px;font-size:12.5px;color:var(--muted)}
+.pa-foot a{color:var(--plum);font-weight:700}
+.pa-st{border:1.5px solid var(--line);border-radius:999px;background:#fff;padding:5px 10px;font:inherit;font-size:12.5px;font-weight:700;color:var(--ink2)}
+.pa-tbl{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.pa-tr{display:grid;grid-template-columns:52px minmax(0,1fr) 120px 70px;gap:10px;align-items:center;padding:10px 14px;border-top:1px solid var(--line);font-size:13.5px}
+.pa-tr:first-child{border-top:none;background:var(--plum-soft);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#5A5266}
+.pa-tr span:nth-child(2){overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media (max-width:640px){ .pa-tr{grid-template-columns:40px minmax(0,1fr) 60px} .pa-tr span:nth-child(3){display:none} }
 /* ---------- v3.4: the PayStamp app ---------- */
 .app-hero{display:flex;align-items:center;gap:18px;background:var(--plum);color:#fff;border-radius:18px;padding:20px 22px}
 .app-hero img,.app-ic{width:64px;height:64px;border-radius:15px;flex-shrink:0;box-shadow:0 6px 16px rgba(0,0,0,.18);background:#fff}
@@ -5602,8 +5602,8 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     if (adminErr) return h('div', { class: 'f-body' }, [h('p', { class: 'f-hint', style: 'color:var(--warn)', text: 'Couldn’t load the admin data: ' + adminErr + '. Have you run supabase-v4.0.sql?' }), btn('pill-btn', 'Try again', adminLoad, ['Try again'])]);
     if (!adminData) return h('p', { class: 'f-hint', text: 'Loading…' });
     var D = adminData, tab = state.adminTab || 'feedback', filt = state.adminFilter || 'open';
-    var stat = function (n, label, hot) { return h('div', { class: 'ad-stat' + (hot ? ' hot' : '') }, [h('b', { text: String(n) }), h('small', { text: label })]); };
-    var stats = h('div', { class: 'ad-stats' }, [stat(D.users, 'Accounts'), stat(D.new_7d, 'New this week'), stat(D.active_7d, 'Active this week'),
+    var stat = function (n, label, hot) { return h('div', { class: 'pa-stat' + (hot ? ' hot' : '') }, [h('b', { text: String(n) }), h('small', { text: label })]); };
+    var stats = h('div', { class: 'pa-stats' }, [stat(D.users, 'Accounts'), stat(D.new_7d, 'New this week'), stat(D.active_7d, 'Active this week'),
       stat(D.founders, 'Founders'), stat(D.places_left, 'Places left'), stat(D.feedback_new, 'New feedback', D.feedback_new > 0), stat((D.answers || []).length, 'Answers' + (D.answers_7d ? ' · ' + D.answers_7d + ' new' : ''), D.answers_7d > 0)]);
     var seg = h('div', { class: 'seg-o' }, [['feedback', 'Feedback' + (D.feedback_new ? ' (' + D.feedback_new + ')' : '')], ['answers', 'Answers (' + (D.answers || []).length + ')'], ['founders', 'Founders']].map(function (t) {
       return btn('', t[1], function () { set({ adminTab: t[0] }); }, [t[1]], { 'aria-pressed': String(tab === t[0]) });
@@ -5616,7 +5616,7 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
       var cnt = { todo: 0, done: 0, not_now: 0 };
       all.forEach(function (f) { var st = f.status || 'new'; if (FB_OPEN[st]) cnt.todo++; else if (st === 'done') cnt.done++; else cnt.not_now++; });
       var list = all.filter(function (f) { var st = f.status || 'new'; return filt === 'all' || (filt === 'todo' ? FB_OPEN[st] : st === filt); });
-      var fseg = h('div', { class: 'seg-o ad-fseg' }, [['todo', 'To do (' + cnt.todo + ')'], ['done', 'Fixed (' + cnt.done + ')'], ['not_now', 'Not now (' + cnt.not_now + ')'], ['all', 'Everything']].map(function (t) {
+      var fseg = h('div', { class: 'seg-o pa-fseg' }, [['todo', 'To do (' + cnt.todo + ')'], ['done', 'Fixed (' + cnt.done + ')'], ['not_now', 'Not now (' + cnt.not_now + ')'], ['all', 'Everything']].map(function (t) {
         return btn('', t[1], function () { set({ adminFilter: t[0] }); }, [t[1]], { 'aria-pressed': String(filt === t[0]) });
       }));
       var copyAll = btn('pill-btn', 'Copy these messages as a list', function () {
@@ -5630,28 +5630,28 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
           function () { f.status = old; scheduleRender(); showUndo('Couldn’t save that. Has the v3.4.2 SQL been run?', function () {}); });
       };
       var recount = function () { D.feedback_new = (D.feedback || []).filter(function (x) { return (x.status || 'new') === 'new'; }).length; scheduleRender(); };
-      body = h('div', { class: 'ad-list' }, [h('div', { class: 'ad-bar' }, [fseg, h('span', { class: 'ad-bar-r' }, [copyAll])])].concat(
+      body = h('div', { class: 'pa-list' }, [h('div', { class: 'pa-bar' }, [fseg, h('span', { class: 'pa-bar-r' }, [copyAll])])].concat(
         list.length ? list.map(function (f) {
           var st = f.status || 'new', d = new Date(f.created_at);
-          var chips = h('div', { class: 'ad-sts', role: 'group', 'aria-label': 'Status of #' + f.id }, FB_STATUS.map(function (x) {
-            return btn('ad-sb s-' + x[0], x[1], function () { setSt(f, x[0]); }, [x[1]], { 'aria-pressed': String(st === x[0]) });
+          var chips = h('div', { class: 'pa-sts', role: 'group', 'aria-label': 'Status of #' + f.id }, FB_STATUS.map(function (x) {
+            return btn('pa-sb s-' + x[0], x[1], function () { setSt(f, x[0]); }, [x[1]], { 'aria-pressed': String(st === x[0]) });
           }));
-          return h('article', { class: 'ad-fb st-' + st + (st === 'new' ? ' new' : '') }, [
-            h('div', { class: 'ad-top' }, [h('span', { class: 'ad-id', text: '#' + f.id }), h('span', { class: 'ad-kind' + (f.kind === 'bug' ? ' bug' : f.kind === 'feedback' ? ' fbk' : ''), text: fbKindName(f.kind) }),
+          return h('article', { class: 'pa-fb st-' + st + (st === 'new' ? ' new' : '') }, [
+            h('div', { class: 'pa-top' }, [h('span', { class: 'pa-id', text: '#' + f.id }), h('span', { class: 'pa-kind' + (f.kind === 'bug' ? ' bug' : f.kind === 'feedback' ? ' fbk' : ''), text: fbKindName(f.kind) }),
               f.area ? h('b', { text: f.area }) : null, h('span', { text: d.getDate() + ' ' + MONTHS[d.getMonth()].slice(0, 3) + ' ' + d.getFullYear() }),
               f.founder_number ? h('span', { text: 'Founder #' + f.founder_number }) : null]),
-            h('p', { class: 'ad-msg', text: f.message }),
-            h('div', { class: 'ad-foot' }, [
+            h('p', { class: 'pa-msg', text: f.message }),
+            h('div', { class: 'pa-foot' }, [
               f.email ? (f.contact_ok ? h('a', { href: 'mailto:' + f.email + '?subject=' + encodeURIComponent('Your PayStamp message'), text: 'Reply to ' + f.email }) : h('span', { text: f.email + ' · didn’t ask for a reply' })) : h('span', { text: 'Account deleted' }),
               chips ]) ]);
         }) : [h('p', { class: 'f-hint', text: filt === 'todo' ? 'Nothing to do. Everything has been ticked off.' : filt === 'all' ? 'No feedback yet.' : 'Nothing here yet.' })]));
     } else {
       var rows = (D.founder_list || []).map(function (x) {
-        return h('div', { class: 'ad-tr' }, [h('b', { text: '#' + x.founder_number }), h('span', { text: x.email + (x.elite_number ? ' · Elite #' + x.elite_number : '') }), h('span', { text: x.founder_since || '' }), h('span', { text: x.invited + ' invited' })]);
+        return h('div', { class: 'pa-tr' }, [h('b', { text: '#' + x.founder_number }), h('span', { text: x.email + (x.elite_number ? ' · Elite #' + x.elite_number : '') }), h('span', { text: x.founder_since || '' }), h('span', { text: x.invited + ' invited' })]);
       });
-      body = h('div', { class: 'ad-tbl' }, [h('div', { class: 'ad-tr' }, [h('span', { text: 'No.' }), h('span', { text: 'Email' }), h('span', { text: 'Since' }), h('span', { text: 'Invites' })])].concat(rows));
+      body = h('div', { class: 'pa-tbl' }, [h('div', { class: 'pa-tr' }, [h('span', { text: 'No.' }), h('span', { text: 'Email' }), h('span', { text: 'Since' }), h('span', { text: 'Invites' })])].concat(rows));
     }
-    return h('div', { class: 'f-body' }, [stats, h('div', { class: 'ad-bar' }, [seg, btn('pill-btn', 'Refresh', function () { adminData = null; adminLoad(); scheduleRender(); }, ['Refresh'])]), body]);
+    return h('div', { class: 'f-body' }, [stats, h('div', { class: 'pa-bar' }, [seg, btn('pill-btn', 'Refresh', function () { adminData = null; adminLoad(); scheduleRender(); }, ['Refresh'])]), body]);
   }
   /* ---------- v3.5: the privacy page inside PayStamp ----------
      Reads privacy.html (the same page the home page links to), so there's only one copy to keep up to date. */
@@ -7120,40 +7120,40 @@ var SUPABASE_ANON_KEY = 'sb_publishable_8Ti3vzyfY0cOOSedUd0nUg_SAOupy49';
     if (view === 'people') {
       var known = {}; DQ.forEach(function (q) { known[q.id] = q; });
       var show = function (v) { return Array.isArray(v) ? v.join(', ') : typeof v === 'number' ? v + ' out of 10' : String(v); };
-      return h('div', { class: 'ad-list' }, [h('div', { class: 'ad-bar' }, [h('span', { class: 'f-hint', text: rows.length + (rows.length === 1 ? ' person has' : ' people have') + ' answered · newest first' }), vseg])].concat((D.answers || []).map(function (r) {
+      return h('div', { class: 'pa-list' }, [h('div', { class: 'pa-bar' }, [h('span', { class: 'f-hint', text: rows.length + (rows.length === 1 ? ' person has' : ' people have') + ' answered · newest first' }), vseg])].concat((D.answers || []).map(function (r) {
         var A = r.answers || {}, d = r.updated_at ? new Date(r.updated_at) : null, lines = [];
-        DQ.forEach(function (q) { var v = A[q.id]; if (v == null || v === '' || (Array.isArray(v) && !v.length)) return; lines.push(h('div', { class: 'ad-qa' }, [h('small', { text: q.q }), h('b', { text: show(v) }), A[q.id + 'More'] ? h('p', { class: 'ad-msg ad-quote', text: A[q.id + 'More'] }) : null])); });
-        Object.keys(A).forEach(function (k) { if (known[k] || /More$/.test(k) && known[k.slice(0, -4)]) return; var v = A[k]; if (v == null || v === '' || (Array.isArray(v) && !v.length)) return; lines.push(h('div', { class: 'ad-qa old' }, [h('small', { text: 'Older question: ' + k }), h('b', { text: show(v) })])); });
-        return h('article', { class: 'ad-fb' }, [
-          h('div', { class: 'ad-top' }, [h('b', { text: r.email || 'Account' }), d ? h('span', { text: d.getDate() + ' ' + MONTHS[d.getMonth()].slice(0, 3) + ' ' + d.getFullYear() }) : null, r.founder_number ? h('span', { text: 'Founder #' + r.founder_number }) : null]),
-          lines.length ? h('div', { class: 'ad-qas' }, lines) : h('p', { class: 'f-hint', text: 'No answers filled in.' }) ]);
+        DQ.forEach(function (q) { var v = A[q.id]; if (v == null || v === '' || (Array.isArray(v) && !v.length)) return; lines.push(h('div', { class: 'pa-qa' }, [h('small', { text: q.q }), h('b', { text: show(v) }), A[q.id + 'More'] ? h('p', { class: 'pa-msg pa-quote', text: A[q.id + 'More'] }) : null])); });
+        Object.keys(A).forEach(function (k) { if (known[k] || /More$/.test(k) && known[k.slice(0, -4)]) return; var v = A[k]; if (v == null || v === '' || (Array.isArray(v) && !v.length)) return; lines.push(h('div', { class: 'pa-qa old' }, [h('small', { text: 'Older question: ' + k }), h('b', { text: show(v) })])); });
+        return h('article', { class: 'pa-fb' }, [
+          h('div', { class: 'pa-top' }, [h('b', { text: r.email || 'Account' }), d ? h('span', { text: d.getDate() + ' ' + MONTHS[d.getMonth()].slice(0, 3) + ' ' + d.getFullYear() }) : null, r.founder_number ? h('span', { text: 'Founder #' + r.founder_number }) : null]),
+          lines.length ? h('div', { class: 'pa-qas' }, lines) : h('p', { class: 'f-hint', text: 'No answers filled in.' }) ]);
       })));
     }
-    var out = [h('div', { class: 'ad-bar' }, [h('span', { class: 'f-hint', text: rows.length + (rows.length === 1 ? ' person has' : ' people have') + ' answered.' }), vseg])];
+    var out = [h('div', { class: 'pa-bar' }, [h('span', { class: 'f-hint', text: rows.length + (rows.length === 1 ? ' person has' : ' people have') + ' answered.' }), vseg])];
     DQ.forEach(function (q, i) {
-      var box = h('section', { class: 'ad-fb' }, [h('div', { class: 'ad-top' }, [h('b', { text: (i + 1) + '. ' + q.q })])]);
+      var box = h('section', { class: 'pa-fb' }, [h('div', { class: 'pa-top' }, [h('b', { text: (i + 1) + '. ' + q.q })])]);
       if (q.type === 'one' || q.type === 'many' || q.type === 'yesno') {
         var n = rows.filter(function (a) { var v = a[q.id]; return v && (!Array.isArray(v) || v.length); }).length;
         q.opts.forEach(function (o) {
           var c = rows.filter(function (a) { var v = a[q.id]; return Array.isArray(v) ? v.indexOf(o) > -1 : v === o; }).length, pc = n ? Math.round(c / n * 100) : 0;
-          box.append(h('div', { class: 'ad-tally' }, [h('span', { text: o }), h('div', { class: 'cp-bar good' }, [h('i', { style: 'width:' + pc + '%' })]), h('b', { text: pc + '% (' + c + ')' })]));
+          box.append(h('div', { class: 'pa-tally' }, [h('span', { text: o }), h('div', { class: 'cp-bar good' }, [h('i', { style: 'width:' + pc + '%' })]), h('b', { text: pc + '% (' + c + ')' })]));
         });
-        if (q.more) rows.forEach(function (a) { if (a[q.id + 'More']) box.append(h('p', { class: 'ad-msg ad-quote', text: a[q.id + 'More'] })); });
+        if (q.more) rows.forEach(function (a) { if (a[q.id + 'More']) box.append(h('p', { class: 'pa-msg pa-quote', text: a[q.id + 'More'] })); });
       } else if (q.type === 'scale') {
         var v = rows.map(function (a) { return a[q.id]; }).filter(function (x) { return typeof x === 'number'; });
         if (v.length) {
           var pro = v.filter(function (x) { return x >= 9; }).length, det = v.filter(function (x) { return x <= 6; }).length;
-          box.append(h('div', { class: 'ad-stats' }, [h('div', { class: 'ad-stat' }, [h('b', { text: (v.reduce(function (a, b) { return a + b; }, 0) / v.length).toFixed(1) }), h('small', { text: 'Average out of 10' })]),
-            h('div', { class: 'ad-stat' }, [h('b', { text: String(Math.round((pro - det) / v.length * 100)) }), h('small', { text: 'Recommend score (−100 to 100)' })])]));
+          box.append(h('div', { class: 'pa-stats' }, [h('div', { class: 'pa-stat' }, [h('b', { text: (v.reduce(function (a, b) { return a + b; }, 0) / v.length).toFixed(1) }), h('small', { text: 'Average out of 10' })]),
+            h('div', { class: 'pa-stat' }, [h('b', { text: String(Math.round((pro - det) / v.length * 100)) }), h('small', { text: 'Recommend score (−100 to 100)' })])]));
         } else box.append(h('p', { class: 'f-hint', text: 'No answers yet.' }));
       } else {
         var texts = rows.map(function (a) { return a[q.id]; }).filter(Boolean);
         if (!texts.length) box.append(h('p', { class: 'f-hint', text: 'No answers yet.' }));
-        texts.forEach(function (t) { box.append(h('p', { class: 'ad-msg ad-quote', text: t })); });
+        texts.forEach(function (t) { box.append(h('p', { class: 'pa-msg pa-quote', text: t })); });
       }
       out.push(box);
     });
-    return h('div', { class: 'ad-list' }, out);
+    return h('div', { class: 'pa-list' }, out);
   }
   function linkCount() {
     var n = (state.links || []).filter(function (l) { return cleanUrl(l.url); }).length;
