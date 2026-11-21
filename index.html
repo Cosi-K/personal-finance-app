@@ -4509,14 +4509,14 @@ var STRIPE_MANAGE = 'https://app.link.com';
   // v4.1: open straight away from the copy on this device. Signing in and fetching the account can take a long
   // time with no (or a weak) signal, so the plan opens first and the account is checked quietly afterwards.
   // If the account was changed on another device in the meantime, PayStamp switches to that version.
-  var fastId = null;
+  var fastId = null, fastStop = false;   // fastStop: only set when a different account signs in
   (function () {
     var su = storedUser(), sl = su && readLocal(su.id);
     if (!su || !sl || !sl.data || /type=recovery|[?&](pro|deleted)=/.test(window.location.href)) return;
     fastId = su.id; user = su; serverAt = sl.base || null; pro = readPro(su.id);
     if (sl.dirty) pendingSnapshot = sl.data;
     // the planner's own script comes later in the page, so open once the page has read it
-    var go1 = function () { if (fastId !== su.id || plannerStarted) return;
+    var go1 = function () { if (fastStop || plannerStarted) return;   // v4.1.1: still opens if the sign-in check finished first
       setStatus(navigator.onLine === false ? 'offline' : '', navigator.onLine === false ? (sl.dirty ? 'Offline: saved on this device' : 'Offline: your plan is on this device') : 'Checking for changes…');
       openPlanner(sl.data); };
     if (window.PlannerApp) go1(); else document.addEventListener('DOMContentLoaded', go1);
@@ -4547,7 +4547,7 @@ var STRIPE_MANAGE = 'https://app.link.com';
       if (recovering) return;
       if (session && session.user) {
         if (fastId && session.user.id === fastId) { fastId = null; checkFresh(session.user); return; }
-        if (fastId && session.user.id !== fastId) { fastId = null; window.location.reload(); return; }
+        if (fastId && session.user.id !== fastId) { fastId = null; fastStop = true; window.location.reload(); return; }
         if (!user || user.id !== session.user.id) loadForUser(session.user);
       } else if (event === 'INITIAL_SESSION' && !user && storedUser() && readLocal(storedUser().id)) {
         // Signed in on this device, but the sign-in couldn't be refreshed (no signal): open the copy on this device.
