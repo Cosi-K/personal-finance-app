@@ -1,4 +1,4 @@
-/* PayStamp app (service worker), v4.
+/* PayStamp app (service worker), v4.1.
    Keeps everything PayStamp needs to open on this device, so it works with no signal:
    the page itself, the Supabase library (/supabase.js) and the app icons.
    - Pages: tries the internet first (so a new version shows straight away), but gives up after a few
@@ -6,7 +6,7 @@
    - Other PayStamp files: opened from the copy kept here, and quietly refreshed in the background.
    Your plan isn't stored here: the page keeps its own copy on the device and sends changes when it can.
    Requests to other sites (Supabase, Lemon Squeezy) are left alone. */
-var CACHE = 'paystamp-app-4.0';
+var CACHE = 'paystamp-app-4.1';
 var SHELL = ['/', '/supabase.js', '/manifest.webmanifest', '/icon-192.png', '/icon-512.png', '/apple-touch-icon.png', '/privacy.html', '/terms.html'];
 
 self.addEventListener('install', function (e) {
@@ -25,7 +25,7 @@ function fromNetworkOrCopy(req, key) {
   return new Promise(function (resolve) {
     var done = false;
     var useCopy = function () { caches.match(key).then(function (hit) { if (!done && hit) { done = true; resolve(hit); } }); };
-    var timer = setTimeout(useCopy, 3500);                       // weak signal: don't keep people waiting
+    var timer = setTimeout(useCopy, navigator.onLine === false ? 0 : 1500);   // v4.1: no or weak signal: open the copy almost at once
     fetch(req).then(function (res) {
       clearTimeout(timer);
       if (res.ok) { var copy = res.clone(); caches.open(CACHE).then(function (c) { c.put(key, copy); }); }
