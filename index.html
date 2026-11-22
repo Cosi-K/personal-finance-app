@@ -468,6 +468,31 @@ main.content.sheet{position:relative}
   main.content.sheet .group .group-head{padding:8px 72px 8px 14px!important}
   main.content.sheet .group .group-head h2{font-size:18px!important}
 }
+
+/* v4.2: couples: reminder bell and balancing up */
+.cpb{background:#fff;border:1px solid #EDE8EE;border-radius:18px;padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.cpb-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}.cpb-h h3{margin:0;font-family:var(--serif),'Besley',Georgia,serif;font-weight:400;font-size:21px;color:#211C2E}.cpb-h small{color:#6B6478;font-size:13px}
+.cpb-list{display:flex;flex-direction:column;border:1px solid #EFEAF0;border-radius:12px;overflow:hidden}
+.cpb-r{display:grid;grid-template-columns:190px 120px minmax(0,1fr) 28px;align-items:center;gap:10px;padding:7px 12px;border-top:1px solid #F2EEF3;font-size:14px}
+.cpb-r:first-child{border-top:0}.cpb-n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#211C2E}.cpb-v{text-align:right;color:#6B6478;font-variant-numeric:tabular-nums}
+.cpb-pick{font:13px var(--sans,inherit);border:1px solid #DDD6E2;border-radius:9px;padding:5px 8px;background:#fff;color:#211C2E;width:100%}
+.cpb-res{margin:0;display:flex;flex-direction:column;gap:6px;align-items:flex-start;background:#F4F1FA;border-radius:14px;padding:12px 14px;font-size:14px;color:#4A4356}
+.cpb-res.none{background:transparent;padding:0;font-size:13.5px;color:#6B6478}.cpb-res.even{display:block}
+.cpb-big small{display:block;font-size:12px;font-weight:700;color:#6B6478}.cpb-big b{font-family:var(--serif),'Besley',Georgia,serif;font-weight:400;font-size:24px;color:#7E2A55}
+.cpb-why{margin:0;font-size:13.5px;line-height:1.45}
+.cpb-tick{display:inline-flex;align-items:center;gap:8px;border:1px solid #D9D2DF;background:#fff;border-radius:999px;padding:6px 12px 6px 8px;font:700 13px var(--sans,inherit);color:#4A4356;cursor:pointer}
+.cpb-tick .sd-box-ic{width:16px;height:16px;border:1.5px solid #B4ACBF;border-radius:5px;display:inline-flex;align-items:center;justify-content:center}
+.cpb-tick.on{background:#E8F4EC;border-color:#9FD0B1;color:#1E6B47}.cpb-tick.on .sd-box-ic{background:#1E6B47;border-color:#1E6B47}
+.cpb-joint{margin:0;font-size:13.5px;color:#4A4356}
+.cpb-nl{display:flex;flex-direction:column;gap:4px}.cpb-nl small{font-size:12px;font-weight:700;color:#6B6478}
+.cpb-note{font:14px var(--sans,inherit);border:1px solid #DDD6E2;border-radius:10px;padding:8px 10px;width:100%;box-sizing:border-box}
+@media (max-width:640px){.cpb-r{grid-template-columns:minmax(0,1fr) 100px 28px}.cpb-r .cpb-note{grid-column:1/3}}
+.cpb-amt{font:600 14px var(--sans,inherit);border:1px solid #DDD6E2;border-radius:9px;padding:6px 8px;text-align:right;width:100%;box-sizing:border-box}
+.cpb-r .cpb-note{padding:6px 8px;border-radius:9px}
+.cpb-res{display:block!important}
+.cpb-r .rx-lx{opacity:1!important;visibility:visible!important;position:static!important;transform:none!important;width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;color:#9A8FA6;background:transparent;border:0;border-radius:8px;cursor:pointer;margin:0!important}
+.cpb-r .rx-lx:hover{background:#F4EEF3;color:#9A3A30}
+@media (max-width:640px){.cpb-r{position:relative}}
 </style>
 <style>
 /* ---------- planner (v3) ---------- */
@@ -5634,7 +5659,7 @@ var STRIPE_MANAGE = 'https://app.link.com';
     if (nps && state.planView && state.planView !== 'mine') { content.append(newPlanPanel()); return h('div', { class: 'page' }, [content]); }
     var tre = trialEndedCard(); if (tre) content.append(tre);
     var pdb = paydayBanner(month, year); if (pdb) content.append(pdb);
-    var efbn = efBanner(); if (efbn) content.append(efbn);
+    // v4.2: no emergency fund banner (it pointed to Compass, which has gone)
     var stc = startCard(); if (stc) content.append(stc);
     var apn = appNudge(); if (apn) content.append(apn);
     var yrc = yearShareCard(); if (yrc) content.append(yrc);
@@ -5668,7 +5693,10 @@ var STRIPE_MANAGE = 'https://app.link.com';
     return out;
   }
   // Changing Budgeted moves This Month with it when the two were the same.
+  // v4.2: a new Budgeted amount means the standing order needs changing too, so its Automated tick comes off.
+  function autoOff(it, was, now) { if (it.automated && amt(was) !== amt(now)) { it.automated = false; return true; } return false; }
   function setBudgeted(it, v) {
+    if (autoOff(it, it.target, v)) showUndo('Automated is unticked for ' + (it.label || 'this line') + ': change the standing order, then tick it again.', null);
     if (amt(it.budgeted) === amt(it.target)) it.budgeted = v;
     it.target = v;
     var ent = linkedEntity(it); if (ent) { ent.monthly = v; it.syncM = v; }
@@ -6682,7 +6710,10 @@ var STRIPE_MANAGE = 'https://app.link.com';
             var remEl;
             if (editing) {
               remEl = h('input', { type: 'date', class: 'sd-date-in', 'data-k': 'rem-' + k, 'aria-label': 'Remind me about ' + name + ' on this date',
-                onchange: function (e) { var v = e.target.value; if (!v) { delete REM[k]; save(); return; } var p2 = v.split('-'); if (Number(p2[0]) < new Date().getFullYear()) return; REM[k] = { m: Number(p2[0]) * 12 + Number(p2[1]) - 1, d: v, name: name }; track('remind_set', null, true); save(); },
+                onchange: function (e) { var v = e.target.value;
+                  // v4.2: a shared cost's date is kept on the shared line, so you both get the reminder
+                  if (/^cp:/.test(k)) { var SL = C().lines.find(function (x) { return 'cp:' + x.id === k; }); if (SL) { if (v && Number(v.split('-')[0]) < new Date().getFullYear()) return; SL.remind = v || ''; if (v) track('remind_set', 'shared', true); commit(); return; } }
+                  if (!v) { delete REM[k]; save(); return; } var p2 = v.split('-'); if (Number(p2[0]) < new Date().getFullYear()) return; REM[k] = { m: Number(p2[0]) * 12 + Number(p2[1]) - 1, d: v, name: name }; track('remind_set', null, true); save(); },
                 onkeydown: function (e) { if (e.key === 'Enter' || e.key === 'Escape') e.target.blur(); },
                 onblur: function () { if (state.sdRemEdit === k) { state.sdRemEdit = null; commit(); } } });
               remEl.value = r ? (r.d || '') : '';
@@ -7099,7 +7130,7 @@ var STRIPE_MANAGE = 'https://app.link.com';
   // A sinking fund's money so far: what you had before PayStamp plus every stamped month's payment into it.
   /* v3.4.2: the type of each cost is the planner group it sits in. */
 
-  function costKey(it) { return /^snk_/.test(it.id) ? 's:' + it.id.slice(4) : 'c:' + it.id; }
+  function costKey(it) { return it.coupleId ? 'cp:' + it.coupleId : /^snk_/.test(it.id) ? 's:' + it.id.slice(4) : 'c:' + it.id; }
 
   // Sinking funds in the planner: one line for all, or one line per fund, in Costs › Sinking funds.
   function syncSinking() {
@@ -8238,7 +8269,7 @@ var STRIPE_MANAGE = 'https://app.link.com';
     [[state.debts, debtItemId, addDebtToPlanner], [state.savings, savingItemId, addSavingToPlanner], [state.investments, invItemId, addInvToPlanner]].forEach(function (k) {
       (k[0] || []).forEach(function (e) {
         var f = findItem(k[1](e)), m = e.monthly || '';
-        if (f) { var it = f.item; if (it.syncM === undefined) it.syncM = m; if (it.syncM !== m) { if (amt(it.budgeted) === amt(it.target)) it.budgeted = m; it.target = m; it.syncM = m; } }
+        if (f) { var it = f.item; if (it.syncM === undefined) it.syncM = m; if (it.syncM !== m) { autoOff(it, it.target, m); if (amt(it.budgeted) === amt(it.target)) it.budgeted = m; it.target = m; it.syncM = m; } }
         else if (amt(m) > 0) k[2](e);
       });
     });
@@ -8261,14 +8292,22 @@ var STRIPE_MANAGE = 'https://app.link.com';
   //   l.mode 'amt' + l.me = your amount. Lines without it still use their old split until someone changes them.
   var CP_GROUPS = [['investSavings', 'Savings & Investments', '#1E6B47'], ['costs', 'Costs', '#9A3A30'], ['guiltFree', 'Guilt-free spending', '#245F8C']];
   function cpGroupOf(cat) { var m = (C().catGroups || {})[cat]; return m || (cpIsSaving(cat) ? 'investSavings' : 'costs'); }
-  function cpMine(l) { if (l.mode === 'amt') return Math.round(Math.min(amt(l.me), amt(l.total)) * 100) / 100; var t = amt(l.total), m = t * cpMyPct(l); return Math.abs(t - Math.round(t)) < 0.005 ? Math.round(m) : Math.round(m * 100) / 100; } // whole pounds for whole-pound totals
-  function cpTheirs(l) { return Math.round((amt(l.total) - cpMine(l)) * 100) / 100; }
+  // v4.2: lines keep what each of you puts in (l.me, l.them); the total is the two added up.
+  function cpR2(v) { return Math.round(v * 100) / 100; }
+  function cpMine(l) { if (l.mode === 'amt') return cpR2(l.them == null ? Math.min(amt(l.me), amt(l.total)) : amt(l.me)); var t = amt(l.total), m = t * cpMyPct(l); return Math.abs(t - Math.round(t)) < 0.005 ? Math.round(m) : Math.round(m * 100) / 100; } // whole pounds for whole-pound totals
+  function cpTheirs(l) { return l.mode === 'amt' && l.them != null ? cpR2(amt(l.them)) : cpR2(amt(l.total) - cpMine(l)); }
+  function cpSetAmts(l, me, them) { l.mode = 'amt'; me = Math.max(0, cpR2(me)); them = Math.max(0, cpR2(them)); l.me = me ? String(me) : ''; l.them = them ? String(them) : ''; l.total = me + them ? String(cpR2(me + them)) : ''; }
   function cpIsSaving(cat) { return /sav|invest|holiday fund/i.test(cat || ''); }
   function newCoupleCode() { var a = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789', o = ''; for (var i = 0; i < 6; i++) o += a[Math.floor(Math.random() * a.length)]; return o.slice(0, 3) + '-' + o.slice(3); }
   // Keep your planner's shared lines in step with the Couples planner.
   function syncCouple() {
     if (!state.groups) return;
     var on = coupleOn(), lines = on ? C().lines : [], want = {};
+    // v4.2: reminder dates on shared lines go into both partners' reminders (and payday emails, if ticked)
+    var REM = state.costRemind || (state.costRemind = {}), keepR = {};
+    lines.forEach(function (l) { if (!l.remind) return; var p = l.remind.split('-'); keepR['cp:' + l.id] = 1;
+      var r = { m: Number(p[0]) * 12 + Number(p[1]) - 1, d: l.remind, name: (l.name || 'Shared cost') + ' (shared)' }; if (JSON.stringify(REM['cp:' + l.id]) !== JSON.stringify(r)) REM['cp:' + l.id] = r; });
+    Object.keys(REM).forEach(function (k) { if (/^cp:/.test(k) && !keepR[k]) delete REM[k]; });
     lines.forEach(function (l) { if (cpMine(l) > 0.004 && (l.name || amt(l.total))) want[l.id] = l; });
     state.groups.forEach(function (g) { g.categories.forEach(function (c) { c.items = c.items.filter(function (it) { return !it.coupleId || want[it.coupleId]; }); }); });
     Object.keys(want).forEach(function (id) {
@@ -8281,7 +8320,22 @@ var STRIPE_MANAGE = 'https://app.link.com';
       cat.name = cname;
       var mine = String(cpMine(l));
       if (!found) cat.items.push({ id: uid('it'), label: l.name || 'Shared', target: mine, budgeted: mine, account: '', runs: '', due: '', automated: false, coupleId: id, coupleShare: mine });
-      else { var it = found.item; it.label = l.name || 'Shared'; if (it.coupleShare !== mine) { it.target = mine; it.budgeted = mine; it.coupleShare = mine; } }
+      else { var it = found.item; it.label = l.name || 'Shared'; if (it.coupleShare !== mine) { autoOff(it, it.target, mine); it.target = mine; it.budgeted = mine; it.coupleShare = mine; } }
+    });
+    // v4.2: money one of you sends the other. Coming to you: Income › From <partner>. Going to them: Costs › Shared with <partner>.
+    var trs = {}; (on ? C().transfers || [] : []).forEach(function (t) { if (amt(t.amount) > 0) trs[t.id] = t; });
+    state.groups.forEach(function (g) { g.categories.forEach(function (c) { c.items = c.items.filter(function (it) { return !it.coupleTr || trs[it.coupleTr]; }); }); });
+    Object.keys(trs).forEach(function (id) {
+      var t = trs[id], toMe = t.from === 'them', g = findGroup(toMe ? 'income' : 'costs'); if (!g) return;
+      var cid = toMe ? 'cat_shared_in' : 'cat_shared', cname = toMe ? 'From ' + coupleName() : 'Shared with ' + coupleName();
+      var found = findItemBy(function (it) { return it.coupleTr === id; });
+      if (found && found.g !== g) { found.c.items.splice(found.c.items.indexOf(found.item), 1); found = null; }
+      var cat = g.categories.find(function (c) { return c.id === cid; });
+      if (!cat) { cat = { id: cid, name: cname, items: [] }; if (toMe) g.categories.push(cat); else g.categories.unshift(cat); }
+      cat.name = cname;
+      var v = String(cpR2(amt(t.amount))), label = (toMe ? 'From ' : 'To ') + coupleName() + (t.note ? ': ' + t.note : '');
+      if (!found) cat.items.push({ id: uid('it'), label: label, target: v, budgeted: v, account: '', runs: '', due: '', automated: false, coupleTr: id, coupleShare: v });
+      else { var it = found.item; it.label = label; if (it.coupleShare !== v) { autoOff(it, it.target, v); it.target = v; it.budgeted = v; it.coupleShare = v; } }
     });
     state.groups.forEach(function (g) { g.categories = g.categories.filter(function (c) { return !(/^cat_shared/.test(c.id) && !c.items.length); }); });
   }
@@ -8337,7 +8391,7 @@ var STRIPE_MANAGE = 'https://app.link.com';
   }
   function cpAddLine(after, cat) {
     var c = C(), id = uid('cl'), i = after ? c.lines.indexOf(after) + 1 : c.lines.length;
-    c.lines.splice(i, 0, { id: id, name: '', cat: cat || (after ? after.cat : 'Home'), total: '', mode: 'equal' }); commit();
+    c.lines.splice(i, 0, { id: id, name: '', cat: cat || (after ? after.cat : 'Home'), total: '', mode: 'amt', me: '', them: '' }); commit();
     setTimeout(function () { var e = document.getElementById('f-cpn-' + id); if (e) e.focus(); }, 0);
   }
   function cpRemoveLine(l) {
@@ -8381,8 +8435,10 @@ var STRIPE_MANAGE = 'https://app.link.com';
       var g = h('button', { type: 'button', class: 'handle cpl-grip', 'aria-label': label, title: 'Drag to move', html: GRIP, 'data-cpgrip': id });
       g.addEventListener('pointerdown', function (e) { startDrag(e, kind); }); g.addEventListener('keydown', onKey); return g;
     };
-    var setMe = function (l, v) { track('couple_amount', null, true); l.mode = 'amt'; l.me = String(Math.max(0, Math.min(amt(l.total), amt(v)))); commit(); };
-    var setTotal = function (l, v) { var was = amt(l.total), mine = cpMine(l); l.total = String(amt(v) || ''); if (l.mode === 'amt') l.me = String(was > 0 ? Math.round(mine / was * amt(v) * 100) / 100 : amt(v) / 2); commit(); };
+    var setMe = function (l, v) { track('couple_amount', 'me', true); cpSetAmts(l, amt(v), cpTheirs(l)); commit(); };
+    var setThem = function (l, v) { track('couple_amount', 'them', true); cpSetAmts(l, cpMine(l), amt(v)); commit(); };
+    // Typing a total shares it out the way the line is already shared (half each for a new line).
+    var setTotal = function (l, v) { var t = amt(v), m = cpMine(l), th = cpTheirs(l), sum = m + th, me = sum > 0 ? cpR2(t * m / sum) : cpR2(t / 2); cpSetAmts(l, me, t - me); commit(); };
     var uniqueCat = function (base) { var n = base, k = 2; while (cats.indexOf(n) > -1) n = base + ' ' + (k++); return n; };
     var boxes = CP_GROUPS.map(function (G) {
       var gk = G[0], gcats = cats.filter(function (k) { return cpGroupOf(k) === gk; }), gt = 0, gm = 0, gth = 0;
@@ -8408,7 +8464,7 @@ var STRIPE_MANAGE = 'https://app.link.com';
               btn('rx-lx', 'Remove ' + (l.name || 'this line'), function () { cpRemoveLine(l); }, ['✕'], { title: 'Remove' }) ]),
             field('cpt-' + l.id, l.total, function (v) { setTotal(l, v); }, { cls: 'cpl-in num', ph: '0', num: true, money: true, label: 'Total for ' + (l.name || 'this line') }),
             field('cpm-' + l.id, mine ? String(mine) : '', function (v) { setMe(l, v); }, { cls: 'cpl-in num me', ph: '£0', num: true, money: true, label: 'What you put in for ' + (l.name || 'this line') }),
-            field('cpp-' + l.id, theirs ? String(theirs) : '', function (v) { setMe(l, amt(l.total) - amt(v)); }, { cls: 'cpl-in num them', ph: '£0', num: true, money: true, label: 'What ' + pn + ' puts in for ' + (l.name || 'this line') }) ]));
+            field('cpp-' + l.id, theirs ? String(theirs) : '', function (v) { setThem(l, v); }, { cls: 'cpl-in num them', ph: '£0', num: true, money: true, label: 'What ' + pn + ' puts in for ' + (l.name || 'this line') }) ]));
         });
         gt += ct; gm += cm; gth += cth;
         if (cl.length > 1 && gcats.length > 1) blk.append(h('div', { class: 'cpl-r ct' }, [h('span', { text: 'Total' }), h('span', { text: money(ct) }), h('span', { text: money(cm) }), h('span', { text: money(cth) })]));
@@ -8426,10 +8482,37 @@ var STRIPE_MANAGE = 'https://app.link.com';
     }))) : null;
     var t = h('div', { class: 'cpl-boxes' }, boxes.concat([grand]));
     var tiles = null, split = null, addRow = null;
-    return h('div', { class: 'cpl' }, [head, t, quick, couplesRecords(),
+    return h('div', { class: 'cpl' }, [head, t, quick, cpSettleCard(c, pn), couplesRecords(),
       h('p', { class: 'cpl-note' }, [h('span', { class: 'cpl-hic sm', html: IC.heart }), 'What you put in for each line goes into your Monthly Planner under ', h('b', { text: 'Shared with ' + pn }), ', in the matching box: Savings & Investments, Costs or Guilt-free spending. ' + pn + ' sees their part in theirs.']),
       h('div', { class: 'cpl-foot' }, [btn('cp-inline', 'Go to my planner', function () { go('plan'); }, ['See it in my planner ›']), btn('cpl-stop', 'Stop sharing with ' + pn, coupleStop, ['Stop sharing'])]) ]);
   }
+
+  /* ---------- v4.2: Money between you ----------
+     c.transfers = [{ id, from: 'me'|'them', amount, note }]. Not part of the shared table's totals.
+     Money coming to you shows in your Income; money you send shows in your Costs. */
+  function cpSettleCard(c, pn) {
+    var T = c.transfers || (c.transfers = []);
+    var add = function () { T.push({ id: uid('ct'), from: 'them', amount: '', note: '' }); track('couple_transfer', 'add', true); commit();
+      setTimeout(function () { var e = document.getElementById('f-cpta-' + T[T.length - 1].id); if (e) e.focus(); }, 0); };
+    var rows = T.map(function (t) {
+      var sel = h('select', { class: 'cpb-pick', 'aria-label': 'Who sends this money', onchange: function (e) { t.from = e.target.value; commit(); } },
+        [h('option', { value: 'them', text: pn + ' sends me' }), h('option', { value: 'me', text: 'I send ' + pn })]);
+      sel.value = t.from === 'me' ? 'me' : 'them';
+      return h('div', { class: 'cpb-r' }, [sel,
+        field('cpta-' + t.id, t.amount, function (v) { t.amount = String(amt(v) || ''); commit(); }, { cls: 'cpb-amt', ph: '0', num: true, money: true, label: 'How much each month' }),
+        field('cptn-' + t.id, t.note, function (v) { t.note = String(v || '').trim().slice(0, 60); commit(); }, { cls: 'cpb-note', ph: 'What for? e.g. half the bills', label: 'What it’s for' }),
+        btn('rx-lx', 'Remove this', function () { var i = T.indexOf(t); T.splice(i, 1); commit(); showUndo('Removed', function () { T.splice(i, 0, t); commit(); }); }, ['✕'], { title: 'Remove' }) ]);
+    });
+    var inn = 0, out = 0; T.forEach(function (t) { if (t.from === 'me') out += amt(t.amount); else inn += amt(t.amount); });
+    var net = cpR2(inn - out);
+    return h('section', { class: 'cpb' }, [
+      h('div', { class: 'cpb-h' }, [h('h3', { text: 'Money between you' }), h('small', { text: 'What one of you sends the other each month, like your partner paying you back for bills' })]),
+      rows.length ? h('div', { class: 'cpb-list' }, rows) : null,
+      btn('cp-inline', 'Add money one of you sends the other', add, [rows.length ? '+ Add another' : '+ Add money one of you sends the other']),
+      rows.length && (inn || out) ? h('p', { class: 'cpb-res' }, [h('b', { text: Math.abs(net) < 0.005 ? 'You’re even each month.' : net > 0 ? 'Each month ' + pn + ' sends you ' + money(net) + '.' : 'Each month you send ' + pn + ' ' + money(-net) + '.' }),
+        ' It isn’t added to the shared table. In your planner, money coming to you is under Income (From ' + pn + ') and money you send is under Costs (Shared with ' + pn + '). ' + pn + ' sees it the other way round.']) : null ]);
+  }
+  function monthKeyNow() { var d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'); }
 
   /* ---------- v3.7: PayStamp Hustle ----------
      state.hustles = { taxPct, pay: { on, mode: 'last'|'set', amount }, pot: true|false,
@@ -8839,12 +8922,19 @@ var STRIPE_MANAGE = 'https://app.link.com';
   /* What's new: one simple list of everything added in PayStamp 3, grouped by area.
      WN[0].version is what the "New" banner checks, so bump it with each release. */
   var WN = [
+    { version: '4.2', date: 'November 2026', title: 'Couples planner: amounts and money between you', items: [] },
     { version: '4.1', date: 'November 2026', title: 'PayStamp 4.1', items: [] },
     { version: '4.0', date: 'November 2026', title: 'PayStamp 4', items: [] },
     { version: '3.4.2', date: 'October 2026', title: 'Smarter Compass', items: [] },
     { version: '3.4', date: 'October 2026', title: 'Compass and more', items: [] } ];
   // The latest release, shown at the top of What's new. Older releases fold away underneath.
-  var WN_LATEST = [{ title: 'New in PayStamp 4.1', items: [
+  var WN_LATEST = [{ title: 'New in PayStamp 4.2', items: [
+    'Couples planner: type what each of you puts in, and the total adds itself up.',
+    'Money between you: note what one of you sends the other each month. It shows as Income for the one receiving it and as a Cost for the one sending it.',
+    'Reminders on shared costs: set Remind me on a shared line and you both get it.',
+    'Change a Budgeted amount and its Automated tick comes off, so you remember to change the standing order too.',
+    'The emergency fund reminder above the planner has gone.' ] },
+  { title: 'New in PayStamp 4.1', items: [
     'A cleaner planner: softer boxes, a Zero-based balance under your plan and one big Stamp button.',
     'Columns beside your plan, if you want them: each line’s % of pay, Automation (bank, day, automated) and a costs review (✓ keep, ? better deal, ✕ cut) with Remind me dates.',
     'Email reminders: tick Payday and Cost review dates above your planner.',
@@ -9308,24 +9398,6 @@ var STRIPE_MANAGE = 'https://app.link.com';
         state.shareMsg ? h('p', { class: 'sh-msg', role: 'status', text: state.shareMsg }) : h('p', { class: 'sh-small', text: 'On a phone, Share opens Instagram, WhatsApp and the rest. You can also press and hold the picture to save it.' }) ]) ]);
   }
   // On payday (and for 3 days after, until the month is stamped): the same three steps as the payday email.
-  /* v3.4.2: fill your emergency fund first. While the starter fund isn't full, the planner says so,
-     with how long it'll take at today's monthly amount and a link to the Emergency fund topic. */
-  function efBanner() {
-    if (state.isExample || state.efBannerHidden === plannerMonthKey()) return null;
-    var ef = findSaving(state.efundStarter), G = efGoal();
-    var hide = btn('rm', 'Hide until next month', function () { set({ efBannerHidden: plannerMonthKey() }); }, ['✕']);
-    if (!ef) {
-      if (!(state.groups && spendLines().length)) return null;
-      return h('section', { class: 'efb' }, [h('div', { class: 'efb-t' }, [h('b', { text: 'Start with an emergency fund' }), h('small', { text: 'Most people build ' + money(G) + ' for sudden costs before saving for anything else.' })]),
-        btn('pill-btn primary', 'Set it up', function () { go('cp-ef'); }, ['Set it up ›']), hide]);
-    }
-    var saved = Math.max(0, savedNow(ef)); if (saved >= G - 0.005) return null;
-    var togo = G - saved, m = amt(savingMonthly(ef));
-    return h('section', { class: 'efb' }, [
-      h('div', { class: 'efb-t' }, [h('b', { text: 'Fill your emergency fund first: ' + money(Math.round(togo)) + ' to go' }),
-        h('small', { text: m > 0 ? money(m) + ' a month goes in, so it’s full by ' + byLabel(monthIndexNow() + Math.ceil(togo / m) - 1) + '. Putting a bit more in gets it there sooner.' : 'Nothing goes into it each month yet. Give it a monthly amount in your planner.' })]),
-      btn('pill-btn primary', 'Open Emergency fund', function () { go('cp-ef'); }, ['Emergency fund ›']), hide ]);
-  }
   function paydayBanner(month, year) {
     if (state.isExample || payRule().mode === 'varies') return null;
     var d = nextPayDate(), now = today0(); if (!d) return null;
@@ -10333,7 +10405,10 @@ var STRIPE_MANAGE = 'https://app.link.com';
     var pct = c.customPct == null ? 50 : amt(c.customPct);
     return {
       split: c.split || 'income', customPctA: role === 'a' ? pct : 100 - pct,
-      lines: (c.lines || []).map(function (l) { return { id: l.id, name: l.name || '', cat: l.cat || 'Home', total: l.total || '', mode: flip(l.mode) }; }),
+      lines: (c.lines || []).map(function (l) { var o = { id: l.id, name: l.name || '', cat: l.cat || 'Home', total: l.total || '', mode: flip(l.mode) };
+        if (l.mode === 'amt') { o[me] = l.me || ''; o[them] = l.them == null ? String(cpTheirs(l) || '') : l.them; }
+        if (l.remind) o.remind = l.remind; return o; }),
+      transfers: (c.transfers || []).map(function (t) { return { id: t.id, from: flip(t.from), amount: t.amount || '', note: t.note || '' }; }),
       records: (c.records || []).map(function (r) {
         var by = {}; if (r.by && r.by.me) by[me] = r.by.me; if (r.by && r.by.them) by[them] = r.by.them;
         return { id: r.id, month: r.month, year: String(r.year), by: by, lines: (r.lines || []).map(function (x) { var o = { id: x.id, name: x.name, cat: x.cat, total: x.total }; o[me] = x.mine; o[them] = x.theirs; return o; }) };
@@ -10345,7 +10420,10 @@ var STRIPE_MANAGE = 'https://app.link.com';
     var pa = s.customPctA == null ? 50 : Number(s.customPctA);
     return {
       split: s.split || 'income', customPct: String(role === 'a' ? pa : 100 - pa),
-      lines: (s.lines || []).map(function (l) { return { id: l.id, name: l.name || '', cat: l.cat || 'Home', total: l.total || '', mode: flip(l.mode) }; }),
+      lines: (s.lines || []).map(function (l) { var o = { id: l.id, name: l.name || '', cat: l.cat || 'Home', total: l.total || '', mode: flip(l.mode) };
+        if (o.mode === 'amt') { o.me = l[me] == null ? '' : String(l[me]); if (l[them] != null) o.them = String(l[them]); }
+        if (l.remind) o.remind = l.remind; return o; }),
+      transfers: (s.transfers || []).map(function (t) { return { id: t.id, from: flip(t.from), amount: t.amount || '', note: t.note || '' }; }),
       records: (s.records || []).map(function (r) {
         var by = r.by || {};
         return { id: r.id, month: r.month, year: String(r.year), by: { me: by[me] || null, them: by[them] || null }, lines: (r.lines || []).map(function (x) { return { id: x.id, name: x.name, cat: x.cat, total: x.total, mine: x[me] || 0, theirs: x[them] || 0 }; }) };
