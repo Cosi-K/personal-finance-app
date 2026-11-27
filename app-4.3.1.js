@@ -147,11 +147,11 @@ var STRIPE_MANAGE = 'https://app.link.com';
     if (conflictEl) return;
     var when = function (t) { var dt = new Date(t); return dt.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) + ' at ' + dt.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }); };
     var loc = readLocal(user.id) || {};
-    var newestHere = loc.at && new Date(loc.at).getTime() > new Date(at).getTime();
+    var newestHere = editedAt(loc) > new Date(at).getTime();
     try { localStorage.setItem('ps_plan_premerge_' + user.id, JSON.stringify({ at: Date.now(), device: snap })); } catch (e) {}
     conflictEl = document.createElement('div'); conflictEl.className = 'sc-back';
     conflictEl.innerHTML = '<div class="sc" role="dialog" aria-modal="true" aria-label="Which version should PayStamp keep?"><h2>Which version should PayStamp keep?</h2>' +
-      '<p class="sc-sub">Your plan was changed on another device (' + when(at) + ') while this device had changes it hadn’t sent yet' + (loc.at ? ' (' + when(loc.at) + ')' : '') + '.</p>' +
+      '<p class="sc-sub">Your plan was changed on another device (' + when(at) + ') while this device had changes it hadn’t sent yet' + (editedAt(loc) ? ' (' + when(editedAt(loc)) + ')' : '') + '.</p>' +
       '<p class="sc-sub">' + (newestHere ? 'This device has the newest changes.' : 'Your other device has the newest changes.') + ' Not sure? Choose the newest.</p>' +
       '<div class="sc-btns"><button type="button" class="' + (newestHere ? 'sc-no' : 'sc-go') + '" data-v="account">Use my other device’s plan' + (newestHere ? '' : ' (newest)') + '</button><button type="button" class="' + (newestHere ? 'sc-go' : 'sc-no') + '" data-v="device">Keep this device’s plan' + (newestHere ? ' (newest)' : '') + '</button></div></div>';
     document.body.appendChild(conflictEl);
@@ -177,7 +177,7 @@ var STRIPE_MANAGE = 'https://app.link.com';
       if (res.error || !res.data) { retry(res.error); return; }
       if (!base) { pendingSnapshot = pendingSnapshot || snap; setStatus('error', 'Choose which version to keep'); showConflict(res.data.updated_at, snap); return; }   // older copy on this device with no base: ask once
       var mine = pendingSnapshot || snap, theirs = res.data.data || {};
-      var loc = readLocal(user.id) || {}, mineWins = loc.at && new Date(loc.at).getTime() > new Date(res.data.updated_at).getTime();
+      var loc = readLocal(user.id) || {}, mineWins = editedAt(loc) > new Date(res.data.updated_at).getTime();
       try { localStorage.setItem('ps_plan_premerge_' + user.id, JSON.stringify({ at: Date.now(), device: mine, account: theirs })); } catch (e) {}   // a safety copy of both, just in case
       var merged = merge3(base, mine, theirs, mineWins);
       serverAt = res.data.updated_at; serverData = theirs; pendingSnapshot = null; lastSaved = null;
@@ -204,13 +204,21 @@ var STRIPE_MANAGE = 'https://app.link.com';
     return out;
   }
 
+  /* v4.3.1: when this device's plan was really last changed by the person (typing, tapping), not by PayStamp tidying
+     things up as it opens. Used to decide which side is newest when two devices disagree. */
+  var lastUserAct = 0, bootLocalAt = null;
+  ['input', 'change', 'click'].forEach(function (ev) { document.addEventListener(ev, function (e) {
+    var t = e.target; if (!e.isTrusted || !t || !t.closest || t.closest('.sc-back')) return;
+    if (ev === 'click' && !t.closest('#app button')) return;   // a tap on a button in the planner, not a scroll or a tap on the page
+    lastUserAct = Date.now(); }, true); });
+  function editedAt(loc) { return Math.max(lastUserAct || 0, (loc && loc.edited) || 0) || bootLocalAt || 0; }
   function queueSave(state) {
     if (demoMode || !user) return;
     var snap = snapshot(state);
     var json = JSON.stringify(snap);
     if (json === lastSaved) return;          // nothing that matters changed
     pendingSnapshot = snap;
-    writeLocal(user.id, { data: snap, dirty: true, at: Date.now(), base: serverAt });
+    writeLocal(user.id, { data: snap, dirty: true, at: Date.now(), base: serverAt, edited: editedAt(readLocal(user.id)) });
     if (navigator.onLine === false) { setStatus('offline', 'Offline: saved on this device'); clearTimeout(saveTimer); return; }
     setStatus('saving', 'Saving…');
     clearTimeout(saveTimer);
@@ -320,6 +328,7 @@ var STRIPE_MANAGE = 'https://app.link.com';
     renderAuth('loading');
     var profile = linkInvite(u).then(function () { return rpc('get_my_profile'); }).catch(function () { return null; });
     var local = readLocal(u.id), wait = local ? 4000 : 20000;
+    if (local && bootLocalAt == null) bootLocalAt = local.edited || 0;
     var planner = soon(sb.from('planners').select('data, updated_at').eq('user_id', u.id).maybeSingle(), wait, { timedOut: true });
     var proReq = soon(rpc('get_my_pro').catch(function () { return null; }), wait, null);
     profile = soon(profile, wait, null);
@@ -653,7 +662,7 @@ var STRIPE_MANAGE = 'https://app.link.com';
      An old page left open after an update could save in the old way and muddle shared data (Couples).
      Each open page checks the app version now and then (when you come back to the tab, and every 10 minutes).
      If PayStamp has been updated, it saves what you've done and refreshes once onto the new version. */
-  var APP_BUILD = 'paystamp-app-4.3';
+  var APP_BUILD = 'paystamp-app-4.3.1';
   var reloading = false;
   function appRefresh(why) {
     if (reloading) return; reloading = true;
@@ -686,7 +695,8 @@ var STRIPE_MANAGE = 'https://app.link.com';
   (function () {
     var su = storedUser(), sl = su && readLocal(su.id);
     if (!su || !sl || !sl.data || /type=recovery|[?&](pro|deleted)=/.test(window.location.href)) return;
-    fastId = su.id; user = su; serverAt = sl.base || null; serverData = sl.baseData || (sl.dirty ? null : sl.data); pro = readPro(su.id);
+    // a copy saved before 4.3.1 doesn't know when it was really edited, so the account counts as newest
+    fastId = su.id; user = su; bootLocalAt = sl.edited || 0; serverAt = sl.base || null; serverData = sl.baseData || (sl.dirty ? null : sl.data); pro = readPro(su.id);
     if (sl.dirty) pendingSnapshot = sl.data;
     // the planner's own script comes later in the page, so open once the page has read it
     var go1 = function () { if (fastStop || plannerStarted) return;   // v4.1.1: still opens if the sign-in check finished first

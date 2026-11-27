@@ -4685,7 +4685,7 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
 <script>window.PS_SUPABASE_JS = '/supabase.js';</script>
 
 <script>
-/* v4.3: the app code lives in its own file (app-4.3.js), so the home page shows and responds quickly.
+/* v4.3: the app code lives in its own file (app-4.3.1.js), so the home page shows and responds quickly.
    It loads straight away for someone signed in on this device (or coming back from an email link),
    and otherwise quietly once the home page has finished loading, or the moment someone presses a button that needs it. */
 (function () {
@@ -4702,7 +4702,7 @@ if ('serviceWorker' in navigator && location.protocol === 'https:') {
   window.psLoadApp = function () {
     if (p) return p;
     var lib = window.supabase || window.PayStamp && window.PayStamp.preview || !window.PS_SUPABASE_JS ? Promise.resolve() : add(window.PS_SUPABASE_JS);
-    p = lib.then(function () { return add('app-4.3.js'); });
+    p = lib.then(function () { return add('app-4.3.1.js'); });
     p.catch(function () { p = null; });   // a failed load (no signal) can be tried again
     return p;
   };
