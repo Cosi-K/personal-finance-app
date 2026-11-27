@@ -1,13 +1,14 @@
-/* PayStamp app (service worker), v4.2.
+/* PayStamp app (service worker), v4.3.
    Keeps everything PayStamp needs to open on this device, so it works with no signal:
-   the page itself, the Supabase library (/supabase.js) and the app icons.
+   the page itself, the app code (/app-4.3.js), the fonts, the Supabase library (/supabase.js) and the app icons.
    - Pages: tries the internet first (so a new version shows straight away), but gives up after a few
      seconds on a weak signal and opens the copy kept here instead.
    - Other PayStamp files: opened from the copy kept here, and quietly refreshed in the background.
    Your plan isn't stored here: the page keeps its own copy on the device and sends changes when it can.
    Requests to other sites (Supabase, Lemon Squeezy) are left alone. */
-var CACHE = 'paystamp-app-4.2';
-var SHELL = ['/', '/supabase.js', '/manifest.webmanifest', '/icon-192.png', '/icon-512.png', '/apple-touch-icon.png', '/privacy.html', '/terms.html'];
+var CACHE = 'paystamp-app-4.3';
+// v4.3: the app code and the fonts are their own files now (so the home page opens faster); they're kept here too, for offline.
+var SHELL = ['/', '/app-4.3.js', '/fonts/besley-400.woff2', '/fonts/besley-700.woff2', '/fonts/hanken-grotesk.woff2', '/supabase.js', '/manifest.webmanifest', '/icon-192.png', '/icon-512.png', '/apple-touch-icon.png', '/privacy.html', '/terms.html'];
 
 self.addEventListener('install', function (e) {
   // Each file on its own, so one missing file can't stop the rest being kept.
